@@ -4,7 +4,10 @@ package com.kansoubunko.kiyota.kansoubunko.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.adapter.BookListGridAdapter;
@@ -27,6 +30,12 @@ public class ListActivity extends AppCompatActivity {
     private List<Integer> imgList = new ArrayList<>();
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
@@ -41,6 +50,23 @@ public class ListActivity extends AppCompatActivity {
         GridView bookListGridView = findViewById(R.id.list_book);
         BookListGridAdapter adapter = new BookListGridAdapter(this, R.layout.item_book_list, imgList, members);
         bookListGridView.setAdapter(adapter);
+
+        Button bookRegistButton = findViewById(R.id.list_regist);
+        bookRegistButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(RegistActivity.getStartIntent(ListActivity.this));
+            }
+        });
+
+        TextView backTextView = findViewById(R.id.back_arrow);
+
+        backTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 }
