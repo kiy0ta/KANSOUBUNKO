@@ -5,4 +5,7 @@
     <string name="login_login">ログイン</string>
     <string name="login_regist">登録</string>
     <string name="regist_book_log">感想文を記入する</string>
+    <string name="list_count_finish">感想件数 ：</string>
+    <string name="list_regist">新しい本を登録する</string>
+    <string name="no_book_img">picture</string>
 </resources>

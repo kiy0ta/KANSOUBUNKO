@@ -6,4 +6,6 @@
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="clear_white">#baffffff</color>
+    <color name="gauge_color">#517394</color>
+    <color name="gauge_init_color">#c6858687</color>
 </resources>

@@ -15,10 +15,115 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="◁"
+                    android:textColor="@color/white"
+                    android:textSize="30dp" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="8"
+                    android:src="@drawable/list" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="30dp" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:id="@+id/box1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@id/box1"
+                    android:text="@string/list_count_finish"
+                    android:textColor="@color/white"
+                    android:textSize="18dp" />
+
+                <FrameLayout
+                    android:layout_width="230dp"
+                    android:layout_height="20dp"
+                    android:layout_toLeftOf="@+id/box2">
+
+                    <TextView
+                        android:layout_width="230dp"
+                        android:layout_height="20dp"
+                        android:background="@color/clear_white" />
+
+                    <TextView
+                        android:id="@+id/count_gauge"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/gauge_color" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/box2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true" />
+
+            </RelativeLayout>
+
+            <GridView
+                android:id="@+id/list_book"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="22dp"
+                android:numColumns="3"
+                android:horizontalSpacing="20dp"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10dp">
+
+            </GridView>
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/list_regist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/shape_login_button"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/list_regist"
+            android:textColor="@drawable/change_login_text_color"
+            android:textSize="20dp" />
+
     </RelativeLayout>
+
 </FrameLayout>

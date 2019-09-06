@@ -49,14 +49,14 @@
                 </FrameLayout>
 
                 <TextView
-                    android:layout_marginTop="20dp"
-                    android:layout_gravity="center_horizontal"
                     android:id="@+id/regist_book_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="24dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
                     android:text="titletitletitle"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:textSize="24dp" />
 
             </LinearLayout>
 
@@ -64,27 +64,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:orientation="vertical"
-                android:layout_weight="5.5">
+                android:layout_weight="5.5"
+                android:orientation="vertical">
 
                 <GridView
                     android:layout_width="300dp"
                     android:layout_height="240dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@color/white">
-                </GridView>
+                    android:background="@color/white"></GridView>
 
                 <Button
-                    android:layout_marginTop="20dp"
-                    android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/regist_book_log"
-                    android:textSize="20dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/shape_login_button"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
+                    android:text="@string/regist_book_log"
                     android:textColor="@drawable/change_login_text_color"
-                    android:background="@drawable/shape_login_button"/>
+                    android:textSize="20dp" />
 
             </LinearLayout>
         </LinearLayout>
