@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:text="titletitletitle"
                     android:textColor="@color/white"
                     android:textSize="24dp" />
@@ -103,10 +103,13 @@
                 android:orientation="vertical">
 
                 <GridView
+                    android:id="@+id/regist_book_review"
                     android:layout_width="300dp"
-                    android:layout_height="240dp"
+                    android:layout_height="242dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@color/white"></GridView>
+                    android:numColumns="10">
+
+                </GridView>
 
                 <Button
                     android:layout_width="wrap_content"
