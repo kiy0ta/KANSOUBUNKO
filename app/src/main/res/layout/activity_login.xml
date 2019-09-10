@@ -55,17 +55,21 @@
                         android:layout_height="40dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="22dp"
-                        android:background="@color/clear_white"
+                        android:background="@drawable/shape_login_button"
                         android:hint="@string/login_name"
-                        android:textColor="@color/black" />
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/clear_white" />
 
                     <EditText
                         android:layout_width="200dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center_horizontal"
-                        android:background="@color/clear_white"
+                        android:background="@drawable/shape_login_button"
+                        android:gravity="center"
                         android:hint="@string/login_pass"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/clear_white" />
 
                     <LinearLayout
                         android:layout_width="260dp"

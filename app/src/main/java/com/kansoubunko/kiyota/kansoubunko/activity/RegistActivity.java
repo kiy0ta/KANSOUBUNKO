@@ -4,19 +4,18 @@ package com.kansoubunko.kiyota.kansoubunko.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
-import com.kansoubunko.kiyota.kansoubunko.adapter.BookListGridAdapter;
 import com.kansoubunko.kiyota.kansoubunko.adapter.BookReviewGridAdapter;
+import com.kansoubunko.kiyota.kansoubunko.fragment.BookReviewDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,17 +31,6 @@ public class RegistActivity extends AppCompatActivity {
 
     private static final Map<Integer, String> BOOK_REVIEW_MAP = new HashMap<>();
 
-    static {
-        Map<Integer, String> map = new HashMap<>();
-        map.put(1, "あ");
-        map.put(2, "い");
-        map.put(3, "う");
-        map.put(4, "え");
-        map.put(5, "お");
-        map.put(6, "か");
-
-    }
-
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -53,6 +41,8 @@ public class RegistActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist);
+
+        EditText text = findViewById(R.id.text);
 
         List<String> word = new ArrayList<>();
 
@@ -70,6 +60,18 @@ public class RegistActivity extends AppCompatActivity {
         BookReviewGridAdapter adapter = new BookReviewGridAdapter(this, R.layout.item_book_review, word);
         bookReviewGridView.setAdapter(adapter);
 
+        Button bookReviewButton = findViewById(R.id.regist_book_review_button);
+        bookReviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //ダイアログを表示する
+                BookReviewDialogFragment dialog = new BookReviewDialogFragment();
+                // 表示  getFragmentManager()は固定、sampleは識別タグ
+                dialog.show(getSupportFragmentManager(), "sample");
+
+            }
+        });
 
         TextView backTextView = findViewById(R.id.back_arrow);
         backTextView.setOnClickListener(new View.OnClickListener() {
@@ -79,5 +81,10 @@ public class RegistActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    // ダイアログで入力した値をtextViewに入れる - ダイアログから呼び出される
+    public void setTextView(String value) {
+        EditText textView = findViewById(R.id.text);
     }
 }

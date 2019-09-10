@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">KANSOUBUNKO</string>
-    <string name="login_name">NAME</string>
-    <string name="login_pass">PASSWORD</string>
+    <string name="login_name">名前:</string>
+    <string name="login_pass">パスワード:</string>
     <string name="login_login">ログイン</string>
     <string name="login_regist">登録</string>
     <string name="regist_book_log">感想文を記入する</string>
     <string name="list_count_finish">感想件数 ：</string>
     <string name="list_regist">新しい本を登録する</string>
     <string name="no_book_img">picture</string>
+    <string name="regist_book_ok">登録する</string>
+    <string name="regist_book_cancel">キャンセル</string>
+    <string name="regist_book_title">感想を記入してください。(100字以内)</string>
 </resources>
