@@ -51,17 +51,19 @@
                     android:orientation="vertical">
 
                     <EditText
+                        android:id="@+id/login_user_name"
                         android:layout_width="200dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="22dp"
                         android:background="@drawable/shape_login_button"
-                        android:hint="@string/login_name"
                         android:gravity="center"
+                        android:hint="@string/login_name"
                         android:textColor="@color/white"
                         android:textColorHint="@color/clear_white" />
 
                     <EditText
+                        android:id="@+id/login_user_password"
                         android:layout_width="200dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center_horizontal"

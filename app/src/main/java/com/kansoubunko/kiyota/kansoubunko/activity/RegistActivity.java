@@ -2,6 +2,7 @@ package com.kansoubunko.kiyota.kansoubunko.activity;
 
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -21,6 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 public class RegistActivity extends AppCompatActivity {
+
+    public String input = "";
+    public List<String> word = new ArrayList<>();
+
+
     public static Intent getStartIntent(MainActivity mainActivity) {
         return new Intent(mainActivity, RegistActivity.class);
     }
@@ -40,13 +46,25 @@ public class RegistActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Resources res = getResources();
+
         setContentView(R.layout.activity_regist);
 
         EditText text = findViewById(R.id.text);
 
-        List<String> word = new ArrayList<>();
+        TextView bookTitle = findViewById(R.id.regist_book_title);
+        bookTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        String input = "こんにちは。今日の天気は曇りです。最高気温は24度です。";
+            }
+        });
+
+        input = "こんにちは。今日の天気は曇りです。最高気温は24度です。";
+
+//        if (text.length() == 0 || text == null) {
+//            String input = "";
+//        }
 
         word = Arrays.asList(input.split(""));
 //        if(word.size() <= 100){
@@ -56,10 +74,12 @@ public class RegistActivity extends AppCompatActivity {
 //            }
 //        }
 
+        //左矢印押下で前の画面に戻る処理
         GridView bookReviewGridView = findViewById(R.id.regist_book_review);
         BookReviewGridAdapter adapter = new BookReviewGridAdapter(this, R.layout.item_book_review, word);
         bookReviewGridView.setAdapter(adapter);
 
+        //登録ボタン押下でダイアログを表示する処理
         Button bookReviewButton = findViewById(R.id.regist_book_review_button);
         bookReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +89,6 @@ public class RegistActivity extends AppCompatActivity {
                 BookReviewDialogFragment dialog = new BookReviewDialogFragment();
                 // 表示  getFragmentManager()は固定、sampleは識別タグ
                 dialog.show(getSupportFragmentManager(), "sample");
-
             }
         });
 
@@ -85,6 +104,8 @@ public class RegistActivity extends AppCompatActivity {
 
     // ダイアログで入力した値をtextViewに入れる - ダイアログから呼び出される
     public void setTextView(String value) {
-        EditText textView = findViewById(R.id.text);
+        input = value;
+        word = Arrays.asList(input.split(""));
     }
+
 }

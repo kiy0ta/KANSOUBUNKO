@@ -11,4 +11,5 @@
     <string name="regist_book_ok">登録する</string>
     <string name="regist_book_cancel">キャンセル</string>
     <string name="regist_book_title">感想を記入してください。(100字以内)</string>
+    <string name="book_default_title">タイトル</string>
 </resources>
