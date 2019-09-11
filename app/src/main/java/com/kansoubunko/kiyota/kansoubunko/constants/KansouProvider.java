@@ -22,7 +22,7 @@ import java.util.HashMap;
 
 public class KansouProvider extends ContentProvider {
 
-    private static final String TAG = "DbProvider";
+    private static final String TAG = "DbProteinProvider";
     private static final String DATABASE_NAME = "inputs.db";
     private static final String INPUT_TABLE = "input";
     private static final int INPUT_DATABASE_VERSION = 1;
@@ -46,7 +46,7 @@ public class KansouProvider extends ContentProvider {
         sInputProjectionMap.put(KansouContract.Input.BOOK_ID, KansouContract.Input.BOOK_ID);
         sInputProjectionMap.put(KansouContract.Input.BOOK_TITLE, KansouContract.Input.BOOK_TITLE);
         sInputProjectionMap.put(KansouContract.Input.BOOK_IMAGE, KansouContract.Input.BOOK_IMAGE);
-        sInputProjectionMap.put(KansouContract.Input.BOOK_REVIEW, KansouContract.Input.BOOK_REVIEW);
+        sInputProjectionMap.put(KansouContract.Input.BOOK_TITLE, KansouContract.Input.BOOK_REVIEW);
     }
 
     private SQLiteDatabase mInputDB;
@@ -55,7 +55,7 @@ public class KansouProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         mContext = getContext();
-        DbProteinDatabaseHelper dbHelper = new DbProteinDatabaseHelper(mContext);
+        DbKansouDatabaseHelper dbHelper = new DbKansouDatabaseHelper(mContext);
         mInputDB = dbHelper.getWritableDatabase();
         return true;
     }
@@ -213,13 +213,12 @@ public class KansouProvider extends ContentProvider {
         return count;
     }
 
-
     /**
      * helperクラス
      */
-    private static class DbProteinDatabaseHelper extends SQLiteOpenHelper {
+    private static class DbKansouDatabaseHelper extends SQLiteOpenHelper {
 
-        private DbProteinDatabaseHelper(Context context) {
+        private DbKansouDatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, INPUT_DATABASE_VERSION);
         }
 

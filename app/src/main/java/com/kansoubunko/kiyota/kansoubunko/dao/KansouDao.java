@@ -3,6 +3,7 @@ package com.kansoubunko.kiyota.kansoubunko.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 
 import com.kansoubunko.kiyota.kansoubunko.constants.KansouContract;
 import com.kansoubunko.kiyota.kansoubunko.dto.KansouEntity;
@@ -35,24 +36,34 @@ public class KansouDao {
         ContentValues values = new ContentValues();
         values.put(KansouContract.Input.USER_NAME, userName);
         values.put(KansouContract.Input.USER_PASSWORD, userPassword);
+        values.put(KansouContract.Input.BOOK_ID, "");
+        values.put(KansouContract.Input.BOOK_TITLE, "");
+        values.put(KansouContract.Input.BOOK_IMAGE, "");
+        values.put(KansouContract.Input.BOOK_REVIEW, "");
         mContext.getContentResolver().insert(KansouContract.Input.CONTENT_URI, values);
     }
 
-    //ユーザーとパスワードが存在するかどうか確認する
-//    public int getTotalBookCount() {
-//        String[] projection = new String[]{
-//                KansouContract.Input.BOOK_ID
-//        };
-//
-//        try (Cursor cur = mContext.getContentResolver().query(KansouContract.Input.CONTENT_URI, projection,
-//                null, null, null)) {
-//            //DBの中に入っている件数を取得する
-//            if (cur != null && cur.getCount() > 0) {
-//                return cur.getCount();
-//            }
-//            return 0;
-//        }
-//    }
+
+    //ユーザーとパスワードを検索する
+    public boolean findUserLoginInfo(String userName, String userPassword) {
+        String[] projection = new String[]{
+                KansouContract.Input.USER_NAME,
+                KansouContract.Input.USER_PASSWORD
+        };
+
+        try (Cursor cur = mContext.getContentResolver().query(KansouContract.Input.CONTENT_URI, projection,
+                KansouContract.Input.USER_NAME + " = " + userName + " AND " +
+                        KansouContract.Input.USER_PASSWORD + " = " + userPassword,
+                new String[]{userName, userPassword}, null)) {
+            //DBの中に入っている件数を取得する
+            if (cur != null && cur.getCount() > 0) {
+                return true;
+            }
+            return false;
+        } catch (SQLiteException e) {
+            return false;
+        }
+    }
 
     //DBの中の本の総数をカウントする処理
     //DBに入っているデータ件数を取得する
@@ -73,8 +84,8 @@ public class KansouDao {
 
 
     //DBに入っているデータをすべて取得してEntityに格納する
-    public List<KansouEntity> selectAll(String userName) throws ParseException {
-        List<KansouEntity> list = new ArrayList<>();
+    public List<KansouEntity> selectAll() throws ParseException {
+        List<KansouEntity> list = new ArrayList<KansouEntity>();
         String[] projection = new String[]{
                 KansouContract.Input._ID,
                 KansouContract.Input.USER_NAME,
@@ -86,7 +97,7 @@ public class KansouDao {
         };
 
         try (Cursor cur = mContext.getContentResolver().query(KansouContract.Input.CONTENT_URI, projection,
-                KansouContract.Input.USER_NAME + " like ?", new String[]{userName}, null)) {
+                null, null, null)) {
 
             if (cur != null && cur.getCount() > 0) {
                 while (cur.moveToNext()) {

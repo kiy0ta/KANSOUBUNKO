@@ -8,4 +8,5 @@
     <color name="clear_white">#baffffff</color>
     <color name="gauge_color">#517394</color>
     <color name="gauge_init_color">#c6858687</color>
+    <color name="error_msg_color">#5fa6a9</color>
 </resources>

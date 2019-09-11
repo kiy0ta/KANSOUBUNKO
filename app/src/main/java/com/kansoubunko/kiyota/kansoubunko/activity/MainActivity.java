@@ -1,14 +1,24 @@
 package com.kansoubunko.kiyota.kansoubunko.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
+import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
+import com.kansoubunko.kiyota.kansoubunko.dto.KansouEntity;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private SharedPreferences mSharedPreferences;
 
     public static Intent getStartIntent(LoginActivity loginActivity) {
         return new Intent(loginActivity, MainActivity.class);
@@ -18,6 +28,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mSharedPreferences = getSharedPreferences("userInfo",MODE_PRIVATE);
+        String s = mSharedPreferences.getString("userName","");
+        String t = mSharedPreferences.getString("userPassword","");
+
         ImageView registImageView = findViewById(R.id.main_regist);
         registImageView.setOnClickListener(new View.OnClickListener() {
             @Override
