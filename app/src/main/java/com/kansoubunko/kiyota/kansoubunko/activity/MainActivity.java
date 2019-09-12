@@ -10,9 +10,8 @@ import android.widget.ImageView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
-import com.kansoubunko.kiyota.kansoubunko.dto.KansouEntity;
+import com.kansoubunko.kiyota.kansoubunko.dto.UserInfoEntity;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +28,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<KansouEntity> kansou = new ArrayList<>();
+        List<UserInfoEntity> kansou = new ArrayList<>();
         KansouDao dao = new KansouDao(this);
-        kansou = dao.sample();
-        for(KansouEntity k:kansou){
+        kansou = dao.selectALl();
+        for(UserInfoEntity k:kansou){
             String n = k.getUserName();
             Log.d("loglog","string:"+n);
+            Log.d("loglog","size:"+kansou.size());
         }
 
         mSharedPreferences = getSharedPreferences("userInfo",MODE_PRIVATE);

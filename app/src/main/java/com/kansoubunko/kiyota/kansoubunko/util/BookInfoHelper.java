@@ -11,9 +11,21 @@ public class BookInfoHelper extends SQLiteOpenHelper {
      */
     public static final String TABLE_NAME = "book_info";
     /**
-     * カラム名シリアルナンバー
+     * カラム名
      */
-    public static final String COLUMN_SERIAL_NUMBER = "serial_number";
+    public static final String COLUMN_BOOK_ID = "book_id";
+    /**
+     * カラム名
+     */
+    public static final String COLUMN_BOOK_TITLE = "book_title";
+    /**
+     * カラム名
+     */
+    public static final String COLUMN_BOOK_IMAGE = "book_image";
+    /**
+     * カラム名
+     */
+    public static final String COLUMN_BOOK_REVIEW = "book_review";
 
     public BookInfoHelper(Context context) {
         super(context, "Kansou.db" , null, 1);
@@ -27,7 +39,17 @@ public class BookInfoHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         // テーブル作成
-        db.execSQL("CREATE TABLE " + TABLE_NAME + " (" + COLUMN_SERIAL_NUMBER + " TEXT)");
+        db.execSQL("CREATE TABLE " + TABLE_NAME +
+                " (" + COLUMN_BOOK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_BOOK_TITLE + " TEXT , "
+                + COLUMN_BOOK_IMAGE + " TEXT , "
+                + COLUMN_BOOK_REVIEW + " TEXT " + ");");
+
+//        db.execSQL("CREATE TABLE " + TABLE_NAME +
+//                " (" + KansouContract.Input._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+//                + COLUMN_USER_NAME + " TEXT , "
+//                + COLUMN_USER_PASSWORD + " TEXT " + ");");
+
     }
 
     /**

@@ -12,6 +12,8 @@
     <string name="regist_book_cancel">キャンセル</string>
     <string name="regist_book_title">感想を記入してください。(100字以内)</string>
     <string name="book_default_title">タイトル</string>
-    <string name="login_regist_error_message">名前とパスワードを入力してください。</string>
+    <string name="login_error_message">名前とパスワードを入力してください。</string>
     <string name="login_login_error_message">名前またはパスワードが正しくありません。</string>
+    <string name="login_regist_same_name_error_message">入力された名前はすでに使用されています。</string>
+    <string name="login_length_error_message">20文字以内で入力してください。</string>
 </resources>

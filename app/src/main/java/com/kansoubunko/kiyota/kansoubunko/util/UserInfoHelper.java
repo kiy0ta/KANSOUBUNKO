@@ -13,6 +13,10 @@ public class UserInfoHelper extends SQLiteOpenHelper {
     /**
      * カラム名
      */
+    public static final String COLUMN_USER_ID = "user_id";
+    /**
+     * カラム名
+     */
     public static final String COLUMN_USER_NAME = "user_name";
     /**
      * カラム名
@@ -31,8 +35,10 @@ public class UserInfoHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // テーブル作成
-        db.execSQL("CREATE TABLE " + TABLE_NAME + " (" + COLUMN_USER_NAME + " TEXT , " + COLUMN_USER_PASSWORD + " TEXT " + ");");
-
+        db.execSQL("CREATE TABLE " + TABLE_NAME +
+                " (" + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_USER_NAME + " TEXT , "
+                + COLUMN_USER_PASSWORD + " TEXT " + ");");
     }
 
     /**
