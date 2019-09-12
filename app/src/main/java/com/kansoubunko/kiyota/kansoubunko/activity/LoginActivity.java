@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mDao = new KansouDao(this);
+        mDao = new KansouDao(getApplicationContext());
         final Resources res = getResources();
 
         final EditText userNameText = (EditText) findViewById(R.id.login_user_name);

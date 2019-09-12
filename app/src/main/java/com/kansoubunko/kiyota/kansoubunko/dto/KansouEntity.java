@@ -1,9 +1,11 @@
 package com.kansoubunko.kiyota.kansoubunko.dto;
 
-public class KansouEntity {
+import java.io.Serializable;
 
-    //ID
-    private int id;
+public class KansouEntity implements Serializable {
+
+    //    //ID
+//    private int id;
     //ユーザー名
     private String userName;
     //ユーザーパスワード
@@ -20,13 +22,13 @@ public class KansouEntity {
     public KansouEntity() {
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public String getUserName() {
         return userName;
@@ -79,8 +81,7 @@ public class KansouEntity {
     @Override
     public String toString() {
         return "KansouEntity{" +
-                "id=" + id +
-                ", userName=" + userName +
+                "userName=" + userName +
                 ", userPassword='" + userPassword + '\'' +
                 ", bookId=" + bookId +
                 ", bookTitle=" + bookTitle +

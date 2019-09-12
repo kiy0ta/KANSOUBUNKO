@@ -45,12 +45,15 @@
             android:label="@string/app_name" />
 
         <provider
-            android:name="com.kansoubunko.kiyota.kansoubunko.constants.KansouProvider"
-            android:authorities="com.kansoubunko.kiyota.kansoubunko.provider"
-            android:exported="true"
-            android:process=":KansouProvider"
-            android:writePermission="com.kansoubunko.kiyota.kansoubunko.provider.permission.WRITE_DATA" />
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.kansoubunko.kiyota.kansoubunko.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 
-</manifest>
+</manifest><!--<provider--><!--android:name="com.kansoubunko.kiyota.kansoubunko.constants.KansouProvider"--><!--android:authorities="com.kansoubunko.kiyota.kansoubunko.provider"--><!--android:exported="true"--><!--android:process=":KansouProvider"--><!--android:writePermission="com.kansoubunko.kiyota.kansoubunko.provider.permission.WRITE_DATA" />-->

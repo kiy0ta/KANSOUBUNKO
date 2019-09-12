@@ -29,6 +29,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        List<KansouEntity> kansou = new ArrayList<>();
+        KansouDao dao = new KansouDao(this);
+        kansou = dao.sample();
+        for(KansouEntity k:kansou){
+            String n = k.getUserName();
+            Log.d("loglog","string:"+n);
+        }
+
         mSharedPreferences = getSharedPreferences("userInfo",MODE_PRIVATE);
         String s = mSharedPreferences.getString("userName","");
         String t = mSharedPreferences.getString("userPassword","");

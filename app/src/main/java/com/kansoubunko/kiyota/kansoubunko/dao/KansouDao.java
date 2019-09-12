@@ -3,10 +3,15 @@ package com.kansoubunko.kiyota.kansoubunko.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
+import com.kansoubunko.kiyota.kansoubunko.activity.MyApplication;
 import com.kansoubunko.kiyota.kansoubunko.constants.KansouContract;
 import com.kansoubunko.kiyota.kansoubunko.dto.KansouEntity;
+import com.kansoubunko.kiyota.kansoubunko.util.BookInfoHelper;
+import com.kansoubunko.kiyota.kansoubunko.util.UserInfoHelper;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -14,11 +19,18 @@ import java.util.List;
 
 public class KansouDao {
 
+
     private Context mContext;
 
     public KansouDao(Context context) {
         mContext = context;
+        userInfoHelper = new UserInfoHelper(mContext);
     }
+
+//    Context context = MyApplication.getInstance();
+
+    private UserInfoHelper userInfoHelper = new UserInfoHelper(mContext);
+    private BookInfoHelper bookInfoHelper = new BookInfoHelper(mContext);
 
     //プロテイン画像を押下したら、日付とタイプを登録する
 //    public void registProteinAllInfo(String date, String type) {
@@ -31,17 +43,96 @@ public class KansouDao {
 //        mContext.getContentResolver().insert(ProteinCalendarContract.Input.CONTENT_URI, values);
 //    }
 
-    //ユーザーとパスワードを登録する
-    public void registUserInfo(String userName, String userPassword) {
-        ContentValues values = new ContentValues();
-        values.put(KansouContract.Input.USER_NAME, userName);
-        values.put(KansouContract.Input.USER_PASSWORD, userPassword);
-        values.put(KansouContract.Input.BOOK_ID, "");
-        values.put(KansouContract.Input.BOOK_TITLE, "");
-        values.put(KansouContract.Input.BOOK_IMAGE, "");
-        values.put(KansouContract.Input.BOOK_REVIEW, "");
-        mContext.getContentResolver().insert(KansouContract.Input.CONTENT_URI, values);
+    //sample
+    public List<KansouEntity> sample() {
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        KansouEntity entity = null;
+        List<KansouEntity> list = new ArrayList<>();
+        Log.i("Kansou.db", "start");
+        try {
+            // DB取得
+            db = this.userInfoHelper.getWritableDatabase();
+            cursor = db.query(
+                    userInfoHelper.TABLE_NAME,
+                    new String[]{userInfoHelper.COLUMN_USER_NAME, userInfoHelper.COLUMN_USER_PASSWORD},
+                    null, null, null, null, null, "1");
+            cursor.moveToFirst();
+
+            // 取得できた際、インスタンスに保存
+            if (cursor.getCount() > 0) {
+                entity = new KansouEntity();
+                entity.setUserName(cursor.getString(0));
+                entity.setUserPassword(cursor.getString(1));
+//                entity.setBookId(cursor.getInt(2));
+//                entity.setBookTitle(cursor.getString(3));
+//                entity.setBookImage(cursor.getString(4));
+//                entity.setBookReview(cursor.getString(5));
+                list.add(entity);
+                Log.i("Kansou.db", "sn" + cursor.getString(0));
+            }
+        } catch (Exception ex) {
+            Log.e("Kansou.db", "error", ex);
+        } finally {
+
+            // クローズ処理
+            if (cursor != null) {
+                cursor.close();
+                cursor = null;
+            }
+            if (db != null) {
+                db.close();
+                db = null;
+            }
+        }
+        return list;
     }
+
+    //sample
+    public void registUserInfo(String userName, String userPassword) {
+        Log.i("Kansou.db", "start");
+
+        // DB初期化
+        SQLiteDatabase db = null;
+        try {
+
+            // DB取得
+//            userInfoHelper.onCreate(db);
+            db = this.userInfoHelper.getWritableDatabase();
+            ContentValues value = new ContentValues();
+
+            // 既存レコード削除
+            db.execSQL("DELETE FROM " + userInfoHelper.TABLE_NAME);
+
+            // 新規データ登録
+            value.put(userInfoHelper.COLUMN_USER_NAME, userName);
+            value.put(userInfoHelper.COLUMN_USER_PASSWORD, userPassword);
+            db.insert(userInfoHelper.TABLE_NAME, null, value);
+
+        } catch (Exception ex) {
+            Log.e("Kansou.db", "error:", ex);
+
+        } finally {
+            // クローズ処理
+
+            if (db != null) {
+                db.close();
+                db = null;
+            }
+        }
+    }
+
+    //ユーザーとパスワードを登録する
+//    public void registUserInfo(String userName, String userPassword) {
+//        ContentValues values = new ContentValues();
+//        values.put(KansouContract.Input.USER_NAME, userName);
+//        values.put(KansouContract.Input.USER_PASSWORD, userPassword);
+//        values.put(KansouContract.Input.BOOK_ID, "");
+//        values.put(KansouContract.Input.BOOK_TITLE, "");
+//        values.put(KansouContract.Input.BOOK_IMAGE, "");
+//        values.put(KansouContract.Input.BOOK_REVIEW, "");
+//        mContext.getContentResolver().insert(KansouContract.Input.CONTENT_URI, values);
+//    }
 
 
     //ユーザーとパスワードを検索する
@@ -102,7 +193,7 @@ public class KansouDao {
             if (cur != null && cur.getCount() > 0) {
                 while (cur.moveToNext()) {
                     KansouEntity entity = new KansouEntity();
-                    entity.setId(cur.getInt(0));
+//                    entity.setId(cur.getInt(0));
                     entity.setUserName(cur.getString(1));
                     entity.setUserPassword(cur.getString(2));
                     entity.setBookId(cur.getInt(3));
