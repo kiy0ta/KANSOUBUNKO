@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
+
+import static java.lang.String.valueOf;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -96,10 +99,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 //入力された名前がすでに使われているかどうか確認する
-                //true:使われている
+                //true:使われていない
                 Boolean bln = mDao.findUserNameInfo(userName);
 
-                if (bln) {
+                if (!bln) {
                     //バリデーションメッセージ表示
                     errorIcView.setVisibility(View.VISIBLE);
                     errorTextView.setText(res.getString(R.string.login_regist_same_name_error_message));

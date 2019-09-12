@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import com.kansoubunko.kiyota.kansoubunko.constants.KansouContract;
+import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
 import com.kansoubunko.kiyota.kansoubunko.dto.UserInfoEntity;
 import com.kansoubunko.kiyota.kansoubunko.util.BookInfoHelper;
 import com.kansoubunko.kiyota.kansoubunko.util.UserInfoHelper;
@@ -184,6 +185,59 @@ public class KansouDao {
         } catch (SQLiteException e) {
             return false;
         }
+    }
+
+    //すべてのユーザーの情報を取得するメソッド
+    public List<BookInfoEntity> selectBookInfoALl() {
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        BookInfoEntity entity = null;
+        List<BookInfoEntity> list = new ArrayList<>();
+        Log.i("Kansou.db", "start");
+        String[] projection = new String[]{
+                bookInfoHelper.COLUMN_BOOK_ID,
+                bookInfoHelper.COLUMN_BOOK_TITLE,
+                bookInfoHelper.COLUMN_BOOK_IMAGE,
+                bookInfoHelper.COLUMN_BOOK_REVIEW
+        };
+        try {
+            // DB取得
+            db = this.bookInfoHelper.getWritableDatabase();
+            cursor = db.query(
+                    bookInfoHelper.TABLE_NAME, projection,
+                    null, null, null, null, null, "1");
+            cursor.moveToFirst();
+            // 取得できた際、インスタンスに保存
+                entity = new BookInfoEntity();
+            if (cursor.getCount() > 0) {
+                entity.setBookId(cursor.getString(0));
+                entity.setBookTitle(cursor.getString(1));
+                entity.setBookImage(cursor.getString(2));
+                entity.setBookReview(cursor.getString(3));
+                list.add(entity);
+                Log.i("Kansou.db", "sn" + cursor.getString(0));
+            }
+
+            entity.setBookId("1111");
+            entity.setBookTitle("9月12日");
+            entity.setBookImage("no_book_img");
+            entity.setBookReview("no_book_img");
+            list.add(entity);
+
+        } catch (Exception ex) {
+            Log.e("Kansou.db", "error", ex);
+        } finally {
+            // クローズ処理
+            if (cursor != null) {
+                cursor.close();
+                cursor = null;
+            }
+            if (db != null) {
+                db.close();
+                db = null;
+            }
+        }
+        return list;
     }
 
     //DBの中の本の総数をカウントする処理

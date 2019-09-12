@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class BookInfoEntity implements Serializable {
 
     //本のID
-    private int bookId;
+    private String bookId;
     //本のタイトル
     private String bookTitle;
     //本の画像
@@ -16,11 +16,11 @@ public class BookInfoEntity implements Serializable {
     public BookInfoEntity() {
     }
 
-    public int getBookId() {
+    public String getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(String bookId) {
         this.bookId = bookId;
     }
 

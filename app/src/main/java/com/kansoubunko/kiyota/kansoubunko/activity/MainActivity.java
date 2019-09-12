@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
+import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
 import com.kansoubunko.kiyota.kansoubunko.dto.UserInfoEntity;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public KansouDao mDao;
     private SharedPreferences mSharedPreferences;
 
     public static Intent getStartIntent(LoginActivity loginActivity) {
@@ -31,15 +33,19 @@ public class MainActivity extends AppCompatActivity {
         List<UserInfoEntity> kansou = new ArrayList<>();
         KansouDao dao = new KansouDao(this);
         kansou = dao.selectALl();
-        for(UserInfoEntity k:kansou){
+        for (UserInfoEntity k : kansou) {
             String n = k.getUserName();
-            Log.d("loglog","string:"+n);
-            Log.d("loglog","size:"+kansou.size());
+            Log.d("loglog", "string:" + n);
+            Log.d("loglog", "size:" + kansou.size());
         }
 
-        mSharedPreferences = getSharedPreferences("userInfo",MODE_PRIVATE);
-        String s = mSharedPreferences.getString("userName","");
-        String t = mSharedPreferences.getString("userPassword","");
+//        //本の情報をすべて取得する
+//        List<BookInfoEntity> bookInfoList = new ArrayList<>();
+//        bookInfoList = mDao.selectBookInfoALl();
+
+//        mSharedPreferences = getSharedPreferences("userInfo",MODE_PRIVATE);
+//        String s = mSharedPreferences.getString("userName","");
+//        String t = mSharedPreferences.getString("userPassword","");
 
         ImageView registImageView = findViewById(R.id.main_regist);
         registImageView.setOnClickListener(new View.OnClickListener() {
