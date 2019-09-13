@@ -10,24 +10,19 @@ import android.util.Log;
 import com.kansoubunko.kiyota.kansoubunko.constants.KansouContract;
 import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
 import com.kansoubunko.kiyota.kansoubunko.dto.UserInfoEntity;
-import com.kansoubunko.kiyota.kansoubunko.util.BookInfoHelper;
-import com.kansoubunko.kiyota.kansoubunko.util.UserInfoHelper;
+import com.kansoubunko.kiyota.kansoubunko.util.KansouHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.provider.BaseColumns._ID;
-
 public class KansouDao {
 
     private Context mContext;
-    private UserInfoHelper userInfoHelper = new UserInfoHelper(mContext);
-    private BookInfoHelper bookInfoHelper = new BookInfoHelper(mContext);
+    private KansouHelper kansouHelper = new KansouHelper(mContext);
 
     public KansouDao(Context context) {
         mContext = context;
-        userInfoHelper = new UserInfoHelper(mContext);
-        bookInfoHelper = new BookInfoHelper(mContext);
+        kansouHelper = new KansouHelper(mContext);
     }
 
     //すべてのユーザーの情報を取得するメソッド
@@ -38,15 +33,15 @@ public class KansouDao {
         List<UserInfoEntity> list = new ArrayList<>();
         Log.i("Kansou.db", "start");
         String[] projection = new String[]{
-                userInfoHelper.COLUMN_USER_ID,
-                userInfoHelper.COLUMN_USER_NAME,
-                userInfoHelper.COLUMN_USER_PASSWORD
+                kansouHelper.COLUMN_USER_ID,
+                kansouHelper.COLUMN_USER_NAME,
+                kansouHelper.COLUMN_USER_PASSWORD
         };
         try {
             // DB取得
-            db = this.userInfoHelper.getWritableDatabase();
+            db = this.kansouHelper.getWritableDatabase();
             cursor = db.query(
-                    userInfoHelper.TABLE_NAME, projection,
+                    kansouHelper.USER_TABLE_NAME, projection,
                     null, null, null, null, null, "1");
             cursor.moveToFirst();
             // 取得できた際、インスタンスに保存
@@ -83,13 +78,13 @@ public class KansouDao {
         try {
 
             // DB取得
-            db = this.userInfoHelper.getWritableDatabase();
+            db = this.kansouHelper.getWritableDatabase();
             ContentValues value = new ContentValues();
 
             // 新規データ登録
-            value.put(userInfoHelper.COLUMN_USER_NAME, userName);
-            value.put(userInfoHelper.COLUMN_USER_PASSWORD, userPassword);
-            db.insert(userInfoHelper.TABLE_NAME, null, value);
+            value.put(kansouHelper.COLUMN_USER_NAME, userName);
+            value.put(kansouHelper.COLUMN_USER_PASSWORD, userPassword);
+            db.insert(kansouHelper.USER_TABLE_NAME, null, value);
 
         } catch (Exception ex) {
             Log.e("Kansou.db", "error:", ex);
@@ -110,13 +105,13 @@ public class KansouDao {
         Cursor cursor = null;
         Log.i("Kansou.db", "start");
         String[] projection = new String[]{
-                userInfoHelper.COLUMN_USER_NAME
+                kansouHelper.COLUMN_USER_NAME
         };
         try {
             // DB取得
-            db = this.userInfoHelper.getWritableDatabase();
+            db = this.kansouHelper.getWritableDatabase();
             cursor = db.query(
-                    userInfoHelper.TABLE_NAME, projection, userInfoHelper.COLUMN_USER_NAME + " = ? ",
+                    kansouHelper.USER_TABLE_NAME, projection, kansouHelper.COLUMN_USER_NAME + " = ? ",
                     new String[]{userName}, null, null, null, null);
             cursor.moveToFirst();
             //DBの中に入っている件数を取得する
@@ -135,13 +130,13 @@ public class KansouDao {
         Cursor cursor = null;
         Log.i("Kansou.db", "start");
         String[] projection = new String[]{
-                userInfoHelper.COLUMN_USER_NAME
+                kansouHelper.COLUMN_USER_NAME
         };
         try {
             // DB取得
-            db = this.userInfoHelper.getWritableDatabase();
+            db = this.kansouHelper.getWritableDatabase();
             cursor = db.query(
-                    userInfoHelper.TABLE_NAME, projection, userInfoHelper.COLUMN_USER_NAME + " = ? ",
+                    kansouHelper.USER_TABLE_NAME, projection, kansouHelper.COLUMN_USER_NAME + " = ? ",
                     new String[]{userName}, null, null, null, null);
             cursor.moveToFirst();
             // 取得できた際、インスタンスに保存
@@ -162,16 +157,16 @@ public class KansouDao {
         Cursor cursor = null;
         Log.i("Kansou.db", "start");
         String[] projection = new String[]{
-                userInfoHelper.COLUMN_USER_NAME,
-                userInfoHelper.COLUMN_USER_PASSWORD
+                kansouHelper.COLUMN_USER_NAME,
+                kansouHelper.COLUMN_USER_PASSWORD
         };
         try {
             // DB取得
-            db = this.userInfoHelper.getWritableDatabase();
+            db = this.kansouHelper.getWritableDatabase();
             cursor = db.query(
-                    userInfoHelper.TABLE_NAME, projection,
-                    userInfoHelper.COLUMN_USER_NAME + " = ? " + "AND "
-                            + userInfoHelper.COLUMN_USER_PASSWORD + " = ? ",
+                    kansouHelper.USER_TABLE_NAME, projection,
+                    kansouHelper.COLUMN_USER_NAME + " = ? " + "AND "
+                            + kansouHelper.COLUMN_USER_PASSWORD + " = ? ",
                     new String[]{userName, userPassword}, null, null, null, null);
             cursor.moveToFirst();
             // 正しければtrueを返す
@@ -193,16 +188,16 @@ public class KansouDao {
         List<BookInfoEntity> list = new ArrayList<>();
         Log.i("Kansou.db", "start");
         String[] projection = new String[]{
-                bookInfoHelper.COLUMN_BOOK_ID,
-                bookInfoHelper.COLUMN_BOOK_TITLE,
-                bookInfoHelper.COLUMN_BOOK_IMAGE,
-                bookInfoHelper.COLUMN_BOOK_REVIEW
+                kansouHelper.COLUMN_BOOK_ID,
+                kansouHelper.COLUMN_BOOK_TITLE,
+                kansouHelper.COLUMN_BOOK_IMAGE,
+                kansouHelper.COLUMN_BOOK_REVIEW
         };
         try {
             // DB取得
-            db = this.bookInfoHelper.getWritableDatabase();
+            db = this.kansouHelper.getWritableDatabase();
             cursor = db.query(
-                    bookInfoHelper.TABLE_NAME, projection,
+                    kansouHelper.BOOK_TABLE_NAME, projection,
                     null, null, null, null, null, "1");
             cursor.moveToFirst();
             // 取得できた際、インスタンスに保存
@@ -240,14 +235,14 @@ public class KansouDao {
         try {
 
             // DB取得
-            db = this.bookInfoHelper.getWritableDatabase();
+            db = this.kansouHelper.getWritableDatabase();
             ContentValues value = new ContentValues();
 
             // 新規データ登録
-            value.put(bookInfoHelper.COLUMN_BOOK_TITLE, bookTitle);
-            value.put(bookInfoHelper.COLUMN_BOOK_IMAGE, bookImage);
-            value.put(bookInfoHelper.COLUMN_BOOK_REVIEW, bookReview);
-            db.insert(bookInfoHelper.TABLE_NAME, null, value);
+            value.put(kansouHelper.COLUMN_BOOK_TITLE, bookTitle);
+            value.put(kansouHelper.COLUMN_BOOK_IMAGE, bookImage);
+            value.put(kansouHelper.COLUMN_BOOK_REVIEW, bookReview);
+            db.insert(kansouHelper.BOOK_TABLE_NAME, null, value);
 
         } catch (Exception ex) {
             Log.e("Kansou.db", "error:", ex);
@@ -265,21 +260,21 @@ public class KansouDao {
     //本のタイトルを更新する
     public void updateBookTitle(String bookId, String bookTitle) {
         ContentValues values = new ContentValues();
-        values.put(KansouContract.Input.BOOK_TITLE, bookTitle);
+        values.put(kansouHelper.COLUMN_BOOK_TITLE, bookTitle);
         mContext.getContentResolver().update(KansouContract.Input.CONTENT_URI, values, KansouContract.Input.CONTENT_URI + bookId, null);
     }
 
     //本の画像を更新する
     public void updateBookImage(String bookId, String bookImage) {
         ContentValues values = new ContentValues();
-        values.put(KansouContract.Input.BOOK_TITLE, bookImage);
+        values.put(kansouHelper.COLUMN_BOOK_TITLE, bookImage);
         mContext.getContentResolver().update(KansouContract.Input.CONTENT_URI, values, KansouContract.Input.CONTENT_URI + bookId, null);
     }
 
     //本の感想文を更新する
     public void updateBookReview(String bookId, String bookReview) {
         ContentValues values = new ContentValues();
-        values.put(KansouContract.Input.BOOK_TITLE, bookReview);
+        values.put(kansouHelper.COLUMN_BOOK_TITLE, bookReview);
         mContext.getContentResolver().update(KansouContract.Input.CONTENT_URI, values, KansouContract.Input.CONTENT_URI + bookId, null);
     }
 }

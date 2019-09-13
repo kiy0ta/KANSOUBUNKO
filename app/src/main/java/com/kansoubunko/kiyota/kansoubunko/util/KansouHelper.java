@@ -4,12 +4,12 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class UserInfoHelper extends SQLiteOpenHelper {
+public class KansouHelper  extends SQLiteOpenHelper {
 
     /**
      * テーブル名
      */
-    public static final String TABLE_NAME = "user_info";
+    public static final String USER_TABLE_NAME = "user_info";
     /**
      * カラム名
      */
@@ -22,8 +22,28 @@ public class UserInfoHelper extends SQLiteOpenHelper {
      * カラム名
      */
     public static final String COLUMN_USER_PASSWORD = "user_password";
+    /**
+     * テーブル名
+     */
+    public static final String BOOK_TABLE_NAME = "book_info";
+    /**
+     * カラム名
+     */
+    public static final String COLUMN_BOOK_ID = "book_id";
+    /**
+     * カラム名
+     */
+    public static final String COLUMN_BOOK_TITLE = "book_title";
+    /**
+     * カラム名
+     */
+    public static final String COLUMN_BOOK_IMAGE = "book_image";
+    /**
+     * カラム名
+     */
+    public static final String COLUMN_BOOK_REVIEW = "book_review";
 
-    public UserInfoHelper(Context context) {
+    public KansouHelper(Context context) {
         super(context, "Kansou.db", null, 1);
     }
 
@@ -35,10 +55,16 @@ public class UserInfoHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // テーブル作成
-        db.execSQL("CREATE TABLE " + TABLE_NAME +
+        db.execSQL("CREATE TABLE " + USER_TABLE_NAME +
                 " (" + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_USER_NAME + " TEXT , "
                 + COLUMN_USER_PASSWORD + " TEXT " + ");");
+
+        db.execSQL("CREATE TABLE " + BOOK_TABLE_NAME +
+                " (" + COLUMN_BOOK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_BOOK_TITLE + " TEXT , "
+                + COLUMN_BOOK_IMAGE + " TEXT , "
+                + COLUMN_BOOK_REVIEW + " TEXT " + ");");
     }
 
     /**
