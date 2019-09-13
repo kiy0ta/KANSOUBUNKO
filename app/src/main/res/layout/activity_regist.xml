@@ -59,39 +59,32 @@
                 android:layout_weight="4.5"
                 android:orientation="vertical">
 
-                <FrameLayout
-                    android:id="@+id/frameLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="20dp">
+                <ImageView
+                    android:id="@+id/regist_book_img"
+                    android:layout_width="130dp"
+                    android:layout_height="170dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/no_book_img" />
 
-                    <TextView
-                        android:layout_width="136dp"
-                        android:layout_height="170dp"
-                        android:layout_alignStart="@+id/frameLayout"
-                        android:layout_alignTop="@+id/frameLayout"
-                        android:layout_marginTop="20dp"
-                        android:background="@color/white" />
-
-                    <ImageView
-                        android:id="@+id/regist_book_img"
-                        android:layout_width="60dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/book_img" />
-
-                </FrameLayout>
-
-                <TextView
+                <EditText
                     android:id="@+id/regist_book_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:text="@string/book_default_title"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:hint="@string/regist_book_title"
                     android:textColor="@color/white"
+                    android:textColorHint="@color/clear_white"
                     android:textSize="18dp" />
+
+                <TextView
+                    android:layout_width="180dp"
+                    android:layout_height="0.6dp"
+                    android:layout_gravity="center"
+                    android:background="@color/white" />
 
             </LinearLayout>
 
@@ -107,9 +100,7 @@
                     android:layout_width="300dp"
                     android:layout_height="242dp"
                     android:layout_gravity="center_vertical"
-                    android:numColumns="10">
-
-                </GridView>
+                    android:numColumns="10"></GridView>
 
                 <Button
                     android:id="@+id/regist_book_review_button"

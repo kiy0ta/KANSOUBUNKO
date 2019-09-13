@@ -1,8 +1,8 @@
 package com.kansoubunko.kiyota.kansoubunko.activity;
 
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,11 +22,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.view.View.GONE;
+
 public class RegistActivity extends AppCompatActivity {
 
     public String input = "";
     public List<String> word = new ArrayList<>();
-
+    private SharedPreferences mSharedPreferences;
 
     public static Intent getStartIntent(MainActivity mainActivity) {
         return new Intent(mainActivity, RegistActivity.class);
@@ -48,48 +50,53 @@ public class RegistActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Resources res = getResources();
-
         setContentView(R.layout.activity_regist);
 
-        Intent intent = getIntent();
-        int selectedText = intent.getIntExtra("Image", 0);
-        String selectedPhoto = intent.getStringExtra("Title");
+        //List画面から遷移しているとき(本の画像を押下したとき＝編集モード)
+        mSharedPreferences = getSharedPreferences("bookInfo", MODE_PRIVATE);
+        Boolean bln = false;
+        //一時的に退避
+        if (bln) {
+            String bookId = mSharedPreferences.getString("bookId", "");
+            String bookTitle = mSharedPreferences.getString("bookTitle", "");
+            String bookImage = mSharedPreferences.getString("bookImage", "");
+            String bookReview = mSharedPreferences.getString("bookReview", "");
+        }
 
+        //100マスを生成
+        final GridView bookReviewGridView = findViewById(R.id.regist_book_review);
+        BookReviewGridAdapter adapter = new BookReviewGridAdapter(this, R.layout.item_book_review, word);
+        bookReviewGridView.setAdapter(adapter);
+
+        //ダイアログ入力用ビュー
         EditText text = findViewById(R.id.text);
-
-        TextView bookTitle = findViewById(R.id.regist_book_title);
-        bookTitle.setOnClickListener(new View.OnClickListener() {
+        final EditText bookTitleTextView = findViewById(R.id.regist_book_title);
+//        bookTitleTextView.setFocusable(true);
+//        bookTitleTextView.setEnabled(true);
+        bookTitleTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                bookReviewGridView.setVisibility(GONE);
+//                bookTitleTextView.setFocusableInTouchMode(true);
+                //バリデーション処理
+                String newTitle = bookTitleTextView.getText().toString();
 
             }
         });
 
-        input = "こんにちは。今日の天気は曇りです。最高気温は24度です。";
-
-//        if (text.length() == 0 || text == null) {
-//            String input = "";
-//        }
-
-        word = Arrays.asList(input.split(""));
-//        if(word.size() <= 100){
-//            int count = 100 - word.size();
-//            for(int i = 0; i < count; i++){
-//                word.add("あ");
-//            }
-//        }
-
-        //左矢印押下で前の画面に戻る処理
-        GridView bookReviewGridView = findViewById(R.id.regist_book_review);
-        BookReviewGridAdapter adapter = new BookReviewGridAdapter(this, R.layout.item_book_review, word);
-        bookReviewGridView.setAdapter(adapter);
-
+        //空文字を100文字文つめておく
+        int i = 0;
+        if (!bln) {
+            for (i = 0; i < 100; i++) {
+                word.add("");
+            }
+        }
+        
         //登録ボタン押下でダイアログを表示する処理
         Button bookReviewButton = findViewById(R.id.regist_book_review_button);
         bookReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //ダイアログを表示する
                 BookReviewDialogFragment dialog = new BookReviewDialogFragment();
                 // 表示  getFragmentManager()は固定、sampleは識別タグ
@@ -97,6 +104,7 @@ public class RegistActivity extends AppCompatActivity {
             }
         });
 
+        //左矢印押下で前の画面に戻る処理
         TextView backTextView = findViewById(R.id.back_arrow);
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +112,6 @@ public class RegistActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     // ダイアログで入力した値をtextViewに入れる - ダイアログから呼び出される
@@ -114,3 +121,73 @@ public class RegistActivity extends AppCompatActivity {
     }
 
 }
+
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        Resources res = getResources();
+//
+//        setContentView(R.layout.activity_regist);
+//
+////        Intent intent = getIntent();
+////        int selectedText = intent.getIntExtra("Image", 0);
+////        String selectedPhoto = intent.getStringExtra("Title");
+//
+//
+//        EditText text = findViewById(R.id.text);
+//
+//        TextView bookTitle = findViewById(R.id.regist_book_title);
+//        bookTitle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//
+//        input = "こんにちは。今日の天気は曇りです。最高気温は24度です。";
+//
+////        if (text.length() == 0 || text == null) {
+////            String input = "";
+////        }
+//
+//        word = Arrays.asList(input.split(""));
+////        if(word.size() <= 100){
+////            int count = 100 - word.size();
+////            for(int i = 0; i < count; i++){
+////                word.add("あ");
+////            }
+////        }
+//
+//        //左矢印押下で前の画面に戻る処理
+//        GridView bookReviewGridView = findViewById(R.id.regist_book_review);
+//        BookReviewGridAdapter adapter = new BookReviewGridAdapter(this, R.layout.item_book_review, word);
+//        bookReviewGridView.setAdapter(adapter);
+//
+//        //登録ボタン押下でダイアログを表示する処理
+//        Button bookReviewButton = findViewById(R.id.regist_book_review_button);
+//        bookReviewButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                //ダイアログを表示する
+//                BookReviewDialogFragment dialog = new BookReviewDialogFragment();
+//                // 表示  getFragmentManager()は固定、sampleは識別タグ
+//                dialog.show(getSupportFragmentManager(), "sample");
+//            }
+//        });
+//
+//        TextView backTextView = findViewById(R.id.back_arrow);
+//        backTextView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
+//
+//    }
+//
+//    // ダイアログで入力した値をtextViewに入れる - ダイアログから呼び出される
+//    public void setTextView(String value) {
+//        input = value;
+//        word = Arrays.asList(input.split(""));
