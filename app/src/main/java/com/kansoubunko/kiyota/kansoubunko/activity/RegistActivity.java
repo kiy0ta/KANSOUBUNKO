@@ -1,6 +1,7 @@
 package com.kansoubunko.kiyota.kansoubunko.activity;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -49,6 +50,10 @@ public class RegistActivity extends AppCompatActivity {
         Resources res = getResources();
 
         setContentView(R.layout.activity_regist);
+
+        Intent intent = getIntent();
+        int selectedText = intent.getIntExtra("Image", 0);
+        String selectedPhoto = intent.getStringExtra("Title");
 
         EditText text = findViewById(R.id.text);
 

@@ -27,10 +27,11 @@ public class KansouDao {
     public KansouDao(Context context) {
         mContext = context;
         userInfoHelper = new UserInfoHelper(mContext);
+        bookInfoHelper = new BookInfoHelper(mContext);
     }
 
     //すべてのユーザーの情報を取得するメソッド
-    public List<UserInfoEntity> selectALl() {
+    public List<UserInfoEntity> selectAll() {
         SQLiteDatabase db = null;
         Cursor cursor = null;
         UserInfoEntity entity = null;
@@ -84,9 +85,6 @@ public class KansouDao {
             // DB取得
             db = this.userInfoHelper.getWritableDatabase();
             ContentValues value = new ContentValues();
-
-            // 既存レコード削除
-//            db.execSQL("DELETE FROM " + userInfoHelper.TABLE_NAME);
 
             // 新規データ登録
             value.put(userInfoHelper.COLUMN_USER_NAME, userName);
@@ -187,8 +185,8 @@ public class KansouDao {
         }
     }
 
-    //すべてのユーザーの情報を取得するメソッド
-    public List<BookInfoEntity> selectBookInfoALl() {
+    //すべての本の情報を取得するメソッド
+    public List<BookInfoEntity> selectBookInfoAll() {
         SQLiteDatabase db = null;
         Cursor cursor = null;
         BookInfoEntity entity = null;
@@ -208,7 +206,7 @@ public class KansouDao {
                     null, null, null, null, null, "1");
             cursor.moveToFirst();
             // 取得できた際、インスタンスに保存
-                entity = new BookInfoEntity();
+            entity = new BookInfoEntity();
             if (cursor.getCount() > 0) {
                 entity.setBookId(cursor.getString(0));
                 entity.setBookTitle(cursor.getString(1));
@@ -217,13 +215,6 @@ public class KansouDao {
                 list.add(entity);
                 Log.i("Kansou.db", "sn" + cursor.getString(0));
             }
-
-            entity.setBookId("1111");
-            entity.setBookTitle("9月12日");
-            entity.setBookImage("no_book_img");
-            entity.setBookReview("no_book_img");
-            list.add(entity);
-
         } catch (Exception ex) {
             Log.e("Kansou.db", "error", ex);
         } finally {
@@ -240,30 +231,34 @@ public class KansouDao {
         return list;
     }
 
-    //DBの中の本の総数をカウントする処理
-    //DBに入っているデータ件数を取得する
-    public int getTotalBookCount(String bookId) {
-        SQLiteDatabase db = null;
-        Cursor cursor = null;
+    //本に関する情報を新規登録するメソッド
+    public void registBookInfo(String bookTitle, String bookImage, String bookReview) {
         Log.i("Kansou.db", "start");
-        String[] projection = new String[]{
-                bookInfoHelper.COLUMN_BOOK_ID
-        };
+
+        // DB初期化
+        SQLiteDatabase db = null;
         try {
+
             // DB取得
-            db = this.userInfoHelper.getWritableDatabase();
-            cursor = db.query(
-                    bookInfoHelper.TABLE_NAME, projection, bookInfoHelper.COLUMN_BOOK_ID + " = ? ",
-                    new String[]{bookId}, null, null, null, null);
-            cursor.moveToFirst();
-            //DBの中に入っている件数を取得する
-            if (cursor != null && cursor.getCount() > 0) {
-                int count = cursor.getCount();
-                return count;
+            db = this.bookInfoHelper.getWritableDatabase();
+            ContentValues value = new ContentValues();
+
+            // 新規データ登録
+            value.put(bookInfoHelper.COLUMN_BOOK_TITLE, bookTitle);
+            value.put(bookInfoHelper.COLUMN_BOOK_IMAGE, bookImage);
+            value.put(bookInfoHelper.COLUMN_BOOK_REVIEW, bookReview);
+            db.insert(bookInfoHelper.TABLE_NAME, null, value);
+
+        } catch (Exception ex) {
+            Log.e("Kansou.db", "error:", ex);
+
+        } finally {
+            // クローズ処理
+
+            if (db != null) {
+                db.close();
+                db = null;
             }
-            return 0;
-        } catch (SQLiteException e) {
-            return 0;
         }
     }
 

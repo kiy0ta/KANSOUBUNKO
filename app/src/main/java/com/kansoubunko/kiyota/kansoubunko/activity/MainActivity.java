@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         List<UserInfoEntity> kansou = new ArrayList<>();
         KansouDao dao = new KansouDao(this);
-        kansou = dao.selectALl();
+        kansou = dao.selectAll();
         for (UserInfoEntity k : kansou) {
             String n = k.getUserName();
             Log.d("loglog", "string:" + n);

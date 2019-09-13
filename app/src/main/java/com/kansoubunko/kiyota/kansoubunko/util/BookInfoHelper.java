@@ -28,32 +28,27 @@ public class BookInfoHelper extends SQLiteOpenHelper {
     public static final String COLUMN_BOOK_REVIEW = "book_review";
 
     public BookInfoHelper(Context context) {
-        super(context, "Kansou.db" , null, 1);
+        super(context, "KansouBook.db", null, 1);
     }
 
     /**
      * 初期化処理DBがない場合DBを作成
+     *
      * @param db
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-
         // テーブル作成
         db.execSQL("CREATE TABLE " + TABLE_NAME +
                 " (" + COLUMN_BOOK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_BOOK_TITLE + " TEXT , "
                 + COLUMN_BOOK_IMAGE + " TEXT , "
                 + COLUMN_BOOK_REVIEW + " TEXT " + ");");
-
-//        db.execSQL("CREATE TABLE " + TABLE_NAME +
-//                " (" + KansouContract.Input._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-//                + COLUMN_USER_NAME + " TEXT , "
-//                + COLUMN_USER_PASSWORD + " TEXT " + ");");
-
     }
 
     /**
      * アップデート処理
+     *
      * @param db
      * @param oldVersion
      * @param newVersion

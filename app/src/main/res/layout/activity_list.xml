@@ -75,13 +75,14 @@
                     android:layout_toLeftOf="@+id/box2">
 
                     <TextView
-                        android:layout_width="230dp"
+                        android:id="@+id/max_gauge"
+                        android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:background="@color/clear_white" />
 
                     <TextView
                         android:id="@+id/count_gauge"
-                        android:layout_width="60dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/gauge_color" />
 

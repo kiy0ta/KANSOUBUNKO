@@ -9,9 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
+import com.kansoubunko.kiyota.kansoubunko.activity.ListActivity;
+import com.kansoubunko.kiyota.kansoubunko.activity.MyApplication;
+import com.kansoubunko.kiyota.kansoubunko.activity.RegistActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.support.v4.content.ContextCompat.startActivity;
 
 public class BookListGridAdapter extends BaseAdapter {
 
@@ -40,7 +45,6 @@ public class BookListGridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         ViewHolder holder;
         if (convertView == null) {
             // main.xml の <GridView .../> に grid_items.xml を inflate して convertView とする
@@ -50,10 +54,16 @@ public class BookListGridAdapter extends BaseAdapter {
 
             holder.bookImage = convertView.findViewById(R.id.item_book_image);
             holder.bookTitleText = convertView.findViewById(R.id.item_book_text);
+            //画像を押下したとき、登録画面に遷移する
+//            holder.bookImage.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                }
+//            });
 
             convertView.setTag(holder);
-        }
-        else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
 

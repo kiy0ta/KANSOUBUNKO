@@ -120,6 +120,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 //登録処理
                 mDao.registUserInfo(userName, userPassword);
+                mDao.registBookInfo("no_book_img","no_book_img","今日の天気は曇りで、風が吹いていて涼しいです。");
                 //ID取得処理
                 String userId = mDao.findUserIdInfo(userName);
                 //エラーメッセージ用インスタンスを非表示化
