@@ -257,6 +257,37 @@ public class KansouDao {
         }
     }
 
+    //本に関する情報を更新するメソッド
+    public void updateBookInfo(String bookTitle, String bookImage, String bookReview) {
+        Log.i("Kansou.db", "start");
+
+        // DB初期化
+        SQLiteDatabase db = null;
+        try {
+
+            // DB取得
+            db = this.kansouHelper.getWritableDatabase();
+            ContentValues value = new ContentValues();
+
+            // 新規データ登録
+            value.put(kansouHelper.COLUMN_BOOK_TITLE, bookTitle);
+            value.put(kansouHelper.COLUMN_BOOK_IMAGE, bookImage);
+            value.put(kansouHelper.COLUMN_BOOK_REVIEW, bookReview);
+            db.insert(kansouHelper.BOOK_TABLE_NAME, null, value);
+
+        } catch (Exception ex) {
+            Log.e("Kansou.db", "error:", ex);
+
+        } finally {
+            // クローズ処理
+
+            if (db != null) {
+                db.close();
+                db = null;
+            }
+        }
+    }
+
     //本のタイトルを更新する
     public void updateBookTitle(String bookId, String bookTitle) {
         ContentValues values = new ContentValues();

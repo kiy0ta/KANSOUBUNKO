@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.adapter.BookReviewGridAdapter;
+import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.fragment.BookReviewDialogFragment;
 
 import java.util.ArrayList;
@@ -29,6 +30,13 @@ public class RegistActivity extends AppCompatActivity {
     public String input = "";
     public List<String> word = new ArrayList<>();
     private SharedPreferences mSharedPreferences;
+    private Button bookReviewButton;
+    private Button bookReviewUpdateButton;
+    private Resources res;
+    private KansouDao dao;
+    private String newTitle;
+    private BookReviewGridAdapter adapter;
+    private GridView bookReviewGridView;
 
     public static Intent getStartIntent(MainActivity mainActivity) {
         return new Intent(mainActivity, RegistActivity.class);
@@ -49,8 +57,10 @@ public class RegistActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Resources res = getResources();
+
         setContentView(R.layout.activity_regist);
+        res = getResources();
+        dao = new KansouDao(this);
 
         //List画面から遷移しているとき(本の画像を押下したとき＝編集モード)
         mSharedPreferences = getSharedPreferences("bookInfo", MODE_PRIVATE);
@@ -64,8 +74,8 @@ public class RegistActivity extends AppCompatActivity {
         }
 
         //100マスを生成
-        final GridView bookReviewGridView = findViewById(R.id.regist_book_review);
-        BookReviewGridAdapter adapter = new BookReviewGridAdapter(this, R.layout.item_book_review, word);
+        bookReviewGridView = findViewById(R.id.regist_book_review);
+        adapter = new BookReviewGridAdapter(this, R.layout.item_book_review, word);
         bookReviewGridView.setAdapter(adapter);
 
         //ダイアログ入力用ビュー
@@ -79,7 +89,7 @@ public class RegistActivity extends AppCompatActivity {
 //                bookReviewGridView.setVisibility(GONE);
 //                bookTitleTextView.setFocusableInTouchMode(true);
                 //バリデーション処理
-                String newTitle = bookTitleTextView.getText().toString();
+                newTitle = bookTitleTextView.getText().toString();
 
             }
         });
@@ -91,9 +101,10 @@ public class RegistActivity extends AppCompatActivity {
                 word.add("");
             }
         }
-        
+
         //登録ボタン押下でダイアログを表示する処理
-        Button bookReviewButton = findViewById(R.id.regist_book_review_button);
+        bookReviewButton = findViewById(R.id.regist_book_review_button);
+        bookReviewUpdateButton = findViewById(R.id.regist_book_review_update_button);
         bookReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +129,27 @@ public class RegistActivity extends AppCompatActivity {
     public void setTextView(String value) {
         input = value;
         word = Arrays.asList(input.split(""));
+    }
+
+    //ボタンのテキストを「記入」から「登録」に変更する
+    public void changeButtonText(final String bookReview) {
+        res = getResources();
+        bookReviewButton.setVisibility(GONE);
+        bookReviewUpdateButton.setVisibility(View.VISIBLE);
+        setTextView(bookReview);
+        adapter = new BookReviewGridAdapter(this, R.layout.item_book_review, word);
+        bookReviewGridView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        bookReviewUpdateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //登録処理
+//                dao.registBookInfo(newTitle,"no_book_img",bookReview);
+                dao.registBookInfo("ハンバーグ", "no_book_img", bookReview);
+                finish();
+            }
+        });
+
     }
 
 }

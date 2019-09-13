@@ -5,11 +5,12 @@
     <string name="login_login">ログイン</string>
     <string name="login_regist">登録</string>
     <string name="regist_book_log">感想文を記入する</string>
+    <string name="regist_book_update_log">感想文を登録する</string>
     <string name="list_count_finish">感想件数 ：</string>
     <string name="list_regist">新しい本を登録する</string>
     <string name="no_book_img">picture</string>
-    <string name="regist_book_ok">登録する</string>
-    <string name="regist_book_cancel">キャンセル</string>
+    <string name="regist_book_ok">OK</string>
+    <string name="regist_book_cancel">CANCEL</string>
     <string name="regist_book_review">感想を記入してください。(100字以内)</string>
     <string name="regist_book_title">タイトルを記入する</string>
     <string name="book_default_title">タイトル</string>

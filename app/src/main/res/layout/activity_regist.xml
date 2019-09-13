@@ -102,18 +102,36 @@
                     android:layout_gravity="center_vertical"
                     android:numColumns="10"></GridView>
 
-                <Button
-                    android:id="@+id/regist_book_review_button"
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/shape_login_button"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:text="@string/regist_book_log"
-                    android:textColor="@drawable/change_login_text_color"
-                    android:textSize="20dp" />
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp">
+
+                    <Button
+                        android:id="@+id/regist_book_review_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_login_button"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:text="@string/regist_book_log"
+                        android:textColor="@drawable/change_login_text_color"
+                        android:textSize="20dp" />
+
+                    <Button
+                        android:id="@+id/regist_book_review_update_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_login_button"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:text="@string/regist_book_update_log"
+                        android:textColor="@drawable/change_login_text_color"
+                        android:textSize="20dp"
+                        android:visibility="gone" />
+
+                </FrameLayout>
 
             </LinearLayout>
         </LinearLayout>

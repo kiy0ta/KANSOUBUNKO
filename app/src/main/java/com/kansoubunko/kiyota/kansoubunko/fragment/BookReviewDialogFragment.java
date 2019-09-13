@@ -19,9 +19,7 @@ public class BookReviewDialogFragment extends DialogFragment {
         // ダイアログ生成  AlertDialogのBuilderクラスを指定してインスタンス化します
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
         // タイトル設定
-        dialogBuilder.setTitle(res.getString(R.string.regist_book_title));
-        // 表示する文章設定
-//        dialogBuilder.setMessage(res.getString(R.string.regist_book_title));
+        dialogBuilder.setTitle(res.getString(R.string.regist_book_review));
         // 入力フィールド作成
         final EditText editText = new EditText(getActivity());
         dialogBuilder.setView(editText);
@@ -36,7 +34,8 @@ public class BookReviewDialogFragment extends DialogFragment {
                 String returnValue = editText.getText().toString();
                 // RegistActivityのインスタンスを取得
                 RegistActivity registActivity = (RegistActivity) getActivity();
-                registActivity.setTextView(returnValue);
+//                registActivity.setTextView(returnValue);
+                registActivity.changeButtonText(returnValue);
             }
         });
 
