@@ -50,10 +50,44 @@
 
             </LinearLayout>
 
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="46dp"-->
+                <!--android:layout_marginTop="20dp">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/box3"-->
+                    <!--android:layout_width="40dp"-->
+                    <!--android:layout_height="40dp" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginRight="10dp"-->
+                    <!--android:layout_toRightOf="@id/box3"-->
+                    <!--android:text="@string/list_search"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:textSize="18dp" />-->
+
+                <!--<EditText-->
+                    <!--android:layout_width="230dp"-->
+                    <!--android:layout_height="28dp"-->
+                    <!--android:layout_toLeftOf="@+id/box4"-->
+                    <!--android:background="@drawable/shape_search_area"-->
+                    <!--android:focusable="false"-->
+                    <!--android:textColor="@color/black" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/box4"-->
+                    <!--android:layout_width="40dp"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:layout_alignParentEnd="true" />-->
+
+            <!--</RelativeLayout>-->
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:layout_marginTop="30dp">
+                android:layout_height="46dp">
 
                 <TextView
                     android:id="@+id/box1"

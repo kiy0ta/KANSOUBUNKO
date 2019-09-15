@@ -11,15 +11,15 @@ import android.widget.EditText;
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.activity.RegistActivity;
 
-public class BookReviewDialogFragment extends DialogFragment {
+public class BookTitleDialogFragment extends DialogFragment {
 
     // ダイアログが生成された時に呼ばれるメソッド ※必須
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Resources res = getResources();
         // ダイアログ生成  AlertDialogのBuilderクラスを指定してインスタンス化します
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
         // タイトル設定
-        dialogBuilder.setTitle(res.getString(R.string.regist_book_review));
+        dialogBuilder.setTitle(res.getString(R.string.regist_book_title_dialog));
         // 入力フィールド作成
         final EditText editText = new EditText(getActivity());
         dialogBuilder.setView(editText);
@@ -34,8 +34,7 @@ public class BookReviewDialogFragment extends DialogFragment {
                 String returnValue = editText.getText().toString();
                 // RegistActivityのインスタンスを取得
                 RegistActivity registActivity = (RegistActivity) getActivity();
-//                registActivity.setReviewTextView(returnValue);
-                registActivity.changeButtonText(returnValue);
+                registActivity.setTitleTextView(returnValue);
             }
         });
 

@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -28,6 +27,7 @@ public class ListActivity extends AppCompatActivity {
     List<BookInfoEntity> bookInfoList = new ArrayList<>();
     List<BookInfoEntity> bookReviewList = new ArrayList<>();
     private int reviewListCount = 0;
+    private String members[];
 
     /**
      * ゲージビューの最大幅
@@ -55,7 +55,7 @@ public class ListActivity extends AppCompatActivity {
     }
 
     // 表示する画像の名前（拡張子無し）
-    private String members[] = {
+    private String members2[] = {
             "no_book_img", "no_book_img", "no_book_img", "no_book_img", "no_book_img",
             "no_book_img", "no_book_img", "no_book_img", "no_book_img", "no_book_img"
     };
@@ -78,6 +78,7 @@ public class ListActivity extends AppCompatActivity {
         //本のすべてのデータを取得する
         mDao = new KansouDao(getApplicationContext());
         bookInfoList = mDao.selectBookInfoAll();
+//        Log.d("loglog","AllListSize:" + bookInfoList.size());
         //感想が記入されている本の件数を取得する
         int i = 0;
         for (BookInfoEntity entity : bookInfoList) {
@@ -90,11 +91,27 @@ public class ListActivity extends AppCompatActivity {
         }
 
         // for-each member名をR.drawable.名前としてintに変換してarrayに登録
-        for (String member : members) {
+        int position = 0;
+        String image = null;
+        String title = null;
+        for (BookInfoEntity entity : bookInfoList) {
+            entity.setBookImage(bookInfoList.get(position).getBookImage());
+            image = entity.getBookImage();
             int imageId = getResources().getIdentifier(
-                    member, "drawable", getPackageName());
+                    image, "drawable", getPackageName());
             imgList.add(imageId);
+            //string[]の処理
+            //TODO String[]の修正
+            entity.setBookTitle(bookInfoList.get(position).getBookTitle());
+            title = entity.getBookTitle();
+            members = new String[]{title};
+            position++;
         }
+//        for (String member : members) {
+//            int imageId = getResources().getIdentifier(
+//                    member, "drawable", getPackageName());
+//            imgList.add(imageId);
+//        }
 
         //ゲージViewをインスタンス化
         TextView gaugeMaxTextView = findViewById(R.id.max_gauge);
@@ -130,10 +147,6 @@ public class ListActivity extends AppCompatActivity {
                 int selectedImage = imgList.get(position);
                 String selectedTitle = members[position];
 
-                Log.d("loglog","viewID:"+viewId);
-                Log.d("loglog","selectedImage:"+selectedImage);
-                Log.d("loglog","selectedTitle:"+selectedTitle);
-
                 // インテントにセット
                 intent.putExtra("Image", selectedImage);
                 intent.putExtra("Title", selectedTitle);
@@ -142,16 +155,14 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
-
+        //「◁」が押下されたときの処理
         TextView backTextView = findViewById(R.id.back_arrow);
-
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
     }
 
     public void currentReviewCountGauge(double finishBookCount, double maxBookCount, double maxWidth, int height, TextView gaugeView) {

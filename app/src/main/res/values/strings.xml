@@ -7,11 +7,14 @@
     <string name="regist_book_log">感想文を記入する</string>
     <string name="regist_book_update_log">感想文を登録する</string>
     <string name="list_count_finish">感想件数 ：</string>
+    <string name="list_search"> 検索 ：</string>
     <string name="list_regist">新しい本を登録する</string>
     <string name="no_book_img">picture</string>
     <string name="regist_book_ok">OK</string>
     <string name="regist_book_cancel">CANCEL</string>
     <string name="regist_book_review">感想を記入してください。(100字以内)</string>
+    <string name="regist_book_title_dialog">タイトルを記入してください。</string>
+    <string name="regist_title_error_mrssage">タイトルが空欄です。</string>
     <string name="regist_book_title">タイトルを記入する</string>
     <string name="book_default_title">タイトル</string>
     <string name="login_error_message">名前とパスワードを入力してください。</string>

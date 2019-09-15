@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -16,6 +15,7 @@ import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.adapter.BookReviewGridAdapter;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.fragment.BookReviewDialogFragment;
+import com.kansoubunko.kiyota.kansoubunko.fragment.BookTitleDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +37,7 @@ public class RegistActivity extends AppCompatActivity {
     private String newTitle;
     private BookReviewGridAdapter adapter;
     private GridView bookReviewGridView;
+    private TextView bookTitleTextView;
 
     public static Intent getStartIntent(MainActivity mainActivity) {
         return new Intent(mainActivity, RegistActivity.class);
@@ -78,19 +79,15 @@ public class RegistActivity extends AppCompatActivity {
         adapter = new BookReviewGridAdapter(this, R.layout.item_book_review, word);
         bookReviewGridView.setAdapter(adapter);
 
-        //ダイアログ入力用ビュー
-        EditText text = findViewById(R.id.text);
-        final EditText bookTitleTextView = findViewById(R.id.regist_book_title);
-//        bookTitleTextView.setFocusable(true);
-//        bookTitleTextView.setEnabled(true);
+        //タイトル入力用ビュー
+        bookTitleTextView = findViewById(R.id.regist_book_title);
         bookTitleTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                bookReviewGridView.setVisibility(GONE);
-//                bookTitleTextView.setFocusableInTouchMode(true);
-                //バリデーション処理
-                newTitle = bookTitleTextView.getText().toString();
-
+                //ダイアログを表示する
+                BookTitleDialogFragment dialog = new BookTitleDialogFragment();
+                // 表示  getFragmentManager()は固定、sampleは識別タグ
+                dialog.show(getSupportFragmentManager(), "sample");
             }
         });
 
@@ -126,9 +123,15 @@ public class RegistActivity extends AppCompatActivity {
     }
 
     // ダイアログで入力した値をtextViewに入れる - ダイアログから呼び出される
-    public void setTextView(String value) {
+    public void setReviewTextView(String value) {
         input = value;
         word = Arrays.asList(input.split(""));
+    }
+
+    // ダイアログで入力した値をtextViewに入れる - ダイアログから呼び出される
+    public void setTitleTextView(String value) {
+        input = value;
+        bookTitleTextView.setText(input);
     }
 
     //ボタンのテキストを「記入」から「登録」に変更する
@@ -136,7 +139,7 @@ public class RegistActivity extends AppCompatActivity {
         res = getResources();
         bookReviewButton.setVisibility(GONE);
         bookReviewUpdateButton.setVisibility(View.VISIBLE);
-        setTextView(bookReview);
+        setReviewTextView(bookReview);
         adapter = new BookReviewGridAdapter(this, R.layout.item_book_review, word);
         bookReviewGridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -144,8 +147,10 @@ public class RegistActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //登録処理
-//                dao.registBookInfo(newTitle,"no_book_img",bookReview);
-                dao.registBookInfo("ハンバーグ", "no_book_img", bookReview);
+                if (bookTitleTextView.getText().length() != 0 || bookTitleTextView.getText() != null) {
+                    newTitle = (String) bookTitleTextView.getText();
+                }
+                dao.registBookInfo(newTitle, "no_book_img", bookReview);
                 finish();
             }
         });
@@ -220,6 +225,6 @@ public class RegistActivity extends AppCompatActivity {
 //    }
 //
 //    // ダイアログで入力した値をtextViewに入れる - ダイアログから呼び出される
-//    public void setTextView(String value) {
+//    public void setReviewTextView(String value) {
 //        input = value;
 //        word = Arrays.asList(input.split(""));
