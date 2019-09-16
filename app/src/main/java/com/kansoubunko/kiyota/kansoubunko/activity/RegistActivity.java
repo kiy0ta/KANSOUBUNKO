@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -176,8 +177,8 @@ public class RegistActivity extends AppCompatActivity {
 
     }
 
+    //画像をカメラとギャラリーの両方から参照できる
     private void showGallery() {
-
         //カメラの起動Intentの用意
         String photoName = System.currentTimeMillis() + ".jpg";
         ContentValues contentValues = new ContentValues();
@@ -232,6 +233,7 @@ public class RegistActivity extends AppCompatActivity {
 
             // 画像を設定
             bookImageView.setImageURI(resultUri);
+            Log.d("loglog","imageNAME:"+bookImageView.getResources());
             adapter = new BookReviewGridAdapter(this, R.layout.item_book_review, word);
             bookReviewGridView.setAdapter(adapter);
             adapter.notifyDataSetChanged();

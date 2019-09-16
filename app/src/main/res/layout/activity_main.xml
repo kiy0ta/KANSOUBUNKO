@@ -40,9 +40,18 @@
                 android:id="@+id/main_setting"
                 android:layout_width="300dp"
                 android:layout_height="100dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/shape_login_button"
                 android:padding="2dp"
                 android:src="@drawable/change_main_setting" />
+
+            <ImageView
+                android:id="@+id/main_time_line"
+                android:layout_width="300dp"
+                android:layout_height="100dp"
+                android:background="@drawable/shape_login_button"
+                android:padding="2dp"
+                android:src="@drawable/change_main_timeline" />
 
         </LinearLayout>
     </RelativeLayout>
