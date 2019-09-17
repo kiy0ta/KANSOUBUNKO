@@ -48,6 +48,11 @@
             android:exported="false"
             android:label="@string/app_name" />
 
+        <activity
+            android:name=".activity.TimeLineActivity"
+            android:exported="false"
+            android:label="@string/app_name" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.kansoubunko.kiyota.kansoubunko.fileprovider"

@@ -68,6 +68,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(SettingActivity.getStartIntent(MainActivity.this));
             }
         });
+        ImageView timeLineImageView = findViewById(R.id.main_time_line);
+        timeLineImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(TimeLineActivity.getStartIntent(MainActivity.this));
+            }
+        });
     }
 
 }
