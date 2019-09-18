@@ -170,7 +170,7 @@ public class RegistActivity extends AppCompatActivity {
                 if (bookTitleTextView.getText().length() != 0 || bookTitleTextView.getText() != null) {
                     newTitle = (String) bookTitleTextView.getText();
                 }
-                dao.registBookInfo("",newTitle, "no_book_img", bookReview);
+                dao.registBookInfo("", newTitle, "no_book_img", bookReview);
                 finish();
             }
         });
@@ -233,7 +233,7 @@ public class RegistActivity extends AppCompatActivity {
 
             // 画像を設定
             bookImageView.setImageURI(resultUri);
-            Log.d("loglog","imageNAME:"+bookImageView.getResources());
+            Log.d("loglog", "imageNAME:" + bookImageView.getResources());
             adapter = new BookReviewGridAdapter(this, R.layout.item_book_review, word);
             bookReviewGridView.setAdapter(adapter);
             adapter.notifyDataSetChanged();

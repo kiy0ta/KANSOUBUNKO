@@ -35,16 +35,16 @@ public class MainActivity extends AppCompatActivity {
 
         KansouDao dao = new KansouDao(this);
         kansou = dao.selectAll();
-        Log.d("loglog","list1;" + kansou);
+        Log.d("loglog", "list1;" + kansou);
         mSharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
-        String s = mSharedPreferences.getString("userName","");
-        Log.d("loglog","userName;" + s);
-        String t = mSharedPreferences.getString("userPassword","");
-        String i = mSharedPreferences.getString("userId","");
+        String s = mSharedPreferences.getString("userName", "");
+        Log.d("loglog", "userName;" + s);
+        String t = mSharedPreferences.getString("userPassword", "");
+        String i = mSharedPreferences.getString("userId", "");
         kansou2 = dao.selectBookInfo(s);
-        Log.d("loglog","list2;" + kansou2);
+        Log.d("loglog", "list2;" + kansou2);
         kansou3 = dao.selectBookInfoAll();
-        Log.d("loglog","list3;" + kansou3);
+        Log.d("loglog", "list3;" + kansou3);
 
 //        //本の情報をすべて取得する
 //        List<BookInfoEntity> bookInfoList = new ArrayList<>();

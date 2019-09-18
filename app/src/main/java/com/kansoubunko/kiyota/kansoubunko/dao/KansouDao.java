@@ -205,7 +205,7 @@ public class KansouDao {
             entity = new BookInfoEntity();
             Log.d("loglog", "dbには入っている");
             if (cursor.getCount() > 0) {
-                    Log.d("loglog", "ifには入っている");
+                Log.d("loglog", "ifには入っている");
                 while (cursor.moveToNext()) {
                     entity.setBookId(cursor.getString(0));
                     entity.setBookUserName(cursor.getString(1));

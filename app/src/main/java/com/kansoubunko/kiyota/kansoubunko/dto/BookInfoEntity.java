@@ -17,6 +17,7 @@ public class BookInfoEntity implements Serializable {
 
     public BookInfoEntity() {
     }
+
     public String getBookId() {
         return bookId;
     }
