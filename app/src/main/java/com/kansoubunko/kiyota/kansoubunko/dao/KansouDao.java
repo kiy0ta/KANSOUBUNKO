@@ -181,6 +181,57 @@ public class KansouDao {
         }
     }
 
+    //特定のユーザーのすべての本の情報を取得するメソッド
+    public List<BookInfoEntity> selectBookInfo(String userName) {
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        BookInfoEntity entity = null;
+        List<BookInfoEntity> list = new ArrayList<>();
+        Log.i("Kansou.db", "start");
+        String[] projection = new String[]{
+                kansouHelper.COLUMN_BOOK_ID,
+                kansouHelper.COLUMN_BOOK_USER_NAME,
+                kansouHelper.COLUMN_BOOK_TITLE,
+                kansouHelper.COLUMN_BOOK_IMAGE,
+                kansouHelper.COLUMN_BOOK_REVIEW
+        };
+        try {
+            // DB取得
+            db = this.kansouHelper.getWritableDatabase();
+            cursor = db.query(
+                    kansouHelper.BOOK_TABLE_NAME, projection,
+                    kansouHelper.COLUMN_BOOK_USER_NAME + " = ? ", new String[]{userName}, null, null, null, null);
+            // 取得できた際、インスタンスに保存
+            entity = new BookInfoEntity();
+            Log.d("loglog", "dbには入っている");
+            if (cursor.getCount() > 0) {
+                    Log.d("loglog", "ifには入っている");
+                while (cursor.moveToNext()) {
+                    entity.setBookId(cursor.getString(0));
+                    entity.setBookUserName(cursor.getString(1));
+                    entity.setBookTitle(cursor.getString(2));
+                    entity.setBookImage(cursor.getString(3));
+                    entity.setBookReview(cursor.getString(4));
+                    list.add(entity);
+                    Log.i("Kansou.db", "sn" + cursor.getString(0));
+                }
+            }
+        } catch (Exception ex) {
+            Log.e("Kansou.db", "error", ex);
+        } finally {
+            // クローズ処理
+            if (cursor != null) {
+                cursor.close();
+                cursor = null;
+            }
+            if (db != null) {
+                db.close();
+                db = null;
+            }
+        }
+        return list;
+    }
+
     //すべての本の情報を取得するメソッド
     public List<BookInfoEntity> selectBookInfoAll() {
         SQLiteDatabase db = null;
@@ -190,6 +241,7 @@ public class KansouDao {
         Log.i("Kansou.db", "start");
         String[] projection = new String[]{
                 kansouHelper.COLUMN_BOOK_ID,
+                kansouHelper.COLUMN_BOOK_USER_NAME,
                 kansouHelper.COLUMN_BOOK_TITLE,
                 kansouHelper.COLUMN_BOOK_IMAGE,
                 kansouHelper.COLUMN_BOOK_REVIEW
@@ -205,9 +257,10 @@ public class KansouDao {
             entity = new BookInfoEntity();
             if (cursor.getCount() > 0) {
                 entity.setBookId(cursor.getString(0));
-                entity.setBookTitle(cursor.getString(1));
-                entity.setBookImage(cursor.getString(2));
-                entity.setBookReview(cursor.getString(3));
+                entity.setBookUserName(cursor.getString(1));
+                entity.setBookTitle(cursor.getString(2));
+                entity.setBookImage(cursor.getString(3));
+                entity.setBookReview(cursor.getString(4));
                 list.add(entity);
                 Log.i("Kansou.db", "sn" + cursor.getString(0));
             }
@@ -228,18 +281,18 @@ public class KansouDao {
     }
 
     //本に関する情報を新規登録するメソッド
-    public void registBookInfo(String bookTitle, String bookImage, String bookReview) {
+    public void registBookInfo(String bookUserName, String bookTitle, String bookImage, String bookReview) {
         Log.i("Kansou.db", "start");
 
         // DB初期化
         SQLiteDatabase db = null;
         try {
-
             // DB取得
             db = this.kansouHelper.getWritableDatabase();
             ContentValues value = new ContentValues();
 
             // 新規データ登録
+            value.put(kansouHelper.COLUMN_BOOK_USER_NAME, bookUserName);
             value.put(kansouHelper.COLUMN_BOOK_TITLE, bookTitle);
             value.put(kansouHelper.COLUMN_BOOK_IMAGE, bookImage);
             value.put(kansouHelper.COLUMN_BOOK_REVIEW, bookReview);

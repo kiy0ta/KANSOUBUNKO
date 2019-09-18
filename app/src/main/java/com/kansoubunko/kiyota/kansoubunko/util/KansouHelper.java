@@ -4,12 +4,16 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class KansouHelper  extends SQLiteOpenHelper {
+public class KansouHelper extends SQLiteOpenHelper {
 
     /**
      * テーブル名
      */
     public static final String USER_TABLE_NAME = "user_info";
+    /**
+     * カラム名
+     */
+    public static final String COLUMN_BOOK_USER_NAME = "book_user_name";
     /**
      * カラム名
      */
@@ -61,7 +65,8 @@ public class KansouHelper  extends SQLiteOpenHelper {
                 + COLUMN_USER_PASSWORD + " TEXT " + ");");
 
         db.execSQL("CREATE TABLE " + BOOK_TABLE_NAME +
-                " (" + COLUMN_BOOK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                " (" + COLUMN_BOOK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , "
+                + COLUMN_BOOK_USER_NAME + " TEXT , "
                 + COLUMN_BOOK_TITLE + " TEXT , "
                 + COLUMN_BOOK_IMAGE + " TEXT , "
                 + COLUMN_BOOK_REVIEW + " TEXT " + ");");

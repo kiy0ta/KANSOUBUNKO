@@ -170,7 +170,7 @@ public class RegistActivity extends AppCompatActivity {
                 if (bookTitleTextView.getText().length() != 0 || bookTitleTextView.getText() != null) {
                     newTitle = (String) bookTitleTextView.getText();
                 }
-                dao.registBookInfo(newTitle, "no_book_img", bookReview);
+                dao.registBookInfo("",newTitle, "no_book_img", bookReview);
                 finish();
             }
         });

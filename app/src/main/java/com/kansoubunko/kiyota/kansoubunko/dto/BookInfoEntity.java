@@ -6,6 +6,8 @@ public class BookInfoEntity implements Serializable {
 
     //本のID
     private String bookId;
+    //ユーザーのID
+    private String bookUserName;
     //本のタイトル
     private String bookTitle;
     //本の画像
@@ -15,7 +17,6 @@ public class BookInfoEntity implements Serializable {
 
     public BookInfoEntity() {
     }
-
     public String getBookId() {
         return bookId;
     }
@@ -23,6 +24,15 @@ public class BookInfoEntity implements Serializable {
     public void setBookId(String bookId) {
         this.bookId = bookId;
     }
+
+    public String getBookUserName() {
+        return bookUserName;
+    }
+
+    public void setBookUserName(String bookUserName) {
+        this.bookUserName = bookUserName;
+    }
+
 
     public String getBookTitle() {
         return bookTitle;
@@ -52,6 +62,7 @@ public class BookInfoEntity implements Serializable {
     public String toString() {
         return "KansouEntity{" +
                 "bookId=" + bookId +
+                ", bookUserName=" + bookUserName +
                 ", bookTitle=" + bookTitle +
                 ", bookImage=" + bookImage +
                 ", bookReview=" + bookReview +

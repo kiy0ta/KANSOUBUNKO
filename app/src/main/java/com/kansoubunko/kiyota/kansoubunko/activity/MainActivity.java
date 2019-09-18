@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     public KansouDao mDao;
     private SharedPreferences mSharedPreferences;
     private List<UserInfoEntity> kansou;
+    private List<BookInfoEntity> kansou2;
+    private List<BookInfoEntity> kansou3;
 
     public static Intent getStartIntent(LoginActivity loginActivity) {
         return new Intent(loginActivity, MainActivity.class);
@@ -33,14 +35,21 @@ public class MainActivity extends AppCompatActivity {
 
         KansouDao dao = new KansouDao(this);
         kansou = dao.selectAll();
+        Log.d("loglog","list1;" + kansou);
+        mSharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+        String s = mSharedPreferences.getString("userName","");
+        Log.d("loglog","userName;" + s);
+        String t = mSharedPreferences.getString("userPassword","");
+        String i = mSharedPreferences.getString("userId","");
+        kansou2 = dao.selectBookInfo(s);
+        Log.d("loglog","list2;" + kansou2);
+        kansou3 = dao.selectBookInfoAll();
+        Log.d("loglog","list3;" + kansou3);
 
 //        //本の情報をすべて取得する
 //        List<BookInfoEntity> bookInfoList = new ArrayList<>();
 //        bookInfoList = mDao.selectBookInfoALl();
 
-//        mSharedPreferences = getSharedPreferences("userInfo",MODE_PRIVATE);
-//        String s = mSharedPreferences.getString("userName","");
-//        String t = mSharedPreferences.getString("userPassword","");
 
         ImageView registImageView = findViewById(R.id.main_regist);
         registImageView.setOnClickListener(new View.OnClickListener() {

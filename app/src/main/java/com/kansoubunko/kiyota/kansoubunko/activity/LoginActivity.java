@@ -15,13 +15,11 @@ import android.widget.TextView;
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 
-import static java.lang.String.valueOf;
 
 public class LoginActivity extends AppCompatActivity {
 
     public KansouDao mDao;
     private SharedPreferences mSharedPreferences;
-
 
     public static Intent getStartIntent(SplashActivity splashActivity) {
         return new Intent(splashActivity, LoginActivity.class);
@@ -47,27 +45,25 @@ public class LoginActivity extends AppCompatActivity {
         loginButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //入力されたデータを取得する
                 String userName = userNameText.getText().toString();
                 String userPassword = userPasswordText.getText().toString();
-
+                //入力されたデータがカラの場合
                 if (userName == null || userPassword == null || userName.length() == 0 || userPassword.length() == 0) {
                     //バリデーションチョック文言を表示
                     errorIcView.setVisibility(View.VISIBLE);
                     errorTextView.setText(res.getString(R.string.login_error_message));
                     return;
                 }
-
                 //入力されたユーザー情報が正しいかどうか確認する
                 //true:正しい
-                Boolean bln = mDao.findUserInfo(userName,userPassword);
-
+                Boolean bln = mDao.findUserInfo(userName, userPassword);
                 if (!bln) {
                     //バリデーションメッセージ表示
                     errorIcView.setVisibility(View.VISIBLE);
                     errorTextView.setText(res.getString(R.string.login_login_error_message));
                     return;
                 }
-
                 //ID取得処理
                 String userId = mDao.findUserIdInfo(userName);
                 //エラーメッセージ用インスタンスを非表示化
@@ -79,6 +75,8 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putString("userId", userId);
                 editor.putString("userName", userName);
                 editor.putString("userPassword", userPassword);
+                editor.apply();
+                //Main画面を表示する
                 startActivity(MainActivity.getStartIntent(LoginActivity.this));
             }
         });
@@ -88,27 +86,25 @@ public class LoginActivity extends AppCompatActivity {
         registButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //入力されたデータを取得する
                 String userName = userNameText.getText().toString();
                 String userPassword = userPasswordText.getText().toString();
-
+                //入力されたデータがカラの場合
                 if (userName == null || userPassword == null || userName.length() == 0 || userPassword.length() == 0) {
                     //バリデーションチョック文言を表示
                     errorIcView.setVisibility(View.VISIBLE);
                     errorTextView.setText(res.getString(R.string.login_error_message));
                     return;
                 }
-
                 //入力された名前がすでに使われているかどうか確認する
                 //true:使われていない
                 Boolean bln = mDao.findUserNameInfo(userName);
-
                 if (!bln) {
                     //バリデーションメッセージ表示
                     errorIcView.setVisibility(View.VISIBLE);
                     errorTextView.setText(res.getString(R.string.login_regist_same_name_error_message));
                     return;
                 }
-
                 //文字数チェック(1~20)
                 if (21 <= userName.length() || 21 <= userPassword.length()) {
                     //バリデーションメッセージ表示
@@ -116,10 +112,9 @@ public class LoginActivity extends AppCompatActivity {
                     errorTextView.setText(res.getString(R.string.login_length_error_message));
                     return;
                 }
-
                 //登録処理
                 mDao.registUserInfo(userName, userPassword);
-                mDao.registBookInfo("ハンバーグ","no_book_img","今日の天気は曇りで、風が吹いていて涼しいです。");
+                mDao.registBookInfo(userName, "ハンバーグ", "no_book_img", "今日の天気は曇りで、風が吹いていて涼しいです。");
                 //ID取得処理
                 String userId = mDao.findUserIdInfo(userName);
                 //エラーメッセージ用インスタンスを非表示化
@@ -131,6 +126,8 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putString("userId", userId);
                 editor.putString("userName", userName);
                 editor.putString("userPassword", userPassword);
+                editor.apply();
+                //Main画面を表示する
                 startActivity(MainActivity.getStartIntent(LoginActivity.this));
             }
         });
