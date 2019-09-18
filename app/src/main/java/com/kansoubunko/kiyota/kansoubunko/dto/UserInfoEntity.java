@@ -43,7 +43,7 @@ public class UserInfoEntity implements Serializable {
         return "KansouEntity{" +
                 "userId= " + userId +
                 ", userName=" + userName +
-                ", userPassword='" + userPassword +
+                ", userPassword=" + userPassword +
                 '}';
     }
 }

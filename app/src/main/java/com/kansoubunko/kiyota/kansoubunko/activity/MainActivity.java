@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     public KansouDao mDao;
     private SharedPreferences mSharedPreferences;
+    private List<UserInfoEntity> kansou;
 
     public static Intent getStartIntent(LoginActivity loginActivity) {
         return new Intent(loginActivity, MainActivity.class);
@@ -30,14 +31,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<UserInfoEntity> kansou = new ArrayList<>();
         KansouDao dao = new KansouDao(this);
         kansou = dao.selectAll();
-        for (UserInfoEntity k : kansou) {
-            String n = k.getUserName();
-            Log.d("loglog", "string:" + n);
-            Log.d("loglog", "size:" + kansou.size());
-        }
 
 //        //本の情報をすべて取得する
 //        List<BookInfoEntity> bookInfoList = new ArrayList<>();

@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.kansoubunko.kiyota.kansoubunko.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class TimeLineGridViewAdapter extends BaseAdapter {
@@ -20,7 +19,6 @@ public class TimeLineGridViewAdapter extends BaseAdapter {
     private static int sItemResourceId;
     public static List<Integer> sImageList = new ArrayList<>();
     private LayoutInflater inflater;
-    private static String sample;
     private static String[] sImageMembers = null;
     private static List<String> wowo = new ArrayList<>();
 

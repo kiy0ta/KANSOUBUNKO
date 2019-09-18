@@ -42,16 +42,17 @@ public class KansouDao {
             db = this.kansouHelper.getWritableDatabase();
             cursor = db.query(
                     kansouHelper.USER_TABLE_NAME, projection,
-                    null, null, null, null, null, "1");
-            cursor.moveToFirst();
+                    null, null, null, null, null, null);
             // 取得できた際、インスタンスに保存
             if (cursor.getCount() > 0) {
-                entity = new UserInfoEntity();
-                entity.setUserId(cursor.getString(0));
-                entity.setUserName(cursor.getString(1));
-                entity.setUserPassword(cursor.getString(2));
-                list.add(entity);
-                Log.i("Kansou.db", "sn" + cursor.getString(0));
+                while (cursor.moveToNext()) {
+                    entity = new UserInfoEntity();
+                    entity.setUserId(cursor.getString(0));
+                    entity.setUserName(cursor.getString(1));
+                    entity.setUserPassword(cursor.getString(2));
+                    list.add(entity);
+                    Log.i("Kansou.db", "sn" + cursor.getString(0));
+                }
             }
         } catch (Exception ex) {
             Log.e("Kansou.db", "error", ex);
@@ -198,7 +199,7 @@ public class KansouDao {
             db = this.kansouHelper.getWritableDatabase();
             cursor = db.query(
                     kansouHelper.BOOK_TABLE_NAME, projection,
-                    null, null, null, null, null, "1");
+                    null, null, null, null, null, null);
             cursor.moveToFirst();
             // 取得できた際、インスタンスに保存
             entity = new BookInfoEntity();

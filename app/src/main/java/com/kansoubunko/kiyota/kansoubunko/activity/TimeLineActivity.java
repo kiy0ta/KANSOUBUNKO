@@ -10,7 +10,6 @@ import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.adapter.TimeLineListViewAdapter;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
-import com.kansoubunko.kiyota.kansoubunko.dto.UserInfoEntity;
 
 import java.util.ArrayList;
 import java.util.List;
