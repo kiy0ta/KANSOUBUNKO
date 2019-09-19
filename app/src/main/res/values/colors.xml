@@ -9,4 +9,5 @@
     <color name="gauge_color">#517394</color>
     <color name="gauge_init_color">#c6858687</color>
     <color name="error_msg_color">#5fa6a9</color>
+    <color name="book_edit_color">#b0999b9c</color>
 </resources>
