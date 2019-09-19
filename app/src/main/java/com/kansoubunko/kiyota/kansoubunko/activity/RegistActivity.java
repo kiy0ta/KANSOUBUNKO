@@ -179,7 +179,6 @@ public class RegistActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     //画像をカメラとギャラリーの両方から参照できる

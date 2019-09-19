@@ -23,24 +23,17 @@ public class BookListGridAdapter extends BaseAdapter {
     private static Context sContext;
     private static int sItemResourceId;
     public static List<Integer> sImageList = new ArrayList<>();
-    private static String[] sImageMembers = null;
+    public static List<String> sTitleList = new ArrayList<>();
     private LayoutInflater inflater;
 
-
-    //新規登録したあとにMainでよびだしている初期化処理
-//    public void initList(List<ProteinEntity> mEntityList) {
-//        this.mEntityList = mEntityList;
-//        hashmap = new HashMap<Date, String>();
-//    }
-
     //コンストラクタ
-    public BookListGridAdapter(Context context, int itemLayoutId, List<Integer> integerList, String[] members) {
+    public BookListGridAdapter(Context context, int itemLayoutId, List<Integer> imageList, List<String> titleList) {
         sContext = context;
         this.inflater = (LayoutInflater)
                 sContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         sItemResourceId = itemLayoutId;
-        sImageList = integerList;
-        sImageMembers = members;
+        sImageList = imageList;
+        sTitleList = titleList;
     }
 
     @Override
@@ -51,24 +44,23 @@ public class BookListGridAdapter extends BaseAdapter {
             convertView = inflater.inflate(sItemResourceId, parent, false);
             // ViewHolder を生成
             holder = new ViewHolder();
-
+            //インスタンス化
             holder.bookImage = convertView.findViewById(R.id.item_book_image);
             holder.bookTitleText = convertView.findViewById(R.id.item_book_text);
             //画像を押下したとき、登録画面に遷移する
-//            holder.bookImage.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                }
-//            });
-
+            holder.bookImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //処理
+                }
+            });
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         holder.bookImage.setImageResource(sImageList.get(position));
-        holder.bookTitleText.setText(sImageMembers[position]);
+        holder.bookTitleText.setText(sTitleList.get(position));
 
         return convertView;
     }

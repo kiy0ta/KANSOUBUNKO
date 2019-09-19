@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -24,8 +23,12 @@ import java.util.List;
 public class ListActivity extends AppCompatActivity {
 
     public KansouDao mDao;
-    List<BookInfoEntity> bookInfoList = new ArrayList<>();
-    List<BookInfoEntity> bookReviewList = new ArrayList<>();
+    private List<BookInfoEntity> bookInfoList = new ArrayList<>();
+    private List<BookInfoEntity> bookReviewList = new ArrayList<>();
+    //bookTitleを格納するarray
+    private List<String> bookTitleList = new ArrayList<>();
+    // Resource IDを格納するarray
+    private List<Integer> bookImgList = new ArrayList<>();
     private int reviewListCount = 0;
     private String members[];
 
@@ -60,9 +63,6 @@ public class ListActivity extends AppCompatActivity {
             "no_book_img", "no_book_img", "no_book_img", "no_book_img", "no_book_img"
     };
 
-    // Resource IDを格納するarray
-    private List<Integer> imgList = new ArrayList<>();
-
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -75,10 +75,9 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         final Resources res = getResources();
 
-        //本のすべてのデータを取得する
+        //特定のユーザーの本のすべてのデータを取得する
         mDao = new KansouDao(getApplicationContext());
         bookInfoList = mDao.selectBookInfoAll();
-//        Log.d("loglog","AllListSize:" + bookInfoList.size());
         //感想が記入されている本の件数を取得する
         int i = 0;
         for (BookInfoEntity entity : bookInfoList) {
@@ -95,23 +94,18 @@ public class ListActivity extends AppCompatActivity {
         String image = null;
         String title = null;
         for (BookInfoEntity entity : bookInfoList) {
+            //imageを格納する
             entity.setBookImage(bookInfoList.get(position).getBookImage());
             image = entity.getBookImage();
             int imageId = getResources().getIdentifier(
                     image, "drawable", getPackageName());
-            imgList.add(imageId);
-            //string[]の処理
-            //TODO String[]の修正
+            bookImgList.add(imageId);
+            //titleを格納する
             entity.setBookTitle(bookInfoList.get(position).getBookTitle());
             title = entity.getBookTitle();
-            members = new String[]{title};
+            bookTitleList.add(title);
             position++;
         }
-//        for (String member : members) {
-//            int imageId = getResources().getIdentifier(
-//                    member, "drawable", getPackageName());
-//            imgList.add(imageId);
-//        }
 
         //ゲージViewをインスタンス化
         TextView gaugeMaxTextView = findViewById(R.id.max_gauge);
@@ -127,7 +121,7 @@ public class ListActivity extends AppCompatActivity {
 
         //本の画像一覧を表示するGridViewを生成
         GridView bookListGridView = findViewById(R.id.list_book);
-        BookListGridAdapter adapter = new BookListGridAdapter(this, R.layout.item_book_list, imgList, members);
+        BookListGridAdapter adapter = new BookListGridAdapter(this, R.layout.item_book_list, bookImgList, bookTitleList);
         bookListGridView.setAdapter(adapter);
 
         Button bookRegistButton = findViewById(R.id.list_regist);
@@ -144,13 +138,12 @@ public class ListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), RegistActivity.class);
                 // clickされたpositionのtextとphotoのID
                 long viewId = id;
-                int selectedImage = imgList.get(position);
-                String selectedTitle = members[position];
-
+                int selectedImage = bookImgList.get(position);
+                String selectedTitle = bookTitleList.get(position);
                 // インテントにセット
                 intent.putExtra("Image", selectedImage);
                 intent.putExtra("Title", selectedTitle);
-                intent.putExtra("bln",true);
+                intent.putExtra("bln", true);
                 // Activity をスイッチする
                 startActivity(intent);
             }
