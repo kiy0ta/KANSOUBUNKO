@@ -15,6 +15,9 @@ import android.widget.TextView;
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -114,7 +117,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 //登録処理
                 mDao.registUserInfo(userName, userPassword);
-                mDao.registBookInfo(userName, "ハンバーグ", "no_book_img", "今日の天気は曇りで、風が吹いていて涼しいです。");
+                LocalDate today = LocalDate.now();
+                String strToday = String.valueOf(today);
+                //TODO:日付のフォーマット処理が必要
+                mDao.registBookInfo(userName, "ハンバーグ", "no_book_img", "今日の天気は曇りで、風が吹いていて涼しいです。", strToday);
                 //ID取得処理
                 String userId = mDao.findUserIdInfo(userName);
                 //エラーメッセージ用インスタンスを非表示化

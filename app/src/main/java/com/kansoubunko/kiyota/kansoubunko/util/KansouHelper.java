@@ -27,6 +27,22 @@ public class KansouHelper extends SQLiteOpenHelper {
      */
     public static final String COLUMN_USER_PASSWORD = "user_password";
     /**
+     * カラム名
+     */
+    public static final String COLUMN_USER_BIRTHDAY = "user_birthday";
+    /**
+     * カラム名
+     */
+    public static final String COLUMN_USER_FOLLOW = "user_follow";
+    /**
+     * カラム名
+     */
+    public static final String COLUMN_USER_FOLLOWERS = "user_followers";
+    /**
+     * カラム名
+     */
+    public static final String COLUMN_USER_IMAGE = "user_image";
+    /**
      * テーブル名
      */
     public static final String BOOK_TABLE_NAME = "book_info";
@@ -46,6 +62,10 @@ public class KansouHelper extends SQLiteOpenHelper {
      * カラム名
      */
     public static final String COLUMN_BOOK_REVIEW = "book_review";
+    /**
+     * カラム名
+     */
+    public static final String COLUMN_BOOK_DATE = "book_date";
 
     public KansouHelper(Context context) {
         super(context, "Kansou.db", null, 1);
@@ -62,14 +82,19 @@ public class KansouHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + USER_TABLE_NAME +
                 " (" + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_USER_NAME + " TEXT , "
-                + COLUMN_USER_PASSWORD + " TEXT " + ");");
+                + COLUMN_USER_PASSWORD + " TEXT , "
+                + COLUMN_USER_BIRTHDAY + " TEXT , "
+                + COLUMN_USER_FOLLOW + " TEXT , "
+                + COLUMN_USER_FOLLOWERS + " TEXT , "
+                + COLUMN_USER_IMAGE + " TEXT " + ");");
 
         db.execSQL("CREATE TABLE " + BOOK_TABLE_NAME +
                 " (" + COLUMN_BOOK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , "
                 + COLUMN_BOOK_USER_NAME + " TEXT , "
                 + COLUMN_BOOK_TITLE + " TEXT , "
                 + COLUMN_BOOK_IMAGE + " TEXT , "
-                + COLUMN_BOOK_REVIEW + " TEXT " + ");");
+                + COLUMN_BOOK_REVIEW + " TEXT , "
+                + COLUMN_BOOK_DATE + " TEXT " + ");");
     }
 
     /**

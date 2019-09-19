@@ -12,8 +12,10 @@ public class BookInfoEntity implements Serializable {
     private String bookTitle;
     //本の画像
     private String bookImage;
-    //ほんの感想文
+    //本の感想文
     private String bookReview;
+    //登録日(編集日)
+    private String bookDate;
 
     public BookInfoEntity() {
     }
@@ -59,14 +61,23 @@ public class BookInfoEntity implements Serializable {
         this.bookReview = bookReview;
     }
 
+    public String getBookDate() {
+        return bookDate;
+    }
+
+    public void setBookDate(String bookDate) {
+        this.bookDate = bookDate;
+    }
+
     @Override
     public String toString() {
-        return "KansouEntity{" +
+        return "BookInfoEntity{" +
                 "bookId=" + bookId +
                 ", bookUserName=" + bookUserName +
                 ", bookTitle=" + bookTitle +
                 ", bookImage=" + bookImage +
                 ", bookReview=" + bookReview +
+                ", bookDate=" + bookDate +
                 '}';
     }
 }

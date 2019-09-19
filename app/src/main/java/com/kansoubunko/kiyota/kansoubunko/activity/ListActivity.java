@@ -150,6 +150,7 @@ public class ListActivity extends AppCompatActivity {
                 // インテントにセット
                 intent.putExtra("Image", selectedImage);
                 intent.putExtra("Title", selectedTitle);
+                intent.putExtra("bln",true);
                 // Activity をスイッチする
                 startActivity(intent);
             }

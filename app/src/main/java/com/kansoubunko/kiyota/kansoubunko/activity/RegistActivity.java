@@ -24,6 +24,7 @@ import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.fragment.BookReviewDialogFragment;
 import com.kansoubunko.kiyota.kansoubunko.fragment.BookTitleDialogFragment;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -75,6 +76,7 @@ public class RegistActivity extends AppCompatActivity {
 
         //List画面から遷移しているとき(本の画像を押下したとき＝編集モード)
         mSharedPreferences = getSharedPreferences("bookInfo", MODE_PRIVATE);
+//        Boolean bln = getParentActivityIntent().getBooleanExtra("bln",false);
         Boolean bln = false;
         //一時的に退避
         if (bln) {
@@ -170,7 +172,10 @@ public class RegistActivity extends AppCompatActivity {
                 if (bookTitleTextView.getText().length() != 0 || bookTitleTextView.getText() != null) {
                     newTitle = (String) bookTitleTextView.getText();
                 }
-                dao.registBookInfo("", newTitle, "no_book_img", bookReview);
+                LocalDate today = LocalDate.now();
+                String strToday = String.valueOf(today);
+                //TODO:日付のフォーマット処理が必要
+                dao.registBookInfo("kiyota", newTitle, "no_book_img", bookReview, strToday);
                 finish();
             }
         });

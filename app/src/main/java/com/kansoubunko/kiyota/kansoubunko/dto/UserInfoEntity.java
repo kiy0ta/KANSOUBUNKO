@@ -10,6 +10,14 @@ public class UserInfoEntity implements Serializable {
     private String userName;
     //ユーザーパスワード
     private String userPassword;
+    //誕生日
+    private String userBirthday;
+    //フォロー数
+    private String follow;
+    //フォロワー数
+    private String followers;
+    //ユーザー画像
+    private String userImage;
 
     public UserInfoEntity() {
     }
@@ -38,12 +46,48 @@ public class UserInfoEntity implements Serializable {
         this.userPassword = userPassword;
     }
 
+    public String getUserBirthday() {
+        return userBirthday;
+    }
+
+    public void setUserBirthday(String userBirthday) {
+        this.userBirthday = userBirthday;
+    }
+
+    public String getFollow() {
+        return follow;
+    }
+
+    public void setFollow(String follow) {
+        this.follow = follow;
+    }
+
+    public String getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(String followers) {
+        this.followers = followers;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
+    }
+
     @Override
     public String toString() {
-        return "KansouEntity{" +
+        return "UserInfoEntity{" +
                 "userId= " + userId +
                 ", userName=" + userName +
                 ", userPassword=" + userPassword +
+                ", userPassword=" + userBirthday +
+                ", userPassword=" + follow +
+                ", userPassword=" + followers +
+                ", userPassword=" + userImage +
                 '}';
     }
 }
