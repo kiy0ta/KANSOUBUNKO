@@ -47,21 +47,13 @@ public class BookListGridAdapter extends BaseAdapter {
             //インスタンス化
             holder.bookImage = convertView.findViewById(R.id.item_book_image);
             holder.bookTitleText = convertView.findViewById(R.id.item_book_text);
-            //画像を押下したとき、登録画面に遷移する
-            holder.bookImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //処理
-                }
-            });
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
+        //データをセットする
         holder.bookImage.setImageResource(sImageList.get(position));
         holder.bookTitleText.setText(sTitleList.get(position));
-
         return convertView;
     }
 

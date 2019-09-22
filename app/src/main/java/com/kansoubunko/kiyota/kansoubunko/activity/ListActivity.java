@@ -2,9 +2,11 @@ package com.kansoubunko.kiyota.kansoubunko.activity;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -30,8 +32,7 @@ public class ListActivity extends AppCompatActivity {
     // Resource IDを格納するarray
     private List<Integer> bookImgList = new ArrayList<>();
     private int reviewListCount = 0;
-    private String members[];
-
+    private SharedPreferences mSharedPreferences;
     /**
      * ゲージビューの最大幅
      */
@@ -57,12 +58,6 @@ public class ListActivity extends AppCompatActivity {
         return new Intent(mainActivity, ListActivity.class);
     }
 
-    // 表示する画像の名前（拡張子無し）
-    private String members2[] = {
-            "no_book_img", "no_book_img", "no_book_img", "no_book_img", "no_book_img",
-            "no_book_img", "no_book_img", "no_book_img", "no_book_img", "no_book_img"
-    };
-
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -77,7 +72,21 @@ public class ListActivity extends AppCompatActivity {
 
         //特定のユーザーの本のすべてのデータを取得する
         mDao = new KansouDao(getApplicationContext());
-        bookInfoList = mDao.selectBookInfoAll();
+        mSharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+        String s = mSharedPreferences.getString("userName", "");
+        bookInfoList = mDao.selectBookInfo(s);
+//        テストコード
+//        int sa = bookInfoList.size();
+//        Log.d("loglog", "size:" + sa);
+//        for (BookInfoEntity entity : bookInfoList) {
+//            entity.getBookTitle();
+//            entity.getBookImage();
+//            entity.getBookReview();
+//            Log.d("loglog", "bookTitle:"+entity.getBookTitle());
+//            Log.d("loglog", "bookImage"+entity.getBookImage());
+//            Log.d("loglog", "bookReview"+entity.getBookReview());
+//        }
+
         //感想が記入されている本の件数を取得する
         int i = 0;
         for (BookInfoEntity entity : bookInfoList) {
@@ -135,17 +144,12 @@ public class ListActivity extends AppCompatActivity {
         bookListGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), RegistActivity.class);
                 // clickされたpositionのtextとphotoのID
-                long viewId = id;
-                int selectedImage = bookImgList.get(position);
-                String selectedTitle = bookTitleList.get(position);
-                // インテントにセット
-                intent.putExtra("Image", selectedImage);
-                intent.putExtra("Title", selectedTitle);
-                intent.putExtra("bln", true);
-                // Activity をスイッチする
-                startActivity(intent);
+//                long viewId = id;
+//                int selectedImage = bookImgList.get(position);
+//                String selectedTitle = bookTitleList.get(position);
+//                // インテントにセット
+                startActivity(RegistActivity.getStartIntent(ListActivity.this));
             }
         });
 

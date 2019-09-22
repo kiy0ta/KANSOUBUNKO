@@ -26,18 +26,19 @@ public class MyApplication extends Application {
 
     /**
      * アプリケーションインスタンス取得メソッド
-     * @return　アプリケーションインスタンス
      *
+     * @return　アプリケーションインスタンス
      */
-    public static MyApplication getInstance(){
+    public static MyApplication getInstance() {
         return app;
     }
 
     /**
      * プロパティファイルインスタンス取得メソッド
+     *
      * @return プロパティファイルインスタンス
      */
-//    public MyApplication getConfigPropUtil(){
-////        return this.configPropUtil;
-//    }
+    public ConfigPropUtil getConfigPropUtil() {
+        return this.configPropUtil;
+    }
 }

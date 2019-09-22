@@ -38,9 +38,9 @@ public class ConfigPropUtil {
      *
      * @return ConfigPropUtil唯一のインスタンス
      */
-//    public static ConfigPropUtil getInstance() {
-//        return MyApplication.getInstance().getConfigPropUtil();
-//    }
+    public static ConfigPropUtil getInstance() {
+        return MyApplication.getInstance().getConfigPropUtil();
+    }
 
     /**
      * キーに対応するプロパティの値を取得するメソッド
