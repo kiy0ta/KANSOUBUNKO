@@ -43,6 +43,10 @@ public class KansouHelper extends SQLiteOpenHelper {
      */
     public static final String COLUMN_USER_IMAGE = "user_image";
     /**
+     * カラム名
+     */
+    public static final String COLUMN_PROFILE = "profile";
+    /**
      * テーブル名
      */
     public static final String BOOK_TABLE_NAME = "book_info";
@@ -86,7 +90,8 @@ public class KansouHelper extends SQLiteOpenHelper {
                 + COLUMN_USER_BIRTHDAY + " TEXT , "
                 + COLUMN_USER_FOLLOW + " TEXT , "
                 + COLUMN_USER_FOLLOWERS + " TEXT , "
-                + COLUMN_USER_IMAGE + " TEXT " + ");");
+                + COLUMN_USER_IMAGE + " TEXT , "
+                + COLUMN_PROFILE + " TEXT " + ");");
 
         db.execSQL("CREATE TABLE " + BOOK_TABLE_NAME +
                 " (" + COLUMN_BOOK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , "

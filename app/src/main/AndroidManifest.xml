@@ -33,26 +33,6 @@
             android:exported="false"
             android:label="@string/app_name" />
 
-        <activity
-            android:name=".fragment.RegistFragment"
-            android:exported="false"
-            android:label="@string/app_name" />
-
-        <activity
-            android:name=".fragment.ListFragment"
-            android:exported="false"
-            android:label="@string/app_name" />
-
-        <activity
-            android:name=".fragment.SettingFragment"
-            android:exported="false"
-            android:label="@string/app_name" />
-
-        <activity
-            android:name=".fragment.TimeLineFragment"
-            android:exported="false"
-            android:label="@string/app_name" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.kansoubunko.kiyota.kansoubunko.fileprovider"

@@ -1,11 +1,10 @@
 package com.kansoubunko.kiyota.kansoubunko.fragment;
 
 
-
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,60 +19,77 @@ import com.kansoubunko.kiyota.kansoubunko.dto.UserInfoEntity;
 
 import java.util.List;
 
+import static android.view.View.GONE;
+
 public class SettingFragment extends Fragment {
 
-    private SharedPreferences mSharedPreferences;
+
     public KansouDao mDao;
-    private List<UserInfoEntity> kansou;
+    private List<UserInfoEntity> userInfoList;
     private List<BookInfoEntity> kansou2;
     private Uri m_uri;
     private static final int REQUEST_CHOOSER = 1000;
+    private String username;
+    private String userName;
+    private String userBirthday;
+    private String follow;
+    private String followers;
+    private String userImage;
+    private String profile;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // 画面初期化処理
-
         final View inflate = inflater.inflate(R.layout.fragment_setting, container, false);
-        TextView titleText = inflate.findViewById(R.id.textView);
-        Button button = inflate.findViewById(R.id.button);
 
-//        mSharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
-//        String userName = mSharedPreferences.getString("userName", "");
+        //ユーザー情報の取得
+        Bundle bundle = getArguments();
+        username = bundle.getString("userName");
+        mDao = new KansouDao(getActivity());
+        userInfoList = mDao.findUserInfo(username);
+        for (UserInfoEntity entity : userInfoList) {
+            userName = entity.getUserName();
+            userBirthday = entity.getUserBirthday();
+            follow = entity.getFollow();
+            followers = entity.getFollowers();
+            userImage = entity.getUserImage();
+            profile = entity.getProfile();
+        }
         //名前
         TextView userNameText = inflate.findViewById(R.id.setting_name);
-        userNameText.setText("kiyota");
+        userNameText.setText(userName);
         //誕生日
         TextView birthdayText = inflate.findViewById(R.id.setting_birthday);
-        birthdayText.setText("1994/12/19");
+        birthdayText.setText(userBirthday);
         //フォロー
         TextView followText = inflate.findViewById(R.id.setting_follow);
-        followText.setText("100");
+        followText.setText(follow);
         //フォロワー
         TextView followersText = inflate.findViewById(R.id.setting_followers);
-        followersText.setText("100");
+        followersText.setText(followers);
         //プロフィール
         TextView profileText = inflate.findViewById(R.id.setting_profile);
-        profileText.setText("村上春樹が好きです。");
+        profileText.setText(profile);
         //ユーザーアイコン
         ImageView userImage = inflate.findViewById(R.id.setting_user_image);
         userImage.setImageResource(R.drawable.ic_sample_user_image);
+        //他人のプロフィールだったら、編集マークをGONEにする
+        Button editButton = inflate.findViewById(R.id.setting_edit_button);
+        TextView editText = inflate.findViewById(R.id.setting_user_image_gray_cover);
+        ImageView editImage = inflate.findViewById(R.id.setting_user_image_button);
+        if (false) {
+            editButton.setVisibility(GONE);
+            editText.setVisibility(GONE);
+            editImage.setVisibility(GONE);
+        }
         //ユーザーアイコン編集ボタン
         ImageView userImageEdit = inflate.findViewById(R.id.setting_user_image_button);
         userImageEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showGallery();
-            }
-        });
-
-        //編集ボタン
-        Button editButton = inflate.findViewById(R.id.setting_edit_button);
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
         return inflate;

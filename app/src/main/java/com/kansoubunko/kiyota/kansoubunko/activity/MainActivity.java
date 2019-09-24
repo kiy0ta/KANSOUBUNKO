@@ -1,6 +1,7 @@
 package com.kansoubunko.kiyota.kansoubunko.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,10 @@ import com.kansoubunko.kiyota.kansoubunko.fragment.TimeLineFragment;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView titleImage;
+    private SharedPreferences mSharedPreferences;
+    private String userId;
+    private String userName;
+    private String userPassword;
 
     public static Intent getStartIntent(LoginActivity loginActivity) {
         return new Intent(loginActivity, MainActivity.class);
@@ -29,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         titleImage = findViewById(R.id.layout_title);
+        mSharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+        userId = mSharedPreferences.getString("userId", "");
+        userName = mSharedPreferences.getString("userName", "");
+        userPassword = mSharedPreferences.getString("userPassword", "");
 
         ImageView registButton = findViewById(R.id.tab_regist);
         registButton.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +112,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //タイトルを変更する
                 titleImage.setImageResource(R.drawable.setting);
+                //ユーザー情報を渡す
+                Bundle bundle = new Bundle();
+                bundle.putString("userName", userName);
                 SettingFragment fragment = new SettingFragment();
+                fragment.setArguments(bundle);
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.add(R.id.fragment_layout, fragment);
                 transaction.commit();

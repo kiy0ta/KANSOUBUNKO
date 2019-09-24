@@ -18,6 +18,8 @@ public class UserInfoEntity implements Serializable {
     private String followers;
     //ユーザー画像
     private String userImage;
+    //自己紹介
+    private String profile;
 
     public UserInfoEntity() {
     }
@@ -78,16 +80,25 @@ public class UserInfoEntity implements Serializable {
         this.userImage = userImage;
     }
 
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
     @Override
     public String toString() {
         return "UserInfoEntity{" +
                 "userId= " + userId +
                 ", userName=" + userName +
                 ", userPassword=" + userPassword +
-                ", userPassword=" + userBirthday +
-                ", userPassword=" + follow +
-                ", userPassword=" + followers +
-                ", userPassword=" + userImage +
+                ", userBirthday=" + userBirthday +
+                ", follow=" + follow +
+                ", followers=" + followers +
+                ", userImage=" + userImage +
+                ", profile=" + profile +
                 '}';
     }
 }

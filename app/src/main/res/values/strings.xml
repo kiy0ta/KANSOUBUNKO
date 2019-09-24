@@ -17,6 +17,7 @@
     <string name="regist_title_error_mrssage">タイトルが空欄です。</string>
     <string name="regist_book_title">タイトルを記入する</string>
     <string name="book_default_title">タイトル</string>
+    <string name="setting_edit_button">プロフィールを編集する</string>
     <string name="login_error_message">名前とパスワードを入力してください。</string>
     <string name="login_login_error_message">名前またはパスワードが正しくありません。</string>
     <string name="login_regist_same_name_error_message">入力された名前はすでに使用されています。</string>

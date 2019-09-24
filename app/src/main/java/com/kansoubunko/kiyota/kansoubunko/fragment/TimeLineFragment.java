@@ -34,7 +34,7 @@ public class TimeLineFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // 画面初期化処理
-        final View inflate = inflater.inflate(R.layout.fragment_main, container, false);
+        final View inflate = inflater.inflate(R.layout.fragment_setting, container, false);
         TextView titleText = inflate.findViewById(R.id.textView);
         Button button = inflate.findViewById(R.id.button);
         return inflate;

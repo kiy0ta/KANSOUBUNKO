@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
-import com.kansoubunko.kiyota.kansoubunko.constants.KansouContract;
+import com.kansoubunko.kiyota.kansoubunko.constants.DataConstants;
 import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
 import com.kansoubunko.kiyota.kansoubunko.dto.UserInfoEntity;
 import com.kansoubunko.kiyota.kansoubunko.util.KansouHelper;
@@ -156,6 +156,126 @@ public class KansouDao {
         } catch (SQLiteException e) {
             return "";
         }
+    }
+
+    /**
+     * 設定画面：すべてのユーザー情報を取得する
+     */
+    public List<UserInfoEntity> findAllUserInfo() {
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        UserInfoEntity entity = null;
+        List<UserInfoEntity> list = new ArrayList<>();
+        Log.i("Kansou.db", "start");
+        String[] projection = new String[]{
+                kansouHelper.COLUMN_USER_NAME
+        };
+        try {
+            // DB取得
+            db = this.kansouHelper.getWritableDatabase();
+            cursor = db.query(
+                    kansouHelper.USER_TABLE_NAME, projection, null,
+                    null, null, null, null, null);
+            // 取得できた際、インスタンスに保存
+            entity = new UserInfoEntity();
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    entity.setUserName(cursor.getString(0));
+                    list.add(entity);
+                    Log.i("Kansou.db", "sn" + cursor.getString(0));
+                }
+            }
+        } catch (Exception ex) {
+            Log.e("Kansou.db", "error", ex);
+        } finally {
+            // クローズ処理
+            if (cursor != null) {
+                cursor.close();
+                cursor = null;
+            }
+            if (db != null) {
+                db.close();
+                db = null;
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 設定画面：特定のユーザー情報を取得する
+     */
+    public List<UserInfoEntity> findUserInfo(String name) {
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        UserInfoEntity entity = null;
+        List<UserInfoEntity> list = new ArrayList<>();
+        Log.i("Kansou.db", "start");
+        String[] projection = new String[]{
+                kansouHelper.COLUMN_USER_ID,
+                kansouHelper.COLUMN_USER_NAME,
+                kansouHelper.COLUMN_USER_PASSWORD,
+                kansouHelper.COLUMN_USER_BIRTHDAY,
+                kansouHelper.COLUMN_USER_FOLLOW,
+                kansouHelper.COLUMN_USER_FOLLOWERS,
+                kansouHelper.COLUMN_USER_IMAGE,
+                kansouHelper.COLUMN_PROFILE
+        };
+        try {
+            // DB取得
+            db = this.kansouHelper.getWritableDatabase();
+            cursor = db.query(
+                    kansouHelper.USER_TABLE_NAME, projection, kansouHelper.COLUMN_USER_NAME + " = ? ",
+                    new String[]{name}, null, null, null, null);
+            // 取得できた際、インスタンスに保存
+            entity = new UserInfoEntity();
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    entity.setUserId(cursor.getString(0));
+                    entity.setUserName(cursor.getString(1));
+                    entity.setUserPassword(cursor.getString(2));
+                    if (cursor.getString(3) != null) {
+                        entity.setUserBirthday(cursor.getString(3));
+                    } else {
+                        entity.setUserBirthday(DataConstants.DEFAULT_BIRTHDAY);
+                    }
+                    if (cursor.getString(4) != null) {
+                        entity.setFollow(cursor.getString(4));
+                    } else {
+                        entity.setFollow(DataConstants.DEFAULT_FOLLOW);
+                    }
+                    if (cursor.getString(5) != null) {
+                        entity.setFollowers(cursor.getString(5));
+                    } else {
+                        entity.setFollowers(DataConstants.DEFAULT_FOLLOWERS);
+                    }
+                    if (cursor.getString(6) != null) {
+                        entity.setUserImage(cursor.getString(6));
+                    } else {
+                        entity.setUserImage("");
+                    }
+                    if (cursor.getString(7) != null) {
+                        entity.setProfile(cursor.getString(7));
+                    } else {
+                        entity.setProfile(DataConstants.DEFAULT_PROFILE);
+                    }
+                    list.add(entity);
+                    Log.i("Kansou.db", "sn" + cursor.getString(0));
+                }
+            }
+        } catch (Exception ex) {
+            Log.e("Kansou.db", "error", ex);
+        } finally {
+            // クローズ処理
+            if (cursor != null) {
+                cursor.close();
+                cursor = null;
+            }
+            if (db != null) {
+                db.close();
+                db = null;
+            }
+        }
+        return list;
     }
 
     /**

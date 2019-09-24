@@ -21,7 +21,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="8.2"
+                android:layout_weight="5"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -79,7 +79,6 @@
                                 android:textColor="@color/clear_white"
                                 android:textSize="18dp" />
                         </LinearLayout>
-
                     </LinearLayout>
 
                     <FrameLayout
@@ -95,6 +94,7 @@
                             android:src="@drawable/ic_sample_user_image" />
 
                         <TextView
+                            android:id="@+id/setting_user_image_gray_cover"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:layout_gravity="center"
@@ -177,28 +177,64 @@
                         android:textSize="18dp" />
                 </LinearLayout>
 
-                <GridView
-                    android:id="@+id/setting_grid_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="30dp"></GridView>
-
             </LinearLayout>
 
-            <Button
-                android:id="@+id/setting_edit_button"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="14dp"
-                android:layout_weight="0.8"
-                android:background="@drawable/shape_login_button"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:text="@string/regist_book_update_log"
-                android:textColor="@drawable/change_login_text_color"
-                android:textSize="20dp" />
+                android:layout_weight="4"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/left_arrow"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@+id/setting_book_image"
+                    android:gravity="center"
+                    android:text="◁"
+                    android:textColor="@color/white"
+                    android:textSize="30dp" />
+
+                <ImageView
+                    android:id="@+id/setting_book_image"
+                    android:layout_width="130dp"
+                    android:layout_height="170dp"
+                    android:layout_centerInParent="true" />
+
+                <TextView
+                    android:id="@+id/right_arrow"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/setting_book_image"
+                    android:gravity="center"
+                    android:text="▷"
+                    android:textColor="@color/white"
+                    android:textSize="30dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/setting_edit_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/shape_login_button"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/setting_edit_button"
+                    android:textColor="@drawable/change_login_text_color"
+                    android:textSize="20dp" />
+
+            </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>
