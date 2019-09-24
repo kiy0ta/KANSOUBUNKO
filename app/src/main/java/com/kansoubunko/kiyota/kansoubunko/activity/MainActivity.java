@@ -8,9 +8,12 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
+import com.kansoubunko.kiyota.kansoubunko.fragment.FavoriteFragment;
+import com.kansoubunko.kiyota.kansoubunko.fragment.FollowersFragment;
 import com.kansoubunko.kiyota.kansoubunko.fragment.ListFragment;
 import com.kansoubunko.kiyota.kansoubunko.fragment.RegistFragment;
 import com.kansoubunko.kiyota.kansoubunko.fragment.SettingFragment;
+import com.kansoubunko.kiyota.kansoubunko.fragment.TimeLineFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,16 +47,9 @@ public class MainActivity extends AppCompatActivity {
         listButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //fragmentを呼びだす
-                // Fragmentを作成します
                 ListFragment fragment = new ListFragment();
-                // Fragmentの追加や削除といった変更を行う際は、Transactionを利用します
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                // 新しく追加を行うのでaddを使用します
-                // 他にも、よく使う操作で、replace removeといったメソッドがあります
-                // メソッドの1つ目の引数は対象のViewGroupのID、2つ目の引数は追加するfragment
                 transaction.add(R.id.fragment_layout, fragment);
-                // 最後にcommitを使用することで変更を反映します
                 transaction.commit();
             }
         });
@@ -61,16 +57,9 @@ public class MainActivity extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //fragmentを呼びだす
-                // Fragmentを作成します
-                SettingFragment fragment = new SettingFragment();
-                // Fragmentの追加や削除といった変更を行う際は、Transactionを利用します
+                TimeLineFragment fragment = new TimeLineFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                // 新しく追加を行うのでaddを使用します
-                // 他にも、よく使う操作で、replace removeといったメソッドがあります
-                // メソッドの1つ目の引数は対象のViewGroupのID、2つ目の引数は追加するfragment
                 transaction.add(R.id.fragment_layout, fragment);
-                // 最後にcommitを使用することで変更を反映します
                 transaction.commit();
             }
         });
@@ -78,16 +67,9 @@ public class MainActivity extends AppCompatActivity {
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //fragmentを呼びだす
-                // Fragmentを作成します
-                SettingFragment fragment = new SettingFragment();
-                // Fragmentの追加や削除といった変更を行う際は、Transactionを利用します
+                FavoriteFragment fragment = new FavoriteFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                // 新しく追加を行うのでaddを使用します
-                // 他にも、よく使う操作で、replace removeといったメソッドがあります
-                // メソッドの1つ目の引数は対象のViewGroupのID、2つ目の引数は追加するfragment
                 transaction.add(R.id.fragment_layout, fragment);
-                // 最後にcommitを使用することで変更を反映します
                 transaction.commit();
             }
         });
@@ -95,16 +77,9 @@ public class MainActivity extends AppCompatActivity {
         followersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //fragmentを呼びだす
-                // Fragmentを作成します
-                SettingFragment fragment = new SettingFragment();
-                // Fragmentの追加や削除といった変更を行う際は、Transactionを利用します
+                FollowersFragment fragment = new FollowersFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                // 新しく追加を行うのでaddを使用します
-                // 他にも、よく使う操作で、replace removeといったメソッドがあります
-                // メソッドの1つ目の引数は対象のViewGroupのID、2つ目の引数は追加するfragment
                 transaction.add(R.id.fragment_layout, fragment);
-                // 最後にcommitを使用することで変更を反映します
                 transaction.commit();
             }
         });
@@ -112,16 +87,9 @@ public class MainActivity extends AppCompatActivity {
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //fragmentを呼びだす
-                // Fragmentを作成します
                 SettingFragment fragment = new SettingFragment();
-                // Fragmentの追加や削除といった変更を行う際は、Transactionを利用します
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                // 新しく追加を行うのでaddを使用します
-                // 他にも、よく使う操作で、replace removeといったメソッドがあります
-                // メソッドの1つ目の引数は対象のViewGroupのID、2つ目の引数は追加するfragment
                 transaction.add(R.id.fragment_layout, fragment);
-                // 最後にcommitを使用することで変更を反映します
                 transaction.commit();
             }
         });
