@@ -17,16 +17,16 @@ import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
 import com.kansoubunko.kiyota.kansoubunko.dto.UserInfoEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.View.GONE;
 
 public class SettingFragment extends Fragment {
 
-
     public KansouDao mDao;
     private List<UserInfoEntity> userInfoList;
-    private List<BookInfoEntity> kansou2;
+    private List<BookInfoEntity> bookInfoList;
     private Uri m_uri;
     private static final int REQUEST_CHOOSER = 1000;
     private String username;
@@ -36,6 +36,9 @@ public class SettingFragment extends Fragment {
     private String followers;
     private String userImage;
     private String profile;
+    private ImageView bookImage;
+    private int listPosition;
+    private List<Integer> bookList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,7 +46,6 @@ public class SettingFragment extends Fragment {
 
         // 画面初期化処理
         final View inflate = inflater.inflate(R.layout.fragment_setting, container, false);
-
         //ユーザー情報の取得
         Bundle bundle = getArguments();
         username = bundle.getString("userName");
@@ -92,10 +94,41 @@ public class SettingFragment extends Fragment {
                 showGallery();
             }
         });
+        //本の情報を取得する
+        bookInfoList = mDao.selectBookInfo(username);
+        listPosition = 0;
+        //本の画像を表示する
+        bookImage = inflate.findViewById(R.id.setting_book_image);
+        //sampleデータ
+        bookList = new ArrayList<>();
+        bookList.add(R.drawable.book_shinwataikei);
+        bookList.add(R.drawable.book_yakou);
+        bookList.add(R.drawable.book_yoruhamizikashi);
+//        bookImage.setImageResource(Integer.parseInt(bookInfoList.get(listPosition).getBookImage()));
+        bookImage.setImageResource(bookList.get(listPosition));
+        //本の画像を表示する(◁)
+        TextView leftButton = inflate.findViewById(R.id.left_arrow);
+        leftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listPosition--;
+//                bookImage.setImageResource(Integer.parseInt(bookInfoList.get(listPosition).getBookImage()));
+                bookImage.setImageResource(bookList.get(listPosition));
+            }
+        });
+        // 本の画像を表示する(▷)
+        TextView rightButton = inflate.findViewById(R.id.right_arrow);
+        rightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listPosition++;
+//                bookImage.setImageResource(Integer.parseInt(bookInfoList.get(listPosition).getBookImage()));
+                bookImage.setImageResource(bookList.get(listPosition));
+            }
+        });
         return inflate;
     }
-
-
+    
     //画像をカメラとギャラリーの両方から参照できる
     private void showGallery() {
 //        //カメラの起動Intentの用意
