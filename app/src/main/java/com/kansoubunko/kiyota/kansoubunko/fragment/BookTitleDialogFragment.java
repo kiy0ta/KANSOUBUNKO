@@ -32,8 +32,8 @@ public class BookTitleDialogFragment extends DialogFragment {
                 // editTextから値を取得
                 String returnValue = editText.getText().toString();
                 // RegistActivityのインスタンスを取得
-                RegistFragment registFragment = (RegistFragment) getActivity();
-                registFragment.setTitleTextView(returnValue);
+//                RegistFragment registFragment = (RegistFragment) getActivity();
+//                registFragment.setTitleTextView(returnValue);
             }
         });
 

@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.fragment.FavoriteFragment;
@@ -17,6 +18,8 @@ import com.kansoubunko.kiyota.kansoubunko.fragment.TimeLineFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ImageView titleImage;
+
     public static Intent getStartIntent(LoginActivity loginActivity) {
         return new Intent(loginActivity, MainActivity.class);
     }
@@ -25,11 +28,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        titleImage = findViewById(R.id.layout_title);
 
         ImageView registButton = findViewById(R.id.tab_regist);
         registButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //タイトルを変更する
+                titleImage.setImageResource(R.drawable.regist);
                 //fragmentを呼びだす
                 // Fragmentを作成します
                 RegistFragment fragment = new RegistFragment();
@@ -47,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         listButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //タイトルを変更する
+                titleImage.setImageResource(R.drawable.list);
                 ListFragment fragment = new ListFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.add(R.id.fragment_layout, fragment);
@@ -57,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //タイトルを変更する
+                titleImage.setImageResource(R.drawable.timeline);
                 TimeLineFragment fragment = new TimeLineFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.add(R.id.fragment_layout, fragment);
@@ -67,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //タイトルを変更する
+                titleImage.setImageResource(R.drawable.regist);
                 FavoriteFragment fragment = new FavoriteFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.add(R.id.fragment_layout, fragment);
@@ -77,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
         followersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //タイトルを変更する
+                titleImage.setImageResource(R.drawable.set_followers);
                 FollowersFragment fragment = new FollowersFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.add(R.id.fragment_layout, fragment);
@@ -87,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //タイトルを変更する
+                titleImage.setImageResource(R.drawable.setting);
                 SettingFragment fragment = new SettingFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.add(R.id.fragment_layout, fragment);
