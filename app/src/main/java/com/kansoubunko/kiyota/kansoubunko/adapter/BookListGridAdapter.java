@@ -9,14 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
-import com.kansoubunko.kiyota.kansoubunko.activity.ListActivity;
-import com.kansoubunko.kiyota.kansoubunko.activity.MyApplication;
-import com.kansoubunko.kiyota.kansoubunko.activity.RegistActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.support.v4.content.ContextCompat.startActivity;
 
 public class BookListGridAdapter extends BaseAdapter {
 

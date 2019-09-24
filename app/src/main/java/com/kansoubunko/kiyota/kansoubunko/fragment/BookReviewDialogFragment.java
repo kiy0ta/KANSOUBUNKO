@@ -9,7 +9,6 @@ import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
-import com.kansoubunko.kiyota.kansoubunko.activity.RegistActivity;
 
 public class BookReviewDialogFragment extends DialogFragment {
 
@@ -33,9 +32,9 @@ public class BookReviewDialogFragment extends DialogFragment {
                 // editTextから値を取得
                 String returnValue = editText.getText().toString();
                 // RegistActivityのインスタンスを取得
-                RegistActivity registActivity = (RegistActivity) getActivity();
-//                registActivity.setReviewTextView(returnValue);
-                registActivity.changeButtonText(returnValue);
+                RegistFragment registFragment = (RegistFragment) getActivity();
+//                registFragment.setReviewTextView(returnValue);
+                registFragment.changeButtonText(returnValue);
             }
         });
 

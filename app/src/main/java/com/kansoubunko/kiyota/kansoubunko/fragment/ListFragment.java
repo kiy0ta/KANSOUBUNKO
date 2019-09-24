@@ -1,19 +1,21 @@
-package com.kansoubunko.kiyota.kansoubunko.activity;
+package com.kansoubunko.kiyota.kansoubunko.fragment;
 
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
+import com.kansoubunko.kiyota.kansoubunko.activity.MainActivity;
 import com.kansoubunko.kiyota.kansoubunko.adapter.BookListGridAdapter;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
@@ -22,7 +24,7 @@ import com.kansoubunko.kiyota.kansoubunko.util.PhoneInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListActivity extends AppCompatActivity {
+public class ListFragment extends Fragment {
 
     public KansouDao mDao;
     private List<BookInfoEntity> bookInfoList = new ArrayList<>();
@@ -55,37 +57,22 @@ public class ListActivity extends AppCompatActivity {
     private static final double RATE_OF_HEIGHT_DISPLAY = 0.05;
 
     public static Intent getStartIntent(MainActivity mainActivity) {
-        return new Intent(mainActivity, ListActivity.class);
+        return new Intent(mainActivity, ListFragment.class);
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
+        // 画面初期化処理
         final Resources res = getResources();
+        final View inflate = inflater.inflate(R.layout.fragment_list, container, false);
 
         //特定のユーザーの本のすべてのデータを取得する
-        mDao = new KansouDao(getApplicationContext());
-        mSharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
-        String s = mSharedPreferences.getString("userName", "");
-        bookInfoList = mDao.selectBookInfo(s);
-//        テストコード
-//        int sa = bookInfoList.size();
-//        Log.d("loglog", "size:" + sa);
-//        for (BookInfoEntity entity : bookInfoList) {
-//            entity.getBookTitle();
-//            entity.getBookImage();
-//            entity.getBookReview();
-//            Log.d("loglog", "bookTitle:"+entity.getBookTitle());
-//            Log.d("loglog", "bookImage"+entity.getBookImage());
-//            Log.d("loglog", "bookReview"+entity.getBookReview());
-//        }
+//        mDao = new KansouDao(getApplicationContext());
+//        mSharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
+//        String s = mSharedPreferences.getString("userName", "");
+//        bookInfoList = mDao.selectBookInfo(s);
 
         //感想が記入されている本の件数を取得する
         int i = 0;
@@ -106,9 +93,9 @@ public class ListActivity extends AppCompatActivity {
             //imageを格納する
             entity.setBookImage(bookInfoList.get(position).getBookImage());
             image = entity.getBookImage();
-            int imageId = getResources().getIdentifier(
-                    image, "drawable", getPackageName());
-            bookImgList.add(imageId);
+//            int imageId = getResources().getIdentifier(
+//                    image, "drawable", getPackageName());
+//            bookImgList.add(imageId);
             //titleを格納する
             entity.setBookTitle(bookInfoList.get(position).getBookTitle());
             title = entity.getBookTitle();
@@ -117,27 +104,27 @@ public class ListActivity extends AppCompatActivity {
         }
 
         //ゲージViewをインスタンス化
-        TextView gaugeMaxTextView = findViewById(R.id.max_gauge);
-        TextView gaugeTextView = findViewById(R.id.count_gauge);
+        TextView gaugeMaxTextView = inflate.findViewById(R.id.max_gauge);
+        TextView gaugeTextView = inflate.findViewById(R.id.count_gauge);
 
         //ゲージViewの大きさを設定
-        int width = (int) (PhoneInfo.getPhoneWidth(this) * this.RATE_OF_WIDTH_DISPLAY);
-        int height = (int) (PhoneInfo.getPhoneWidth(this) * this.RATE_OF_HEIGHT_DISPLAY);
+//        int width = (int) (PhoneInfo.getPhoneWidth(this) * this.RATE_OF_WIDTH_DISPLAY);
+//        int height = (int) (PhoneInfo.getPhoneWidth(this) * this.RATE_OF_HEIGHT_DISPLAY);
         gaugeMaxTextView.setWidth(width);
         gaugeMaxTextView.setHeight(height);
         int bookAllCount = bookInfoList.size();
         currentReviewCountGauge(reviewListCount, bookAllCount, width, height, gaugeTextView);
 
         //本の画像一覧を表示するGridViewを生成
-        GridView bookListGridView = findViewById(R.id.list_book);
-        BookListGridAdapter adapter = new BookListGridAdapter(this, R.layout.item_book_list, bookImgList, bookTitleList);
-        bookListGridView.setAdapter(adapter);
+        GridView bookListGridView = inflate.findViewById(R.id.list_book);
+//        BookListGridAdapter adapter = new BookListGridAdapter(this, R.layout.item_book_list, bookImgList, bookTitleList);
+//        bookListGridView.setAdapter(adapter);
 
-        Button bookRegistButton = findViewById(R.id.list_regist);
+        Button bookRegistButton = inflate.findViewById(R.id.list_regist);
         bookRegistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(RegistActivity.getStartIntent(ListActivity.this));
+//                startActivity(RegistFragment.getStartIntent(ListFragment.this));
             }
         });
         //画像が押下されたときの処理
@@ -149,19 +136,24 @@ public class ListActivity extends AppCompatActivity {
 //                int selectedImage = bookImgList.get(position);
 //                String selectedTitle = bookTitleList.get(position);
 //                // インテントにセット
-                startActivity(RegistActivity.getStartIntent(ListActivity.this));
+//                startActivity(RegistFragment.getStartIntent(ListFragment.this));
             }
         });
 
-        //「◁」が押下されたときの処理
-        TextView backTextView = findViewById(R.id.back_arrow);
-        backTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        return inflate;
     }
+
+//        テストコード
+//        int sa = bookInfoList.size();
+//        Log.d("loglog", "size:" + sa);
+//        for (BookInfoEntity entity : bookInfoList) {
+//            entity.getBookTitle();
+//            entity.getBookImage();
+//            entity.getBookReview();
+//            Log.d("loglog", "bookTitle:"+entity.getBookTitle());
+//            Log.d("loglog", "bookImage"+entity.getBookImage());
+//            Log.d("loglog", "bookReview"+entity.getBookReview());
+//        }
 
     public void currentReviewCountGauge(double finishBookCount, double maxBookCount, double maxWidth, int height, TextView gaugeView) {
         this.maxGaugeWidth = maxWidth;

@@ -9,7 +9,6 @@ import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
-import com.kansoubunko.kiyota.kansoubunko.activity.RegistActivity;
 
 public class BookTitleDialogFragment extends DialogFragment {
 
@@ -33,8 +32,8 @@ public class BookTitleDialogFragment extends DialogFragment {
                 // editTextから値を取得
                 String returnValue = editText.getText().toString();
                 // RegistActivityのインスタンスを取得
-                RegistActivity registActivity = (RegistActivity) getActivity();
-                registActivity.setTitleTextView(returnValue);
+                RegistFragment registFragment = (RegistFragment) getActivity();
+                registFragment.setTitleTextView(returnValue);
             }
         });
 

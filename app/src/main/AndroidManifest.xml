@@ -34,22 +34,22 @@
             android:label="@string/app_name" />
 
         <activity
-            android:name=".activity.RegistActivity"
+            android:name=".fragment.RegistFragment"
             android:exported="false"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".activity.ListActivity"
+            android:name=".fragment.ListFragment"
             android:exported="false"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".activity.SettingActivity"
+            android:name=".fragment.SettingFragment"
             android:exported="false"
             android:label="@string/app_name" />
 
         <activity
-            android:name=".activity.TimeLineActivity"
+            android:name=".fragment.TimeLineFragment"
             android:exported="false"
             android:label="@string/app_name" />
 

@@ -1,4 +1,4 @@
-package com.kansoubunko.kiyota.kansoubunko.activity;
+package com.kansoubunko.kiyota.kansoubunko.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
+import com.kansoubunko.kiyota.kansoubunko.activity.MainActivity;
 import com.kansoubunko.kiyota.kansoubunko.adapter.TimeLineListViewAdapter;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
@@ -14,12 +15,12 @@ import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TimeLineActivity extends AppCompatActivity {
+public class TimeLineFragment extends AppCompatActivity {
 
     public KansouDao mDao;
 
     public static Intent getStartIntent(MainActivity mainActivity) {
-        return new Intent(mainActivity, TimeLineActivity.class);
+        return new Intent(mainActivity, TimeLineFragment.class);
     }
 
     @Override
@@ -32,7 +33,7 @@ public class TimeLineActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_timeline);
+        setContentView(R.layout.fragment_timeline);
 
         List<BookInfoEntity> kansou = new ArrayList<>();
         mDao = new KansouDao(this);
