@@ -167,6 +167,10 @@ public class RegistFragment extends Fragment {
 
     }
 
+    //閲覧モード
+    public void initView() {
+
+    }
 }
 
 

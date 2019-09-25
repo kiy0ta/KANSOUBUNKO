@@ -1,8 +1,6 @@
 package com.kansoubunko.kiyota.kansoubunko.fragment;
 
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,12 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
-import com.kansoubunko.kiyota.kansoubunko.activity.MainActivity;
 import com.kansoubunko.kiyota.kansoubunko.adapter.BookListGridAdapter;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
@@ -34,7 +30,9 @@ public class ListFragment extends Fragment {
     // Resource IDを格納するarray
     private List<Integer> bookImgList = new ArrayList<>();
     private int reviewListCount = 0;
-    private SharedPreferences mSharedPreferences;
+    private String username;
+    private Bundle bundle;
+    private final static String PACKAGE_NAME = "com.kansoubunko.kiyota.kansoubunko.fragment.ListFragment";
     /**
      * ゲージビューの最大幅
      */
@@ -56,10 +54,6 @@ public class ListFragment extends Fragment {
      */
     private static final double RATE_OF_HEIGHT_DISPLAY = 0.05;
 
-    public static Intent getStartIntent(MainActivity mainActivity) {
-        return new Intent(mainActivity, ListFragment.class);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,16 +62,21 @@ public class ListFragment extends Fragment {
         final Resources res = getResources();
         final View inflate = inflater.inflate(R.layout.fragment_list, container, false);
 
+        //ユーザー情報を取得する
+        bundle = getArguments();
+        username = bundle.getString("userName");
+
         //特定のユーザーの本のすべてのデータを取得する
-//        mDao = new KansouDao(getApplicationContext());
-//        mSharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
-//        String s = mSharedPreferences.getString("userName", "");
-//        bookInfoList = mDao.selectBookInfo(s);
+        mDao = new KansouDao(getActivity());
+        bookInfoList = mDao.selectBookInfo(username);
+        for (BookInfoEntity e : bookInfoList) {
+            e.getBookImage();
+        }
 
         //感想が記入されている本の件数を取得する
         int i = 0;
         for (BookInfoEntity entity : bookInfoList) {
-            if (bookInfoList.get(i).getBookReview().length() > 1) {
+            if (bookInfoList.get(i).getBookReview().length() > 2) {
                 entity.setBookId(bookInfoList.get(i).getBookId());
                 i++;
             }
@@ -93,9 +92,9 @@ public class ListFragment extends Fragment {
             //imageを格納する
             entity.setBookImage(bookInfoList.get(position).getBookImage());
             image = entity.getBookImage();
-//            int imageId = getResources().getIdentifier(
-//                    image, "drawable", getPackageName());
-//            bookImgList.add(imageId);
+            int imageId = getResources().getIdentifier(
+                    image, "drawable", getActivity().getPackageName());
+            bookImgList.add(imageId);
             //titleを格納する
             entity.setBookTitle(bookInfoList.get(position).getBookTitle());
             title = entity.getBookTitle();
@@ -108,8 +107,8 @@ public class ListFragment extends Fragment {
         TextView gaugeTextView = inflate.findViewById(R.id.count_gauge);
 
         //ゲージViewの大きさを設定
-//        int width = (int) (PhoneInfo.getPhoneWidth(this) * this.RATE_OF_WIDTH_DISPLAY);
-//        int height = (int) (PhoneInfo.getPhoneWidth(this) * this.RATE_OF_HEIGHT_DISPLAY);
+        int width = (int) (PhoneInfo.getPhoneWidth(getActivity()) * this.RATE_OF_WIDTH_DISPLAY);
+        int height = (int) (PhoneInfo.getPhoneWidth(getActivity()) * this.RATE_OF_HEIGHT_DISPLAY);
         gaugeMaxTextView.setWidth(width);
         gaugeMaxTextView.setHeight(height);
         int bookAllCount = bookInfoList.size();
@@ -117,29 +116,24 @@ public class ListFragment extends Fragment {
 
         //本の画像一覧を表示するGridViewを生成
         GridView bookListGridView = inflate.findViewById(R.id.list_book);
-//        BookListGridAdapter adapter = new BookListGridAdapter(this, R.layout.item_book_list, bookImgList, bookTitleList);
-//        bookListGridView.setAdapter(adapter);
+        BookListGridAdapter adapter = new BookListGridAdapter(getActivity(), R.layout.item_book_list, bookImgList, bookTitleList);
+        bookListGridView.setAdapter(adapter);
 
-        Button bookRegistButton = inflate.findViewById(R.id.list_regist);
-        bookRegistButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                startActivity(RegistFragment.getStartIntent(ListFragment.this));
-            }
-        });
         //画像が押下されたときの処理
         bookListGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // clickされたpositionのtextとphotoのID
-//                long viewId = id;
-//                int selectedImage = bookImgList.get(position);
-//                String selectedTitle = bookTitleList.get(position);
-//                // インテントにセット
-//                startActivity(RegistFragment.getStartIntent(ListFragment.this));
+                long viewId = id;
+                int selectedImage = bookImgList.get(position);
+                String selectedTitle = bookTitleList.get(position);
+                RegistFragment fragment = new RegistFragment();
+                bundle.putInt("bookImgList", selectedImage);
+                bundle.putString("bookTitleList", selectedTitle);
+                fragment.setArguments(bundle);
+                fragment.initView();
             }
         });
-
         return inflate;
     }
 

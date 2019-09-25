@@ -32,100 +32,21 @@
 
             </LinearLayout>
 
-            <FrameLayout
+            <android.support.v4.view.ViewPager
                 android:id="@+id/fragment_layout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_weight="8"></FrameLayout>
+                android:layout_weight="8" />
 
-            <!--<ImageView-->
-            <!--android:id="@+id/main_regist"-->
-            <!--android:layout_width="300dp"-->
-            <!--android:layout_height="100dp"-->
-            <!--android:layout_marginBottom="20dp"-->
-            <!--android:background="@drawable/shape_login_button"-->
-            <!--android:padding="2dp"-->
-            <!--android:src="@drawable/change_main_regist" />-->
-
-            <!--<ImageView-->
-            <!--android:id="@+id/main_list"-->
-            <!--android:layout_width="300dp"-->
-            <!--android:layout_height="100dp"-->
-            <!--android:layout_marginBottom="20dp"-->
-            <!--android:background="@drawable/shape_login_button"-->
-            <!--android:padding="2dp"-->
-            <!--android:src="@drawable/change_main_list" />-->
-
-            <!--<ImageView-->
-            <!--android:id="@+id/main_setting"-->
-            <!--android:layout_width="300dp"-->
-            <!--android:layout_height="100dp"-->
-            <!--android:layout_marginBottom="20dp"-->
-            <!--android:background="@drawable/shape_login_button"-->
-            <!--android:padding="2dp"-->
-            <!--android:src="@drawable/change_main_setting" />-->
-
-            <!--<ImageView-->
-            <!--android:id="@+id/main_time_line"-->
-            <!--android:layout_width="300dp"-->
-            <!--android:layout_height="100dp"-->
-            <!--android:background="@drawable/shape_login_button"-->
-            <!--android:padding="2dp"-->
-            <!--android:src="@drawable/change_main_timeline" />-->
-            <!--</LinearLayout>-->
-
-            <LinearLayout
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_alignParentBottom="true"
+                android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:background="@color/black" />
 
-                <ImageView
-                    android:id="@+id/tab_regist"
-                    android:layout_width="40dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_add" />
-
-                <ImageView
-                    android:id="@+id/tab_list"
-                    android:layout_width="40dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_book" />
-
-                <ImageView
-                    android:id="@+id/tab_search"
-                    android:layout_width="40dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_search" />
-
-                <ImageView
-                    android:id="@+id/tab_favorite"
-                    android:layout_width="40dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_favorite" />
-
-                <ImageView
-                    android:id="@+id/tab_setting"
-                    android:layout_width="40dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_setting" />
-
-            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

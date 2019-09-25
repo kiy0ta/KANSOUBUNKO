@@ -338,11 +338,31 @@ public class KansouDao {
             if (cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
                     entity.setBookId(cursor.getString(0));
-                    entity.setBookUserName(cursor.getString(1));
-                    entity.setBookTitle(cursor.getString(2));
-                    entity.setBookImage(cursor.getString(3));
-                    entity.setBookReview(cursor.getString(4));
-                    entity.setBookDate(cursor.getString(5));
+                    if (cursor.getString(1) != null) {
+                        entity.setBookUserName(cursor.getString(1));
+                    } else {
+                        entity.setBookUserName(DataConstants.DEFAULT_BIRTHDAY);
+                    }
+                    if (cursor.getString(2) != null) {
+                        entity.setBookTitle(cursor.getString(2));
+                    } else {
+                        entity.setBookTitle("");
+                    }
+                    if (cursor.getString(3) != null) {
+                        entity.setBookImage(cursor.getString(3));
+                    } else {
+                        entity.setBookImage("");
+                    }
+                    if (cursor.getString(4) != null) {
+                        entity.setBookReview(cursor.getString(4));
+                    } else {
+                        entity.setBookReview("");
+                    }
+                    if (cursor.getString(5) != null) {
+                        entity.setBookDate(cursor.getString(5));
+                    } else {
+                        entity.setBookDate("");
+                    }
                     list.add(entity);
                     Log.i("Kansou.db", "sn" + cursor.getString(0));
                 }
