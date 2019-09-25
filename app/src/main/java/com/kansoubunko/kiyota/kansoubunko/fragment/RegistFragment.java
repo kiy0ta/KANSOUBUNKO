@@ -17,10 +17,14 @@ import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.adapter.BookReviewGridAdapter;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static android.view.View.GONE;
 
 public class RegistFragment extends Fragment {
 
@@ -29,7 +33,6 @@ public class RegistFragment extends Fragment {
     private SharedPreferences mSharedPreferences;
     private Button bookReviewButton;
     private Button bookReviewUpdateButton;
-    private Resources res;
     private KansouDao dao;
     private String newTitle;
     private BookReviewGridAdapter adapter;
@@ -40,6 +43,7 @@ public class RegistFragment extends Fragment {
     private static final int REQUEST_CHOOSER = 1000;
     private static Boolean editBoolean = false;
     public static int GALLERY_CODE = 102;
+    private Resources res;
 
     private static final Map<Integer, String> BOOK_REVIEW_MAP = new HashMap<>();
 
@@ -48,124 +52,123 @@ public class RegistFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // 画面初期化処理
-        final Resources res = getResources();
-        final View inflate = inflater.inflate(R.layout.fragment_regist, container, false);
-        TextView titleText = inflate.findViewById(R.id.textView);
-        Button button = inflate.findViewById(R.id.button);
+        View inflate = inflater.inflate(R.layout.fragment_regist, container, false);
+        //本のデータをすべて取得する
+        dao = new KansouDao(getActivity());
+        //一覧画面から遷移しているとき(本の画像を押下したとき＝編集モード)
+        //true:編集モード
+        if (editBoolean) {
+//            mSharedPreferences = getSharedPreferences("bookInfo", MODE_PRIVATE);
+            String bookId = mSharedPreferences.getString("bookId", "");
+            String bookTitle = mSharedPreferences.getString("bookTitle", "");
+            String bookImage = mSharedPreferences.getString("bookImage", "");
+            String bookReview = mSharedPreferences.getString("bookReview", "");
+        }
+        //設定画面から遷移しているとき(閲覧モード)
+        if (editBoolean) {
+//            mSharedPreferences = getSharedPreferences("bookInfo", MODE_PRIVATE);
+            String bookId = mSharedPreferences.getString("bookId", "");
+            String bookTitle = mSharedPreferences.getString("bookTitle", "");
+            String bookImage = mSharedPreferences.getString("bookImage", "");
+            String bookReview = mSharedPreferences.getString("bookReview", "");
+        }
+
+        //100マスを生成
+        bookReviewGridView = inflate.findViewById(R.id.regist_book_review);
+        adapter = new BookReviewGridAdapter(getActivity(), R.layout.item_book_review, word);
+        bookReviewGridView.setAdapter(adapter);
+
+        //画像表示用ビュー
+        bookImageView = inflate.findViewById(R.id.regist_book_img);
+        bookImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showGallery();
+            }
+        });
+
+        //タイトル入力用ビュー
+        bookTitleTextView = inflate.findViewById(R.id.regist_book_title);
+        bookTitleTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //ダイアログを表示する
+                BookTitleDialogFragment dialog = new BookTitleDialogFragment();
+                // 表示  getFragmentManager()は固定、sampleは識別タグ
+                dialog.show(getFragmentManager(), "sample");
+            }
+        });
+
+        //新規登録の場合は、空文字を100文字文つめておく
+        //false:新規登録
+        int i = 0;
+        if (!editBoolean) {
+            for (i = 0; i < 100; i++) {
+                word.add("");
+            }
+        }
+
+        //登録ボタン押下でダイアログを表示する処理
+        bookReviewButton = inflate.findViewById(R.id.regist_book_review_button);
+        bookReviewUpdateButton = inflate.findViewById(R.id.regist_book_review_update_button);
+        bookReviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //ダイアログを表示する
+                BookReviewDialogFragment dialog = new BookReviewDialogFragment();
+                // 表示  getFragmentManager()は固定、sampleは識別タグ
+                dialog.show(getFragmentManager(), "sample");
+            }
+        });
         return inflate;
     }
-}
-//
-//        res = getResources();
-//        dao = new KansouDao(this);
-//
-//        //List画面から遷移しているとき(本の画像を押下したとき＝編集モード)
-//        //true:編集モード
-//        if (editBoolean) {
-//            mSharedPreferences = getSharedPreferences("bookInfo", MODE_PRIVATE);
-//            String bookId = mSharedPreferences.getString("bookId", "");
-//            String bookTitle = mSharedPreferences.getString("bookTitle", "");
-//            String bookImage = mSharedPreferences.getString("bookImage", "");
-//            String bookReview = mSharedPreferences.getString("bookReview", "");
-//        }
-//
-//        //100マスを生成
-//        bookReviewGridView = findViewById(R.id.regist_book_review);
-//        adapter = new BookReviewGridAdapter(this, R.layout.item_book_review, word);
-//        bookReviewGridView.setAdapter(adapter);
-//
-//        //画像表示用ビュー
-//        bookImageView = findViewById(R.id.regist_book_img);
-//        bookImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showGallery();
-//            }
-//        });
-//
-//
-//        //タイトル入力用ビュー
-//        bookTitleTextView = findViewById(R.id.regist_book_title);
-//        bookTitleTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //ダイアログを表示する
-//                BookTitleDialogFragment dialog = new BookTitleDialogFragment();
-//                // 表示  getFragmentManager()は固定、sampleは識別タグ
-//                dialog.show(getSupportFragmentManager(), "sample");
-//            }
-//        });
-//
-//        //新規登録の場合は、空文字を100文字文つめておく
-//        //false:新規登録
-//        int i = 0;
-//        if (!editBoolean) {
-//            for (i = 0; i < 100; i++) {
-//                word.add("");
-//            }
-//        }
-//
-//        //登録ボタン押下でダイアログを表示する処理
-//        bookReviewButton = findViewById(R.id.regist_book_review_button);
-//        bookReviewUpdateButton = findViewById(R.id.regist_book_review_update_button);
-//        bookReviewButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //ダイアログを表示する
-//                BookReviewDialogFragment dialog = new BookReviewDialogFragment();
-//                // 表示  getFragmentManager()は固定、sampleは識別タグ
-//                dialog.show(getSupportFragmentManager(), "sample");
-//            }
-//        });
-//
-//        //左矢印押下で前の画面に戻る処理
-//        TextView backTextView = findViewById(R.id.back_arrow);
-//        backTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
-//    }
-//}
 
-// ダイアログで入力した値をtextViewに入れる - ダイアログから呼び出される
-//    public void setReviewTextView(String value) {
-//        input = value;
-//        word = Arrays.asList(input.split(""));
-//    }
-//
-//    // ダイアログで入力した値をtextViewに入れる - ダイアログから呼び出される
-//    public void setTitleTextView(String value) {
-//        input = value;
-//        bookTitleTextView.setText(input);
-//    }
-//
-//    //ボタンのテキストを「記入」から「登録」に変更する
-//    public void changeButtonText(final String bookReview) {
-//        res = getResources();
-//        bookReviewButton.setVisibility(GONE);
-//        bookReviewUpdateButton.setVisibility(View.VISIBLE);
-//        setReviewTextView(bookReview);
-//        adapter = new BookReviewGridAdapter(this, R.layout.item_book_review, word);
-//        bookReviewGridView.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
-//        bookReviewUpdateButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //登録処理
-//                if (bookTitleTextView.getText().length() != 0 || bookTitleTextView.getText() != null) {
-//                    newTitle = (String) bookTitleTextView.getText();
-//                }
-//                LocalDate today = LocalDate.now();
-//                String strToday = String.valueOf(today);
-//                //TODO:日付のフォーマット処理が必要
-//
-//                dao.registBookInfo("kiyota", newTitle, "no_book_img", bookReview, strToday);
-//                finish();
-//            }
-//        });
-//    }
+    // ダイアログで入力した値をtextViewに入れる - ダイアログから呼び出される
+    public void setReviewTextView(String value) {
+        input = value;
+        word = Arrays.asList(input.split(""));
+    }
+
+    //    // ダイアログで入力した値をtextViewに入れる - ダイアログから呼び出される
+    public void setTitleTextView(String value) {
+        input = value;
+        bookTitleTextView.setText(input);
+    }
+
+    //    //ボタンのテキストを「記入」から「登録」に変更する
+    public void changeButtonText(final String bookReview) {
+        res = getResources();
+        bookReviewButton.setVisibility(GONE);
+        bookReviewUpdateButton.setVisibility(View.VISIBLE);
+        setReviewTextView(bookReview);
+        adapter = new BookReviewGridAdapter(getActivity(), R.layout.item_book_review, word);
+        bookReviewGridView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        bookReviewUpdateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //登録処理
+                if (bookTitleTextView.getText().length() != 0 || bookTitleTextView.getText() != null) {
+                    newTitle = (String) bookTitleTextView.getText();
+                }
+                LocalDate today = LocalDate.now();
+                String strToday = String.valueOf(today);
+                //TODO:日付のフォーマット処理が必要
+
+                dao.registBookInfo("kiyota", newTitle, "no_book_img", bookReview, strToday);
+                //TODO:初期画面表示処理
+
+            }
+        });
+    }
+
+    //画像をカメラとギャラリーの両方から参照できる
+    private void showGallery() {
+
+    }
+
+}
+
 
 //画像をカメラとギャラリーの両方から参照できる
 //    private void showGallery() {
