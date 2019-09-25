@@ -25,7 +25,7 @@ public class TimeLineFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // 画面初期化処理
-        final View inflate = inflater.inflate(R.layout.fragment_setting, container, false);
+        final View inflate = inflater.inflate(R.layout.fragment_timeline, container, false);
         //本のデータを取得する
         mDao = new KansouDao(getActivity());
         bookInfoList = new ArrayList<>();
