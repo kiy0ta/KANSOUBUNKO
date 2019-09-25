@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:orientation="vertical">
@@ -28,8 +28,7 @@
                     android:id="@+id/layout_title"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/regist" />
+                    android:layout_gravity="center" />
 
             </LinearLayout>
 
@@ -116,14 +115,6 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:src="@drawable/ic_favorite" />
-
-                <ImageView
-                    android:id="@+id/tab_followers"
-                    android:layout_width="40dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_followers" />
 
                 <ImageView
                     android:id="@+id/tab_setting"

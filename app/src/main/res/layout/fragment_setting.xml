@@ -114,23 +114,71 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="46dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:src="@drawable/set_follow" />
-
-                    <TextView
-                        android:id="@+id/setting_follow"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textColor="@color/clear_white"
-                        android:textSize="18dp" />
+                        android:layout_marginTop="6dp"
+                        android:layout_weight="6">
+
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="46dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:src="@drawable/set_follow" />
+
+                        <TextView
+                            android:id="@+id/setting_follow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textColor="@color/clear_white"
+                            android:textSize="18dp" />
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <Button
+                                android:id="@+id/follow_delete_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/shape_follow_delete_button"
+                                android:elevation="10dp"
+                                android:gravity="center"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp"
+                                android:text="@string/setting_follow_delete"
+                                android:textColor="@color/black"
+                                android:textSize="20dp"
+                                android:visibility="gone" />
+
+                            <Button
+                                android:id="@+id/follow_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/shape_follow_button"
+                                android:elevation="10dp"
+                                android:gravity="center"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp"
+                                android:text="@string/setting_follow"
+                                android:textColor="@color/white"
+                                android:textSize="20dp" />
+
+                        </RelativeLayout>
+                    </FrameLayout>
                 </LinearLayout>
 
                 <LinearLayout

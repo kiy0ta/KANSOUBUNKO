@@ -39,6 +39,8 @@ public class SettingFragment extends Fragment {
     private ImageView bookImage;
     private int listPosition;
     private List<Integer> bookList;
+    private Button followButton;
+    private Button followDeleteButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -126,9 +128,28 @@ public class SettingFragment extends Fragment {
                 bookImage.setImageResource(bookList.get(listPosition));
             }
         });
+        //フォローする
+        followButton = inflate.findViewById(R.id.follow_button);
+        //フォロー解除する
+        followDeleteButton = inflate.findViewById(R.id.follow_delete_button);
+        followButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                followButton.setVisibility(GONE);
+                followDeleteButton.setVisibility(View.VISIBLE);
+            }
+        });
+        followDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                followDeleteButton.setVisibility(GONE);
+                followButton.setVisibility(View.VISIBLE);
+            }
+        });
+
         return inflate;
     }
-    
+
     //画像をカメラとギャラリーの両方から参照できる
     private void showGallery() {
 //        //カメラの起動Intentの用意

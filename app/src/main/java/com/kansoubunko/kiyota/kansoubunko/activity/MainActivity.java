@@ -7,11 +7,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.fragment.FavoriteFragment;
-import com.kansoubunko.kiyota.kansoubunko.fragment.FollowersFragment;
 import com.kansoubunko.kiyota.kansoubunko.fragment.ListFragment;
 import com.kansoubunko.kiyota.kansoubunko.fragment.RegistFragment;
 import com.kansoubunko.kiyota.kansoubunko.fragment.SettingFragment;
@@ -89,18 +87,6 @@ public class MainActivity extends AppCompatActivity {
                 //タイトルを変更する
                 titleImage.setImageResource(R.drawable.regist);
                 FavoriteFragment fragment = new FavoriteFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.add(R.id.fragment_layout, fragment);
-                transaction.commit();
-            }
-        });
-        ImageView followersButton = findViewById(R.id.tab_followers);
-        followersButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //タイトルを変更する
-                titleImage.setImageResource(R.drawable.set_followers);
-                FollowersFragment fragment = new FollowersFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.add(R.id.fragment_layout, fragment);
                 transaction.commit();
