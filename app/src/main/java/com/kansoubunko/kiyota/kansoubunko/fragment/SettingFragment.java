@@ -1,8 +1,13 @@
 package com.kansoubunko.kiyota.kansoubunko.fragment;
 
 
+import android.content.ContentValues;
+import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
+import com.kansoubunko.kiyota.kansoubunko.adapter.BookReviewGridAdapter;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
 import com.kansoubunko.kiyota.kansoubunko.dto.UserInfoEntity;
@@ -20,6 +26,7 @@ import com.kansoubunko.kiyota.kansoubunko.dto.UserInfoEntity;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 import static android.view.View.GONE;
 
 public class SettingFragment extends Fragment {
@@ -34,13 +41,14 @@ public class SettingFragment extends Fragment {
     private String userBirthday;
     private String follow;
     private String followers;
-    private String userImage;
+    private String strUserImage;
     private String profile;
     private ImageView bookImage;
     private int listPosition;
     private List<Integer> bookList;
     private Button followButton;
     private Button followDeleteButton;
+    private ImageView userImage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,7 +66,7 @@ public class SettingFragment extends Fragment {
             userBirthday = entity.getUserBirthday();
             follow = entity.getFollow();
             followers = entity.getFollowers();
-            userImage = entity.getUserImage();
+            strUserImage = entity.getUserImage();
             profile = entity.getProfile();
         }
         //名前
@@ -77,7 +85,7 @@ public class SettingFragment extends Fragment {
         TextView profileText = inflate.findViewById(R.id.setting_profile);
         profileText.setText(profile);
         //ユーザーアイコン
-        ImageView userImage = inflate.findViewById(R.id.setting_user_image);
+        userImage = inflate.findViewById(R.id.setting_user_image);
         userImage.setImageResource(R.drawable.ic_sample_user_image);
         //他人のプロフィールだったら、編集マークをGONEにする
         Button editButton = inflate.findViewById(R.id.setting_edit_button);
@@ -106,7 +114,6 @@ public class SettingFragment extends Fragment {
         bookList.add(R.drawable.book_shinwataikei);
         bookList.add(R.drawable.book_yakou);
         bookList.add(R.drawable.book_yoruhamizikashi);
-//        bookImage.setImageResource(Integer.parseInt(bookInfoList.get(listPosition).getBookImage()));
         bookImage.setImageResource(bookList.get(listPosition));
         //本の画像を表示する(◁)
         TextView leftButton = inflate.findViewById(R.id.left_arrow);
@@ -152,29 +159,56 @@ public class SettingFragment extends Fragment {
 
     //画像をカメラとギャラリーの両方から参照できる
     private void showGallery() {
-//        //カメラの起動Intentの用意
-//        String photoName = System.currentTimeMillis() + ".jpg";
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put(MediaStore.Images.Media.TITLE, photoName);
-//        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-//        m_uri = getContentResolver()
-//                .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-//
-//        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, m_uri);
-//
-//        // ギャラリー用のIntent作成
-//        Intent intentGallery;
-//        if (Build.VERSION.SDK_INT < 19) {
-//            intentGallery = new Intent(Intent.ACTION_GET_CONTENT);
-//            intentGallery.setType("image/*");
-//        } else {
-//            intentGallery = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-//            intentGallery.addCategory(Intent.CATEGORY_OPENABLE);
-//            intentGallery.setType("image/jpeg");
-//        }
-//        Intent intent = Intent.createChooser(intentCamera, "画像の選択");
-//        intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{intentGallery});
-//        startActivityForResult(intent, REQUEST_CHOOSER);
+        //カメラの起動Intentの用意
+        String photoName = System.currentTimeMillis() + ".jpg";
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Images.Media.TITLE, photoName);
+        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        m_uri = getActivity().getContentResolver()
+                .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+
+        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, m_uri);
+
+        // ギャラリー用のIntent作成
+        Intent intentGallery;
+        if (Build.VERSION.SDK_INT < 19) {
+            intentGallery = new Intent(Intent.ACTION_GET_CONTENT);
+            intentGallery.setType("image/*");
+        } else {
+            intentGallery = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intentGallery.addCategory(Intent.CATEGORY_OPENABLE);
+            intentGallery.setType("image/jpeg");
+        }
+        Intent intent = Intent.createChooser(intentCamera, "画像の選択");
+        intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{intentGallery});
+        startActivityForResult(intent, REQUEST_CHOOSER);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CHOOSER) {
+            if (resultCode != RESULT_OK) {
+                // キャンセル時
+                return;
+            }
+            Uri resultUri = (data != null ? data.getData() : m_uri);
+            if (resultUri == null) {
+                // 取得失敗
+                return;
+            }
+            // ギャラリーへスキャンを促す
+            MediaScannerConnection.scanFile(
+                    getActivity(),
+                    new String[]{resultUri.getPath()},
+                    new String[]{"image/jpeg"},
+                    null
+            );
+            // 画像を設定
+            userImage.setImageURI(resultUri);
+            //TODO:DB登録処理
+        }
     }
 }

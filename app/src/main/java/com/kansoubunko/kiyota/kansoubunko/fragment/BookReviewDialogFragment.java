@@ -32,9 +32,8 @@ public class BookReviewDialogFragment extends DialogFragment {
                 // editTextから値を取得
                 String returnValue = editText.getText().toString();
                 // RegistActivityのインスタンスを取得
-//                RegistFragment registFragment = (RegistFragment) getActivity();
-////                registFragment.setReviewTextView(returnValue);
-//                registFragment.changeButtonText(returnValue);
+                RegistFragment registFragment = new RegistFragment();
+                registFragment.changeButtonText(returnValue);
             }
         });
 

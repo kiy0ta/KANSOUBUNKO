@@ -32,7 +32,6 @@ public class ListFragment extends Fragment {
     private int reviewListCount = 0;
     private String username;
     private Bundle bundle;
-    private final static String PACKAGE_NAME = "com.kansoubunko.kiyota.kansoubunko.fragment.ListFragment";
     /**
      * ゲージビューの最大幅
      */

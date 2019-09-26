@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         userName = mSharedPreferences.getString("userName", "");
         userPassword = mSharedPreferences.getString("userPassword", "");
 
-
         //フラグメントを配列に格納する
         fragments = new Fragment[5];
         fragments[INDEX_REGIST] = new RegistFragment();
@@ -89,49 +88,3 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(getIntent().getIntExtra("STARTAT", INDEX_TIMELINE)).select();
     }
 }
-//        ImageView settingButton = findViewById(R.id.tab_setting);
-//        settingButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //タイトルを変更する
-//                titleImage.setImageResource(R.drawable.setting);
-//                //ユーザー情報を渡す
-//                Bundle bundle = new Bundle();
-//                bundle.putString("userName", userName);
-//                SettingFragment fragment = new SettingFragment();
-//                fragment.setArguments(bundle);
-//                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                transaction.add(R.id.fragment_layout, fragment);
-//                transaction.commit();
-//            }
-//        });
-
-//かつてのMain画面
-//        ImageView registImageView = findViewById(R.id.main_regist);
-//        registImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(RegistFragment.getStartIntent(MainActivity.this));
-//            }
-//        });
-//        ImageView listImageView = findViewById(R.id.main_list);
-//        listImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(ListFragment.getStartIntent(MainActivity.this));
-//            }
-//        });
-//        ImageView settingImageView = findViewById(R.id.main_setting);
-//        settingImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(SettingFragment.getStartIntent(MainActivity.this));
-//            }
-//        });
-//        ImageView timeLineImageView = findViewById(R.id.main_time_line);
-//        timeLineImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(TimeLineFragment.getStartIntent(MainActivity.this));
-//            }
-//        });

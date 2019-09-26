@@ -1,10 +1,18 @@
 package com.kansoubunko.kiyota.kansoubunko.fragment;
 
+import android.content.ContentValues;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +24,10 @@ import android.widget.TextView;
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.adapter.BookReviewGridAdapter;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
+import com.kansoubunko.kiyota.kansoubunko.util.ConfigPropUtil;
+import com.kansoubunko.kiyota.kansoubunko.util.KansouTimeUtils;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
 import static android.view.View.GONE;
 
 public class RegistFragment extends Fragment {
@@ -44,6 +56,9 @@ public class RegistFragment extends Fragment {
     private static Boolean editBoolean = false;
     public static int GALLERY_CODE = 102;
     private Resources res;
+    private String image_name;
+    private File file;
+    private Intent intentCamera;
 
     private static final Map<Integer, String> BOOK_REVIEW_MAP = new HashMap<>();
 
@@ -129,13 +144,13 @@ public class RegistFragment extends Fragment {
         word = Arrays.asList(input.split(""));
     }
 
-    //    // ダイアログで入力した値をtextViewに入れる - ダイアログから呼び出される
+    // ダイアログで入力した値をtextViewに入れる - ダイアログから呼び出される
     public void setTitleTextView(String value) {
         input = value;
         bookTitleTextView.setText(input);
     }
 
-    //    //ボタンのテキストを「記入」から「登録」に変更する
+    //ボタンのテキストを「記入」から「登録」に変更する
     public void changeButtonText(final String bookReview) {
         res = getResources();
         bookReviewButton.setVisibility(GONE);
@@ -155,125 +170,75 @@ public class RegistFragment extends Fragment {
                 String strToday = String.valueOf(today);
                 //TODO:日付のフォーマット処理が必要
 
-                dao.registBookInfo("kiyota", newTitle, "no_book_img", bookReview, strToday);
+                image_name = bookImageView.getResources().toString();
+                dao.registBookInfo("kiyota", newTitle, image_name, bookReview, strToday);
                 //TODO:初期画面表示処理
 
             }
         });
     }
 
-    //画像をカメラとギャラリーの両方から参照できる
-    private void showGallery() {
-
-    }
-
     //閲覧モード
     public void initView() {
 
     }
+
+    //画像をカメラとギャラリーの両方から参照できる
+    private void showGallery() {
+        //カメラの起動Intentの用意
+        String photoName = System.currentTimeMillis() + ".jpg";
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Images.Media.TITLE, photoName);
+        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        m_uri = getActivity().getContentResolver()
+                .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+
+        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, m_uri);
+
+        // ギャラリー用のIntent作成
+        Intent intentGallery;
+        if (Build.VERSION.SDK_INT < 19) {
+            intentGallery = new Intent(Intent.ACTION_GET_CONTENT);
+            intentGallery.setType("image/*");
+        } else {
+            intentGallery = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intentGallery.addCategory(Intent.CATEGORY_OPENABLE);
+            intentGallery.setType("image/jpeg");
+        }
+        Intent intent = Intent.createChooser(intentCamera, "画像の選択");
+        intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{intentGallery});
+        startActivityForResult(intent, REQUEST_CHOOSER);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CHOOSER) {
+            if (resultCode != RESULT_OK) {
+                // キャンセル時
+                return;
+            }
+            Uri resultUri = (data != null ? data.getData() : m_uri);
+            if (resultUri == null) {
+                // 取得失敗
+                return;
+            }
+            // ギャラリーへスキャンを促す
+            MediaScannerConnection.scanFile(
+                    getActivity(),
+                    new String[]{resultUri.getPath()},
+                    new String[]{"image/jpeg"},
+                    null
+            );
+            // 画像を設定
+            bookImageView.setImageURI(resultUri);
+            adapter = new BookReviewGridAdapter(getActivity(), R.layout.item_book_review, word);
+            bookReviewGridView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
+    }
 }
 
-
-//画像をカメラとギャラリーの両方から参照できる
-//    private void showGallery() {
-//カメラの起動Intentの用意
-//        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        intentCamera.addCategory(Intent.CATEGORY_DEFAULT);
-//        String image_name = KansouTimeUtils.getCurrentTimeInLong() + ".png";
-//        File file = new File(getSaveFilePath(), image_name);
-//        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
-//        //这里进行替换uri的获得方式
-//        Uri imageUri = FileProvider.getUriForFile(this, "jp.co.wrb.wearablechallet.fileprovider", file);
-//        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-//        intentCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//这里加入flag
-//        //ギャラリーの起動Intentの用意
-//        Intent galleryIntent = new Intent(Intent.ACTION_PICK, null);
-//        galleryIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-//        this.startActivityForResult(galleryIntent, GALLERY_CODE);
-
-
-//        String photoName = System.currentTimeMillis() + ".jpg";
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put(MediaStore.Images.Media.TITLE, photoName);
-//        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-//        String image_name = System.currentTimeMillis() + ".jpg";
-//        File file = new File(getSaveFilePath(), image_name);
-////            m_uri = getContentResolver()
-////                    .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-//            m_uri = FileProvider.getUriForFile(this, "jp.co.wrb.wearablechallet.fileprovider", file);
-//
-//        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, m_uri);
-//
-//         //ギャラリー用のIntent作成
-//            Intent intentGallery;
-//            if (Build.VERSION.SDK_INT < 19) {
-//                intentGallery = new Intent(Intent.ACTION_GET_CONTENT);
-//                intentGallery.setType("image/*");
-//            } else {
-//                intentGallery = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-//                intentGallery.addCategory(Intent.CATEGORY_OPENABLE);
-//                intentGallery.setType("image/jpeg");
-//            }
-//        Intent chooserIntent = Intent.createChooser(intentCamera, "画像の選択");
-//        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{intentGallery});
-//        startActivityForResult(chooserIntent, REQUEST_CHOOSER);
-//    }
-//
-//    public static String getSaveFilePath() {
-//        String url = ConfigPropUtil.getInstance().get("photo_util_file_url");
-//        String path = getRootFilePath() + url;
-//        File file = new File(path);
-//        if (!file.exists()) {
-//            file.mkdir();
-//        }
-//        return path;
-//    }
-//
-//    public static String getRootFilePath() {
-//        if (hasSDCard()) {
-//            return Environment.getExternalStorageDirectory().getAbsolutePath() + "/";// filePath:/sdcard/
-//        } else {
-//            return Environment.getDataDirectory().getAbsolutePath() + "/data/"; // filePath:/data/data/
-//        }
-//    }
-//
-//    /**
-//     * 判断内置存储状态
-//     */
-//    public static boolean hasSDCard() {
-//        String status = Environment.getExternalStorageState();
-//        return status.equals(Environment.MEDIA_MOUNTED);
-//    }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == REQUEST_CHOOSER) {
-//            if (resultCode != RESULT_OK) {
-//                // キャンセル時
-//                return;
-//            }
-//            Uri resultUri = (data != null ? data.getData() : m_uri);
-//            if (resultUri == null) {
-//                // 取得失敗
-//                return;
-//            }
-//            // ギャラリーへスキャンを促す
-//            MediaScannerConnection.scanFile(
-//                    this,
-//                    new String[]{resultUri.getPath()},
-//                    new String[]{"image/jpeg"},
-//                    null
-//            );
-//            // 画像を設定
-//            bookImageView.setImageURI(resultUri);
-//            Log.d("loglog", "imageNAME:" + bookImageView.getResources());
-//            adapter = new BookReviewGridAdapter(this, R.layout.item_book_review, word);
-//            bookReviewGridView.setAdapter(adapter);
-//            adapter.notifyDataSetChanged();
-//        }
-//    }
-//}
 
