@@ -13,14 +13,13 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1">
 
                 <ImageView
@@ -35,6 +34,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1">
 
                 <TextView
@@ -43,6 +43,7 @@
                     android:layout_height="40dp" />
 
                 <TextView
+                    android:id="@+id/list_book_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
@@ -54,7 +55,7 @@
                 <FrameLayout
                     android:layout_width="230dp"
                     android:layout_height="20dp"
-                    android:layout_toLeftOf="@+id/box2">
+                    android:layout_toRightOf="@+id/list_book_count">
 
                     <TextView
                         android:id="@+id/max_gauge"
@@ -69,12 +70,6 @@
                         android:background="@color/gauge_color" />
 
                 </FrameLayout>
-
-                <TextView
-                    android:id="@+id/box2"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
 

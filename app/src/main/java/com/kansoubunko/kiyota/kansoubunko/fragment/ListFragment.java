@@ -48,7 +48,7 @@ public class ListFragment extends Fragment {
     /**
      * ゲージビューのディスプレイ横幅に対する割合
      */
-    private static final double RATE_OF_WIDTH_DISPLAY = 0.72;
+    private static final double RATE_OF_WIDTH_DISPLAY = 0.5;
     /**
      * ゲージビューのディスプレイ高さに対する割合
      */
