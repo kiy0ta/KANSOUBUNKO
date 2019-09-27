@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,16 +14,20 @@ import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.constants.DataConstants;
-import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
+import com.kansoubunko.kiyota.kansoubunko.dao.KansouAPIDao;
+import com.kansoubunko.kiyota.kansoubunko.dto.UserInfoEntity;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class LoginActivity extends AppCompatActivity {
 
-    public KansouDao mDao;
+    public KansouAPIDao dao;
     private SharedPreferences mSharedPreferences;
+    private List<UserInfoEntity> userInfoList;
+    private List<UserInfoEntity> allUserInfoList;
 
     public static Intent getStartIntent(SplashActivity splashActivity) {
         return new Intent(splashActivity, LoginActivity.class);
@@ -33,8 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mDao = new KansouDao(getApplicationContext());
         final Resources res = getResources();
+        userInfoList = new ArrayList<>();
 
         //入力されたデータを保持するインスタンス
         final EditText userNameText = (EditText) findViewById(R.id.login_user_name);
@@ -61,7 +65,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 //入力されたユーザー情報が正しいかどうか確認する
                 //true:正しい
-                Boolean bln = mDao.findUserInfo(userName, userPassword);
+                Boolean bln = false;
+                allUserInfoList = dao.getAllUserInfo();
+                for (UserInfoEntity entity : allUserInfoList) {
+                    if (entity.getUserName().equals(userName) && entity.getUserPassword().equals(userPassword)) {
+                        bln = true;
+                    }
+                }
+                //TODO:Logでロジック確認
                 if (!bln) {
                     //バリデーションメッセージ表示
                     errorIcView.setVisibility(View.VISIBLE);
@@ -69,7 +80,11 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 //ID取得処理
-                String userId = mDao.findUserIdInfo(userName);
+                userInfoList = dao.getUserInfo(userName);
+                String userId = "";
+                for (UserInfoEntity entity : userInfoList) {
+                    userId = entity.getUserId();
+                }
                 //エラーメッセージ用インスタンスを非表示化
                 errorIcView.setVisibility(View.GONE);
                 errorTextView.setText("");
@@ -102,7 +117,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 //入力された名前がすでに使われているかどうか確認する
                 //true:使われていない
-                Boolean bln = mDao.findUserNameInfo(userName);
+                Boolean bln = true;
+                allUserInfoList = dao.getAllUserInfo();
+                for (UserInfoEntity entity : allUserInfoList) {
+                    if (entity.getUserName().equals(userName)) {
+                        bln = false;
+                    }
+                }
+                //TODO:Logでロジック確認
                 if (!bln) {
                     //バリデーションメッセージ表示
                     errorIcView.setVisibility(View.VISIBLE);
@@ -117,15 +139,22 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 //登録処理
-                mDao.registUserInfo(userName, userPassword);
+                dao = new KansouAPIDao();
+                dao.updateUserInfo(userName, userPassword, DataConstants.DEFAULT_BIRTHDAY, DataConstants.DEFAULT_FOLLOW,
+                        DataConstants.DEFAULT_FOLLOWERS, DataConstants.DEFAULT_USER_IMAGE, DataConstants.DEFAULT_PROFILE);
                 LocalDate today = LocalDate.now();
                 String strToday = String.valueOf(today);
                 //TODO:日付のフォーマット処理が必要
                 //テストデータ
-                mDao.registBookInfo(userName, "夜は短し歩けよ乙女", "book_yoruhamizikashi", "今日の天気は曇りで、風が吹いていて涼しいです。", strToday, DataConstants.DEFAULT_NON_FAVORITE);
-                mDao.registBookInfo(userName, "夜行", "book_yakou", "", strToday, DataConstants.DEFAULT_NON_FAVORITE);
+                dao.updateBookInfo(userName, "夜は短し歩けよ乙女", "book_yoruhamizikashi", "今日の天気は曇りで、風が吹いていて涼しいです。",
+                        strToday, DataConstants.DEFAULT_NON_FAVORITE);
+                dao.updateBookInfo(userName, "夜行", "book_yakou", "", strToday, DataConstants.DEFAULT_NON_FAVORITE);
                 //ID取得処理
-                String userId = mDao.findUserIdInfo(userName);
+                userInfoList = dao.getUserInfo(userName);
+                String userId = "";
+                for (UserInfoEntity entity : userInfoList) {
+                    userId = entity.getUserId();
+                }
                 //エラーメッセージ用インスタンスを非表示化
                 errorIcView.setVisibility(View.GONE);
                 errorTextView.setText("");

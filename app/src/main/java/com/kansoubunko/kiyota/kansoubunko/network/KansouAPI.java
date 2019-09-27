@@ -141,8 +141,8 @@ public class KansouAPI {
     /**
      * ユーザー個人情報登録・更新
      *
-     * @param userId        ユーザーID
      * @param userName      ユーザー名
+     * @param userPassword  パスワード
      * @param userBirthday  誕生日
      * @param userFollow    フォロー数
      * @param userFollowers フォロワー数
@@ -151,8 +151,8 @@ public class KansouAPI {
      * @param cb            コールバック関数
      */
     public void updateUserInfo(
-            final String userId,
             final String userName,
+            final String userPassword,
             final String userBirthday,
             final String userFollow,
             final String userFollowers,
@@ -163,8 +163,8 @@ public class KansouAPI {
         // ボディのプロパティを保持するMapの生成
         Map<String, Object> map = new HashMap<String, Object>() {
             {
-                put("user_id", userId);
                 put("user_name", userName);
+                put("user_name", userPassword);
                 put("user_birthday", userBirthday);
                 put("user_follow", userFollow);
                 put("user_followers", userFollowers);
@@ -208,7 +208,6 @@ public class KansouAPI {
     /**
      * 本の情報登録・更新
      *
-     * @param bookId       本のID
      * @param bookUserName 本の感想を書いたユーザー名
      * @param bookTitle    本のタイトル
      * @param bookImage    本の画像
@@ -218,7 +217,6 @@ public class KansouAPI {
      * @param cb           コールバック関数
      */
     public void updateBookInfo(
-            final String bookId,
             final String bookUserName,
             final String bookTitle,
             final String bookImage,
@@ -230,7 +228,6 @@ public class KansouAPI {
         // ボディのプロパティを保持するMapの生成
         Map<String, Object> map = new HashMap<String, Object>() {
             {
-                put("book_id", bookId);
                 put("book_user_name", bookUserName);
                 put("book_title", bookTitle);
                 put("book_image", bookImage);
