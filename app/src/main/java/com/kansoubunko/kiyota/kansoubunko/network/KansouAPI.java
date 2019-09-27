@@ -2,6 +2,8 @@ package com.kansoubunko.kiyota.kansoubunko.network;
 
 import com.kansoubunko.kiyota.kansoubunko.util.ConfigPropUtil;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,7 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okio.ByteString;
 
 public class KansouAPI {
     /**
@@ -109,7 +112,7 @@ public class KansouAPI {
      */
     public void post(String url, Map<String, Object> params, Callback cb) {
         Request.Builder builder = new Request.Builder();
-        RequestBody body = RequestBody.create(MediaType.parse(MIME_AND_CHARACTER_TYPE), JSON.toJSONString(params));
+        RequestBody body = RequestBody.create(MediaType.parse(MIME_AND_CHARACTER_TYPE), (ByteString) params);
         builder.post(body);
         Request request = builder
                 .header("User-Agent", USER_AGENT)
