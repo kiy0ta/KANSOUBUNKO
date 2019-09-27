@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.adapter.BookReviewGridAdapter;
+import com.kansoubunko.kiyota.kansoubunko.constants.DataConstants;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.util.ConfigPropUtil;
 import com.kansoubunko.kiyota.kansoubunko.util.KansouTimeUtils;
@@ -171,7 +172,7 @@ public class RegistFragment extends Fragment {
                 //TODO:日付のフォーマット処理が必要
 
                 image_name = bookImageView.getResources().toString();
-                dao.registBookInfo("kiyota", newTitle, image_name, bookReview, strToday);
+                dao.registBookInfo("kiyota", newTitle, image_name, bookReview, strToday, DataConstants.DEFAULT_NON_FAVORITE);
                 //TODO:初期画面表示処理
 
             }

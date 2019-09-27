@@ -6,7 +6,7 @@ public class BookInfoEntity implements Serializable {
 
     //本のID
     private String bookId;
-    //ユーザーのID
+    //ユーザー名
     private String bookUserName;
     //本のタイトル
     private String bookTitle;
@@ -16,6 +16,8 @@ public class BookInfoEntity implements Serializable {
     private String bookReview;
     //登録日(編集日)
     private String bookDate;
+    //お気に入り登録
+    private String favorite;
 
     public BookInfoEntity() {
     }
@@ -69,6 +71,14 @@ public class BookInfoEntity implements Serializable {
         this.bookDate = bookDate;
     }
 
+    public String getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(String favorite) {
+        this.favorite = favorite;
+    }
+
     @Override
     public String toString() {
         return "BookInfoEntity{" +
@@ -78,6 +88,7 @@ public class BookInfoEntity implements Serializable {
                 ", bookImage=" + bookImage +
                 ", bookReview=" + bookReview +
                 ", bookDate=" + bookDate +
+                ", favorite=" + favorite +
                 '}';
     }
 }

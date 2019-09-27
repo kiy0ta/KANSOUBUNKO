@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
+import com.kansoubunko.kiyota.kansoubunko.constants.DataConstants;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 
 import java.time.LocalDate;
@@ -121,8 +122,8 @@ public class LoginActivity extends AppCompatActivity {
                 String strToday = String.valueOf(today);
                 //TODO:日付のフォーマット処理が必要
                 //テストデータ
-                mDao.registBookInfo(userName, "夜は短し歩けよ乙女", "book_yoruhamizikashi", "今日の天気は曇りで、風が吹いていて涼しいです。", strToday);
-                mDao.registBookInfo(userName, "夜行", "book_yakou", "", strToday);
+                mDao.registBookInfo(userName, "夜は短し歩けよ乙女", "book_yoruhamizikashi", "今日の天気は曇りで、風が吹いていて涼しいです。", strToday, DataConstants.DEFAULT_NON_FAVORITE);
+                mDao.registBookInfo(userName, "夜行", "book_yakou", "", strToday, DataConstants.DEFAULT_NON_FAVORITE);
                 //ID取得処理
                 String userId = mDao.findUserIdInfo(userName);
                 //エラーメッセージ用インスタンスを非表示化

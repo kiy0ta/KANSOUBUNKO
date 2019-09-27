@@ -6,70 +6,40 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class KansouHelper extends SQLiteOpenHelper {
 
-    /**
-     * テーブル名
-     */
+    //ユーザー情報保持テーブル
     public static final String USER_TABLE_NAME = "user_info";
-    /**
-     * カラム名
-     */
-    public static final String COLUMN_BOOK_USER_NAME = "book_user_name";
-    /**
-     * カラム名
-     */
+    //ユーザーID(自動採番)
     public static final String COLUMN_USER_ID = "user_id";
-    /**
-     * カラム名
-     */
+    //ユーザー名
     public static final String COLUMN_USER_NAME = "user_name";
-    /**
-     * カラム名
-     */
+    //パスワード
     public static final String COLUMN_USER_PASSWORD = "user_password";
-    /**
-     * カラム名
-     */
+    //誕生日
     public static final String COLUMN_USER_BIRTHDAY = "user_birthday";
-    /**
-     * カラム名
-     */
+    //フォロー数
     public static final String COLUMN_USER_FOLLOW = "user_follow";
-    /**
-     * カラム名
-     */
+    //フォロワー数
     public static final String COLUMN_USER_FOLLOWERS = "user_followers";
-    /**
-     * カラム名
-     */
+    //ユーザーアイコン画像
     public static final String COLUMN_USER_IMAGE = "user_image";
-    /**
-     * カラム名
-     */
+    //自己紹介
     public static final String COLUMN_PROFILE = "profile";
-    /**
-     * テーブル名
-     */
+    //本の情報保持テーブル
     public static final String BOOK_TABLE_NAME = "book_info";
-    /**
-     * カラム名
-     */
+    //本のId(自動採番)
     public static final String COLUMN_BOOK_ID = "book_id";
-    /**
-     * カラム名
-     */
+    //本の感想文を書いたユーザー名
+    public static final String COLUMN_BOOK_USER_NAME = "book_user_name";
+    //本のタイトル
     public static final String COLUMN_BOOK_TITLE = "book_title";
-    /**
-     * カラム名
-     */
+    //本の画像
     public static final String COLUMN_BOOK_IMAGE = "book_image";
-    /**
-     * カラム名
-     */
+    //感想文
     public static final String COLUMN_BOOK_REVIEW = "book_review";
-    /**
-     * カラム名
-     */
+    //本の登録日(=更新日)
     public static final String COLUMN_BOOK_DATE = "book_date";
+    //お気に入り
+    public static final String COLUMN_FAVORITE = "favorite";
 
     public KansouHelper(Context context) {
         super(context, "Kansou.db", null, 1);
@@ -99,7 +69,8 @@ public class KansouHelper extends SQLiteOpenHelper {
                 + COLUMN_BOOK_TITLE + " TEXT , "
                 + COLUMN_BOOK_IMAGE + " TEXT , "
                 + COLUMN_BOOK_REVIEW + " TEXT , "
-                + COLUMN_BOOK_DATE + " TEXT " + ");");
+                + COLUMN_BOOK_DATE + " TEXT , "
+                + COLUMN_FAVORITE + " TEXT " + ");");
     }
 
     /**

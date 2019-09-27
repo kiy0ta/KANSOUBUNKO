@@ -325,7 +325,8 @@ public class KansouDao {
                 kansouHelper.COLUMN_BOOK_TITLE,
                 kansouHelper.COLUMN_BOOK_IMAGE,
                 kansouHelper.COLUMN_BOOK_REVIEW,
-                kansouHelper.COLUMN_BOOK_DATE
+                kansouHelper.COLUMN_BOOK_DATE,
+                kansouHelper.COLUMN_FAVORITE
         };
         try {
             // DB取得
@@ -363,6 +364,11 @@ public class KansouDao {
                     } else {
                         entity.setBookDate("");
                     }
+                    if (cursor.getString(6) != null) {
+                        entity.setFavorite(cursor.getString(6));
+                    } else {
+                        entity.setFavorite("");
+                    }
                     list.add(entity);
                     Log.i("Kansou.db", "sn" + cursor.getString(0));
                 }
@@ -398,7 +404,8 @@ public class KansouDao {
                 kansouHelper.COLUMN_BOOK_TITLE,
                 kansouHelper.COLUMN_BOOK_IMAGE,
                 kansouHelper.COLUMN_BOOK_REVIEW,
-                kansouHelper.COLUMN_BOOK_DATE
+                kansouHelper.COLUMN_BOOK_DATE,
+                kansouHelper.COLUMN_FAVORITE
         };
         try {
             // DB取得
@@ -416,6 +423,7 @@ public class KansouDao {
                     entity.setBookImage(cursor.getString(3));
                     entity.setBookReview(cursor.getString(4));
                     entity.setBookDate(cursor.getString(5));
+                    entity.setFavorite(cursor.getString(6));
                     list.add(entity);
                     Log.i("Kansou.db", "sn" + cursor.getString(0));
                 }
@@ -439,7 +447,7 @@ public class KansouDao {
     /**
      * 登録画面：本に関する情報を新規登録する
      */
-    public void registBookInfo(String bookUserName, String bookTitle, String bookImage, String bookReview, String bookDate) {
+    public void registBookInfo(String bookUserName, String bookTitle, String bookImage, String bookReview, String bookDate, String favorite) {
         Log.i("Kansou.db", "start");
 
         // DB初期化
@@ -455,6 +463,7 @@ public class KansouDao {
             value.put(kansouHelper.COLUMN_BOOK_IMAGE, bookImage);
             value.put(kansouHelper.COLUMN_BOOK_REVIEW, bookReview);
             value.put(kansouHelper.COLUMN_BOOK_DATE, bookDate);
+            value.put(kansouHelper.COLUMN_FAVORITE, favorite);
             db.insert(kansouHelper.BOOK_TABLE_NAME, null, value);
 
         } catch (Exception ex) {
@@ -472,7 +481,7 @@ public class KansouDao {
     /**
      * 登録画面：本に関する情報を更新する
      */
-    public void updateBookInfo(String userName, String bookTitle, String bookImage, String bookReview, String bookDate) {
+    public void updateBookInfo(String userName, String bookTitle, String bookImage, String bookReview, String bookDate, String favorite) {
         Log.i("Kansou.db", "start");
         // DB初期化
         SQLiteDatabase db = null;
@@ -490,6 +499,7 @@ public class KansouDao {
             value.put(kansouHelper.COLUMN_BOOK_IMAGE, bookImage);
             value.put(kansouHelper.COLUMN_BOOK_REVIEW, bookReview);
             value.put(kansouHelper.COLUMN_BOOK_DATE, bookDate);
+            value.put(kansouHelper.COLUMN_FAVORITE, favorite);
             db.update(kansouHelper.BOOK_TABLE_NAME, value, kansouHelper.COLUMN_BOOK_USER_NAME + " = ? ", new String[]{userName});
 
         } catch (Exception ex) {
