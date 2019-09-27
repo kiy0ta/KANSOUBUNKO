@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.adapter.BookReviewGridAdapter;
 import com.kansoubunko.kiyota.kansoubunko.constants.DataConstants;
+import com.kansoubunko.kiyota.kansoubunko.dao.KansouAPIDao;
 import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.util.ConfigPropUtil;
 import com.kansoubunko.kiyota.kansoubunko.util.KansouTimeUtils;
@@ -46,7 +47,6 @@ public class RegistFragment extends Fragment {
     private SharedPreferences mSharedPreferences;
     private Button bookReviewButton;
     private Button bookReviewUpdateButton;
-    private KansouDao dao;
     private String newTitle;
     private BookReviewGridAdapter adapter;
     private GridView bookReviewGridView;
@@ -60,6 +60,8 @@ public class RegistFragment extends Fragment {
     private String image_name;
     private File file;
     private Intent intentCamera;
+    private KansouAPIDao dao;
+    private String username;
 
     private static final Map<Integer, String> BOOK_REVIEW_MAP = new HashMap<>();
 
@@ -69,8 +71,13 @@ public class RegistFragment extends Fragment {
 
         // 画面初期化処理
         View inflate = inflater.inflate(R.layout.fragment_regist, container, false);
+        //ユーザー情報の取得
+        Bundle bundle = getArguments();
+        username = bundle.getString("userName");
         //本のデータをすべて取得する
-        dao = new KansouDao(getActivity());
+        dao = new KansouAPIDao();
+        dao.getBookInfo(username);
+
         //一覧画面から遷移しているとき(本の画像を押下したとき＝編集モード)
         //true:編集モード
         if (editBoolean) {
@@ -172,7 +179,8 @@ public class RegistFragment extends Fragment {
                 //TODO:日付のフォーマット処理が必要
 
                 image_name = bookImageView.getResources().toString();
-                dao.registBookInfo("kiyota", newTitle, image_name, bookReview, strToday, DataConstants.DEFAULT_NON_FAVORITE);
+                dao.updateBookInfo(username, newTitle, image_name, bookReview,
+                        strToday, DataConstants.DEFAULT_NON_FAVORITE);
                 //TODO:初期画面表示処理
 
             }

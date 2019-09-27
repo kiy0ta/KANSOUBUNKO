@@ -255,6 +255,67 @@ public class KansouAPIDao {
         return userInfoList;
     }
 
+    public List<BookInfoEntity> getBookInfo(String name) {
+        // ユーザー名取得
+        final String userName = name;
+        // ダイアログ表示
+        this.progressDialog.show();
+        //リスト作成
+        userInfoList = new ArrayList<>();
+        //dto作成
+        final BookInfoEntity entity = new BookInfoEntity();
+        //API実行
+        KansouAPI.getInstance().getBookInfo(userName,
+                new Callback() {
+
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        // API失敗時
+                        myHandler.postDelayed(KansouAPIDao.this.apiFailure, 10);
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        // レスポンス取得
+                        String restring = response.body().string();
+                        JSONObject jso = null;
+                        try {
+                            jso = new JSONObject(restring);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        //ユーザーの個人情報取得
+                        try {
+                            if (jso.getBoolean("status")) {
+                                entity.setBookId(jso.getString("book_user_name"));
+                                entity.setBookUserName(jso.getString("book_title"));
+                                entity.setBookTitle(jso.getString("book_image"));
+                                entity.setBookImage(jso.getString("book_image"));
+                                entity.setBookReview(jso.getString("book_review"));
+                                entity.setBookDate(jso.getString("book_date"));
+                                entity.setFavorite(jso.getString("favorite"));
+                                bookInfoList.add(entity);
+                                // ダイアログ消去
+                                KansouAPIDao.this.progressDialog.dismiss();
+                            } else if (!jso.getBoolean("status") && jso.getInt("error_code") == 1) {
+                                //TODO:エラーメッセージを表示
+                                //TODO:処理を中断する
+                                // ダイアログ消去
+                                KansouAPIDao.this.progressDialog.dismiss();
+                                return;
+                            } else {
+                                // APIエラー時処理
+                                KansouAPIDao.this.myHandler.postDelayed(KansouAPIDao.this.apiFailure, 10);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+        );
+        return bookInfoList;
+    }
+
 
     /**
      * API失敗時処理<br>
