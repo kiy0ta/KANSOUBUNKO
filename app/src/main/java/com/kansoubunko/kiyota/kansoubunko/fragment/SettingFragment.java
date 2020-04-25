@@ -112,9 +112,9 @@ public class SettingFragment extends Fragment {
         bookImage = inflate.findViewById(R.id.setting_book_image);
         //sampleデータ
         bookList = new ArrayList<>();
-        bookList.add(R.drawable.book_shinwataikei);
-        bookList.add(R.drawable.book_yakou);
-        bookList.add(R.drawable.book_yoruhamizikashi);
+        bookList.add(R.drawable.book_sample_image);
+        bookList.add(R.drawable.book_sample_image);
+        bookList.add(R.drawable.book_sample_image);
         bookImage.setImageResource(bookList.get(listPosition));
         //本の画像を表示する(◁)
         TextView leftButton = inflate.findViewById(R.id.left_arrow);
