@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.constants.DataConstants;
+import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.dto.UserInfoEntity;
 
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
     private List<UserInfoEntity> userInfoList;
     private List<UserInfoEntity> allUserInfoList;
+    public KansouDao mDao;
 
     public static Intent getStartIntent(SplashActivity splashActivity) {
         return new Intent(splashActivity, LoginActivity.class);
@@ -34,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mDao = new KansouDao(getApplicationContext());
         final Resources res = getResources();
         userInfoList = new ArrayList<>();
 
@@ -62,12 +65,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 //入力されたユーザー情報が正しいかどうか確認する
                 //true:正しい
-                Boolean bln = false;
-                for (UserInfoEntity entity : allUserInfoList) {
-                    if (entity.getUserName().equals(userName) && entity.getUserPassword().equals(userPassword)) {
-                        bln = true;
-                    }
-                }
+                Boolean bln = mDao.findUserInfo(userName, userPassword);
+//                for (UserInfoEntity entity : allUserInfoList) {
+//                    if (entity.getUserName().equals(userName) && entity.getUserPassword().equals(userPassword)) {
+//                        bln = true;
+//                    }
+//                }
                 //TODO:Logでロジック確認
                 if (!bln) {
                     //バリデーションメッセージ表示
@@ -76,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 //ID取得処理
-                String userId = "";
+                String userId = mDao.findUserIdInfo(userName);
                 for (UserInfoEntity entity : userInfoList) {
                     userId = entity.getUserId();
                 }
@@ -112,12 +115,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 //入力された名前がすでに使われているかどうか確認する
                 //true:使われていない
-                Boolean bln = true;
-                for (UserInfoEntity entity : allUserInfoList) {
-                    if (entity.getUserName().equals(userName)) {
-                        bln = false;
-                    }
-                }
+                Boolean bln = mDao.findUserNameInfo(userName);
+//                for (UserInfoEntity entity : allUserInfoList) {
+//                    if (entity.getUserName().equals(userName)) {
+//                        bln = false;
+//                    }
+//                }
                 //TODO:Logでロジック確認
                 if (!bln) {
                     //バリデーションメッセージ表示
@@ -133,14 +136,15 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 //登録処理
-
+                mDao.registUserInfo(userName, userPassword);
                 LocalDate today = LocalDate.now();
                 String strToday = String.valueOf(today);
                 //TODO:日付のフォーマット処理が必要
                 //テストデータ
-
+                mDao.registBookInfo(userName, "夜は短し歩けよ乙女", "book_yoruhamizikashi", "今日の天気は曇りで、風が吹いていて涼しいです。", strToday, DataConstants.DEFAULT_NON_FAVORITE);
+                mDao.registBookInfo(userName, "夜行", "book_yakou", "", strToday, DataConstants.DEFAULT_NON_FAVORITE);
                 //ID取得処理
-                String userId = "";
+                String userId = mDao.findUserIdInfo(userName);
                 for (UserInfoEntity entity : userInfoList) {
                     userId = entity.getUserId();
                 }

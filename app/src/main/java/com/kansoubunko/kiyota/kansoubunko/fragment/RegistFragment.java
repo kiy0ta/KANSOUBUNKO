@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.adapter.BookReviewGridAdapter;
 import com.kansoubunko.kiyota.kansoubunko.constants.DataConstants;
+import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -54,6 +55,7 @@ public class RegistFragment extends Fragment {
     private File file;
     private Intent intentCamera;
     private String username;
+    private KansouDao dao;
 
     private static final Map<Integer, String> BOOK_REVIEW_MAP = new HashMap<>();
 
@@ -67,6 +69,7 @@ public class RegistFragment extends Fragment {
         Bundle bundle = getArguments();
         username = bundle.getString("userName");
         //本のデータをすべて取得する
+        dao = new KansouDao(getActivity());
 
         //一覧画面から遷移しているとき(本の画像を押下したとき＝編集モード)
         //true:編集モード
