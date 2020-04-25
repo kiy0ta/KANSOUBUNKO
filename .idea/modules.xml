@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/KANSOUBUNKO.iml" filepath="$PROJECT_DIR$/KANSOUBUNKO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/KANSOUBUNKO-app.iml" filepath="$PROJECT_DIR$/app/KANSOUBUNKO-app.iml" group="KANSOUBUNKO/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kiyotatakeshi-KANSOUBUNKO.iml" filepath="$PROJECT_DIR$/kiyotatakeshi-KANSOUBUNKO.iml" group="KANSOUBUNKO" />
     </modules>
   </component>
 </project>
