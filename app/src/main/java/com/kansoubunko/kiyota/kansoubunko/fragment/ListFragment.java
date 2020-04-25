@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.adapter.BookListGridAdapter;
-import com.kansoubunko.kiyota.kansoubunko.dao.KansouAPIDao;
-import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
 import com.kansoubunko.kiyota.kansoubunko.util.PhoneInfo;
 
@@ -32,7 +30,6 @@ public class ListFragment extends Fragment {
     private int reviewListCount = 0;
     private String username;
     private Bundle bundle;
-    private KansouAPIDao dao;
     /**
      * ゲージビューの最大幅
      */
@@ -67,8 +64,6 @@ public class ListFragment extends Fragment {
         username = bundle.getString("userName");
 
         //特定のユーザーの本のすべてのデータを取得する
-        dao = new KansouAPIDao();
-        bookInfoList = dao.getBookInfo(username);
         for (BookInfoEntity e : bookInfoList) {
             e.getBookImage();
         }
