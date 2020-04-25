@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
-import com.kansoubunko.kiyota.kansoubunko.adapter.BookReviewGridAdapter;
-import com.kansoubunko.kiyota.kansoubunko.dao.KansouAPIDao;
-import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
 import com.kansoubunko.kiyota.kansoubunko.dto.UserInfoEntity;
 
@@ -49,7 +45,6 @@ public class SettingFragment extends Fragment {
     private Button followButton;
     private Button followDeleteButton;
     private ImageView userImage;
-    private KansouAPIDao dao;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,7 +56,6 @@ public class SettingFragment extends Fragment {
         Bundle bundle = getArguments();
         username = bundle.getString("userName");
         //ユーザーの個人情報をAPIから取得
-        userInfoList = dao.getUserInfo(userName);
         for (UserInfoEntity entity : userInfoList) {
             userName = entity.getUserName();
             userBirthday = entity.getUserBirthday();
@@ -106,7 +100,6 @@ public class SettingFragment extends Fragment {
             }
         });
         //本の情報を取得する
-        bookInfoList = dao.getBookInfo(username);
         listPosition = 0;
         //本の画像を表示する
         bookImage = inflate.findViewById(R.id.setting_book_image);

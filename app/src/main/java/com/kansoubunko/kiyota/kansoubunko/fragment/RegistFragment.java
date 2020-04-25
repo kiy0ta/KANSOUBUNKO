@@ -8,11 +8,8 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +21,6 @@ import android.widget.TextView;
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.adapter.BookReviewGridAdapter;
 import com.kansoubunko.kiyota.kansoubunko.constants.DataConstants;
-import com.kansoubunko.kiyota.kansoubunko.dao.KansouAPIDao;
-import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
-import com.kansoubunko.kiyota.kansoubunko.util.ConfigPropUtil;
-import com.kansoubunko.kiyota.kansoubunko.util.KansouTimeUtils;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -60,7 +53,6 @@ public class RegistFragment extends Fragment {
     private String image_name;
     private File file;
     private Intent intentCamera;
-    private KansouAPIDao dao;
     private String username;
 
     private static final Map<Integer, String> BOOK_REVIEW_MAP = new HashMap<>();
@@ -75,8 +67,6 @@ public class RegistFragment extends Fragment {
         Bundle bundle = getArguments();
         username = bundle.getString("userName");
         //本のデータをすべて取得する
-        dao = new KansouAPIDao();
-        dao.getBookInfo(username);
 
         //一覧画面から遷移しているとき(本の画像を押下したとき＝編集モード)
         //true:編集モード
@@ -179,8 +169,6 @@ public class RegistFragment extends Fragment {
                 //TODO:日付のフォーマット処理が必要
 
                 image_name = bookImageView.getResources().toString();
-                dao.updateBookInfo(username, newTitle, image_name, bookReview,
-                        strToday, DataConstants.DEFAULT_NON_FAVORITE);
                 //TODO:初期画面表示処理
 
             }
