@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.adapter.BookListGridAdapter;
+import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
 import com.kansoubunko.kiyota.kansoubunko.util.PhoneInfo;
 
@@ -21,6 +22,7 @@ import java.util.List;
 
 public class ListFragment extends Fragment {
 
+    public KansouDao mDao;
     private List<BookInfoEntity> bookInfoList = new ArrayList<>();
     private List<BookInfoEntity> bookReviewList = new ArrayList<>();
     //bookTitleを格納するarray
@@ -64,6 +66,8 @@ public class ListFragment extends Fragment {
         username = bundle.getString("userName");
 
         //特定のユーザーの本のすべてのデータを取得する
+        mDao = new KansouDao(getActivity());
+        bookInfoList = mDao.selectBookInfo(username);
         for (BookInfoEntity e : bookInfoList) {
             e.getBookImage();
         }

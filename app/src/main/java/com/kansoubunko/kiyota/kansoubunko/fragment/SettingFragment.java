@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
+import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
 import com.kansoubunko.kiyota.kansoubunko.dto.UserInfoEntity;
 
@@ -45,6 +46,7 @@ public class SettingFragment extends Fragment {
     private Button followButton;
     private Button followDeleteButton;
     private ImageView userImage;
+    public KansouDao mDao;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +57,8 @@ public class SettingFragment extends Fragment {
         //ユーザー情報の取得
         Bundle bundle = getArguments();
         username = bundle.getString("userName");
+        mDao = new KansouDao(getActivity());
+        userInfoList = mDao.findUserInfo(username);
         //ユーザーの個人情報をAPIから取得
         for (UserInfoEntity entity : userInfoList) {
             userName = entity.getUserName();

@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import com.kansoubunko.kiyota.kansoubunko.R;
 import com.kansoubunko.kiyota.kansoubunko.adapter.TimeLineListViewAdapter;
+import com.kansoubunko.kiyota.kansoubunko.dao.KansouDao;
 import com.kansoubunko.kiyota.kansoubunko.dto.BookInfoEntity;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class TimeLineFragment extends Fragment {
     private List<BookInfoEntity> bookInfoList;
     private String username;
     private Bundle bundle;
+    public KansouDao mDao;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,7 +34,9 @@ public class TimeLineFragment extends Fragment {
         username = bundle.getString("userName");
 
         //本のデータを取得する
+        mDao = new KansouDao(getActivity());
         bookInfoList = new ArrayList<>();
+        bookInfoList = mDao.selectBookInfoAll();
         ListView listView = inflate.findViewById(R.id.time_line_list_view);
         TimeLineListViewAdapter timeLineListViewAdapter = new TimeLineListViewAdapter(getActivity(), bookInfoList);
 //        listView.setAdapter(timeLineListViewAdapter);
